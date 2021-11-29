@@ -40,8 +40,8 @@ names (mydb)
 We got the dataset from the website of Atenea.
 The variables selected for this dataset  are:
 
-1. **Age**:  boolean variable, male = 1, female = 0
-2. **Attrition**: age of the person
+1. **Age**:  Age variables of the person
+2. **Attrition**: ...
 3. **BusinessTravel**: level of education 
 4. **DailyRate**: boolean variable, smoker = 1, non-smoker = 0
 5. **Department**: number of sigarettes smoked in one day
