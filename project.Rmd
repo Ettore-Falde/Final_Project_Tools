@@ -73,18 +73,17 @@ The variables selected for this dataset  are:
 23. **OverTime**: If the employee perform over time (Yes, No) 
 24. **PercentSalaryHike**: Represent the percentage inrease of a salary
 25. **PerformanceRating**: Performance rating of the employee (1=Low, 2=Good,3=Excellent,4=Outstanding)
-
-26. **RelationshipSatisfaction**: whether or not the patient developed coronary heart disease in the next 10 years
-27. **StandardHours**: whether or not the patient developed coronary heart disease in the next 10 years
-28. **StockOptionLevel**: whether or not the patient developed coronary heart disease in the next 10 years
-29. **TotalWorkingYears**: whether or not the patient developed coronary heart disease in the next 10 years
-30. **TrainingTimesLastYear**: whether or not the patient developed coronary heart disease in the next 10 years
-31. **WorkLifeBalance**: whether or not the patient developed coronary heart disease in the next 10 years
-32. **YearsAtCompany**: whether or not the patient developed coronary heart disease in the next 10 years
-33. **YearsInCurrentRole**: whether or not the patient developed coronary heart disease in the next 10 years
-34. **YearsSinceLastPromotion**: whether or not the patient developed coronary heart disease in the next 10 years
-35. **YearsWithCurrManager**: whether or not the patient developed coronary heart disease in the next 10 years
-36. **City**: whether or not the patient developed coronary heart disease in the next 10 years
+26. **RelationshipSatisfaction**: Relationship satisfaction of the employee (1=Low, 2=Medium, 3=High, 4=Very High)
+27. **StandardHours**: Standard working hour per **week?** (80 for everyone)
+28. **StockOptionLevel**: Stock option level
+29. **TotalWorkingYears**: Total years of working
+30. **TrainingTimesLastYear**: Training hours of the last year
+31. **WorkLifeBalance**: the amount of time you spend doing your job compared with the amount of time you spend with your family and doing things you enjoy (1=Bad,2=Good, 3=Better, 4=Best)
+32. **YearsAtCompany**: Total years of working at the company
+33. **YearsInCurrentRole**: Total years spent in the current position
+34. **YearsSinceLastPromotion**: How many year ago the employee had the last promotion
+35. **YearsWithCurrManager**: How many years the employee is with the actual manager
+36. **City**: where the employee works (London, Barcelona)
 
 
 # Cleaning Data
