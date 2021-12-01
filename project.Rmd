@@ -137,7 +137,7 @@ mydb <- mydb %>% distinct(employee_number, .keep_all= TRUE)
 
 
 Hence, now it is time to check the n's.
-```{r}
+```{r, echo = FALSE}
 mydb %>% tabyl(attrition)
 
 mydb %>% tabyl(business_travel)
@@ -150,7 +150,7 @@ mydb$department <- ifelse(mydb$department ==
                           "Research & Development", mydb$department)
 
 mydb %>% tabyl(education_field)
-mydb <- mydb %>% filter(department != "") # this doesn't work cause it is empthy
+mydb <- mydb %>% filter(education_field != "")
 
 mydb %>% tabyl(gender)
 mydb <- mydb %>% filter(gender != "")
@@ -180,8 +180,7 @@ mydb$marital_status <- ifelse(mydb$marital_status ==
 
 
 mydb %>% tabyl(over18)
-mydb <- mydb %>% filter(marital_status != "") # this doesn't work cause it is empthy
-
+mydb <- mydb %>% filter(over18 != "")
 mydb %>% tabyl(city)
 mydb$city <- ifelse(mydb$city == 
                             "Barcelone", 
@@ -194,7 +193,7 @@ mydb <- mydb %>% drop_na()
 ```
 
 
-
+From know on we can easiliy proceed with our analysis. 
 
 # Analysis
 ...
