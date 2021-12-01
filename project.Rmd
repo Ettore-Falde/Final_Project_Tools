@@ -32,6 +32,8 @@ library(broom)
 library(caTools)
 library(ROCR)
 library(corrplot)
+library(dplyr)
+library(janitor)
 ```
 
 ## Importing Data
@@ -40,7 +42,9 @@ The first step is to load the dataset in the system, and check the names of the 
 
 ```{r}
 mydb <- read.csv2("dataset.csv")
-names (mydb)
+names(mydb)
+# web_db <- read.csv("WA_Fn-UseC_-HR-Employee-Attrition.csv")
+# names(web_db)
 ```
 
 We got the dataset from the website of Atenea.
@@ -85,7 +89,111 @@ The variables selected for this dataset  are:
 
 
 # Cleaning Data
-...
+
+#### Names
+In this sub-point we are going to change the names of the variables in order to have all he names of the variables with the same layout. 
+```{r}
+mydb <- mydb %>% clean_names(., "snake")
+```
+
+#### Dimensions
+First of all, we are going to check the actual dimension of our dataset. 
+Hence, from the following code we can  understand that there are 36 variables in total and 
+```{r}
+mydb %>% dim()
+mydb %>% nrow()
+mydb %>% ncol()
+```
+
+#### Head and Tail
+Here, we are going to check the first 10 elements at the beginning and at the end of the dataset. Consecutively, we are going to check the top and the bottom values of the main relevant variables to catch some errors. 
+```{r}
+mydb %>% head(10)
+mydb %>% tail(10)
+
+mydb %>% arrange(desc(age)) %>% top_n(10, age) 
+mydb %>% arrange(age) %>% top_n(-10, age) 
+```
+
+#### Removing
+In this part of the data cleaning we are going to remove all the blank rows, the duplicates and strange values that may affect our analysis.
+```{r}
+# Remove blank rows and columsn 
+mydb <- mydb %>% remove_empty(c("rows", "cols"))
+
+# Removing entries with too high and too low age
+mydb <- mydb %>% filter(age <= 80 & age >= 16)
+mydb <- mydb %>% filter(job_involvement <= 4)
+mydb <- mydb %>% filter(num_companies_worked >= 0)
+```
+Therefore, as we can see, this line of code did not affected our dataset. So, this mean that there are no rows or columns that are empty.
+
+Now, we are going to pass to the study of duplicates, by the _employee_number_ variable that we suggest it is the key.
+```{r}
+# Duplicates removal
+mydb %>% get_dupes(employee_number)
+mydb <- mydb %>% distinct(employee_number, .keep_all= TRUE)
+```
+
+
+Hence, now it is time to check the n's.
+```{r}
+mydb %>% tabyl(attrition)
+
+mydb %>% tabyl(business_travel)
+mydb <- mydb %>% filter(business_travel != "")
+
+mydb %>% tabyl(department)
+mydb <- mydb %>% filter(department != "")
+mydb$department <- ifelse(mydb$department == 
+                            "Research and Development", 
+                          "Research & Development", mydb$department)
+
+mydb %>% tabyl(education_field)
+mydb <- mydb %>% filter(department != "") # this doesn't work cause it is empthy
+
+mydb %>% tabyl(gender)
+mydb <- mydb %>% filter(gender != "")
+mydb$gender <- ifelse(mydb$gender == 
+                            "female", 
+                          "Female", mydb$gender)
+mydb$gender <- ifelse(mydb$gender == 
+                            "female ", 
+                          "Female", mydb$gender)
+mydb$gender <- ifelse(mydb$gender == 
+                            "male", 
+                          "Male", mydb$gender)
+
+
+mydb %>% tabyl(job_role)
+mydb <- mydb %>% filter(job_role != "")
+
+
+mydb %>% tabyl(marital_status)
+mydb <- mydb %>% filter(marital_status != "")
+mydb$marital_status <- ifelse(mydb$marital_status == 
+                            "Marrie", 
+                          "Married", mydb$marital_status)
+mydb$marital_status <- ifelse(mydb$marital_status == 
+                            "Soltero", 
+                          "Single", mydb$marital_status)
+
+
+mydb %>% tabyl(over18)
+mydb <- mydb %>% filter(marital_status != "") # this doesn't work cause it is empthy
+
+mydb %>% tabyl(city)
+mydb$city <- ifelse(mydb$city == 
+                            "Barcelone", 
+                          "Barcelona", mydb$city)
+```
+
+To conclude, the cleaning of the dataset, we are going to remove every line with at least one empy gap. 
+```{r}
+mydb <- mydb %>% drop_na()
+```
+
+
 
 
 # Analysis
