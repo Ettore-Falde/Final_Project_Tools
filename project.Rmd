@@ -7,6 +7,13 @@ output: pdf_document
 
 
 # Introduction
+
+In this report we consider that the new CEO of a specific IT company has contacted us because she wants us to **analyze the current Human Resources status** of the company. 
+\ 
+She has just sent a data set with all available employee information. As we can see, the **company has two locations**: the first one in **London**, and the second one in **Barcelona**.
+
+The new CEO is concerned about several issues. She truly believes in gender equality in organizations as it implies a signal to society. On the other hand, she is concerned that the offices in Barcelona do not follow a similar structure to the one in London. **In her opinion, the structure of the Barcelona offices should tend towards the London structure.** In her meeting with us, she also told us that she would like to know the attitudes (e.g., satisfaction) of the employees across the different departments and if anything could be done to improve them. Finally, she commented that she is very concerned about the company's succession strategy and in particular some positions in certain departments.
+
 Let's consider that the new CEO of a specific IT company has contacted us because she wants us to analyze the current Human Resources status of the company. She has just sent a data set with all available employee information. This information is in the attached data set. As we can see, the company has two locations: the first one in London, and the second one in Barcelona.
 
 The new CEO is concerned about several issues. She truly believes in gender equality in organizations as it implies a signal to society. On the other hand, she is concerned that the offices in Barcelona do not follow a similar structure to the one in London. In her opinion, the structure of the Barcelona offices should tend towards the London structure. In her meeting with us, she also told us that she would like to know the attitudes (e.g., satisfaction) of the employees across the different departments and if anything could be done to improve them. Finally, she commented that she is very concerned about the company's succession strategy and in particular some positions in certain departments.
@@ -15,6 +22,8 @@ Based on this information, we need to carry out an exploratory data analysis and
 
 Note: It is highly recommended to seek external sources of information (either in dataset or report formats) for the analysis and the reporting.  
 
+
+Based on this information, we will to carry out an exploratory data analysis and prepare a technical report (with Rmarkdown) and a technical presentation (5-10 minutes).
 
 # Setup the software
 
@@ -29,11 +38,13 @@ setwd("/Users/ettorefalde/Documents/Ettore\ Falde/UNI/UPC/Tools\ for\ Decision\ 
 library(tidyverse)
 library(ggplot2)
 library(broom)
+library(janitor)
 library(caTools)
 library(ROCR)
 library(corrplot)
-library(dplyr)
-library(janitor)
+
+
+
 ```
 
 ## Importing Data
@@ -47,45 +58,46 @@ names(mydb)
 # names(web_db)
 ```
 
-We got the dataset from the website of Atenea.
+We got the dataset from the website of Atenea, it is composed by 1506 observations of 36 variables.
 The variables selected for this dataset  are:
 
-1. **Age**:  boolean variable, male = 1, female = 0
-2. **Attrition**: age of the person
-3. **BusinessTravel**: level of education 
-4. **DailyRate**: boolean variable, smoker = 1, non-smoker = 0
-5. **Department**: number of sigarettes smoked in one day
-6. **DistanceFromHome**: medical history risk factors
-7. **Education**: boolean var, predisposition to get stroke
-8. **EducationField**: boolean var, predisposition to get hyp
-9. **EmployeeCount**: boolean var, predisposition to get diabetes
-10. **EmployeeNumber**:  total cholesterol level
-11. **EnvironmentSatisfaction**: systolic blood pressure
-12. **Gender**: diastolic blood pressure 
-13. **HourlyRate**: Body Mass Index
-14. **JobInvolvement**:  heartRate
-15. **JobLevel**: glucose level
-16. **JobRole**: whether or not the patient developed coronary heart disease in the next 10 years
-17. **JobSatisfaction**: whether or not the patient developed coronary heart disease in the next 10 years
-18. **MaritalStatus**: whether or not the patient developed coronary heart disease in the next 10 years
-19. **MonthlyIncome**: whether or not the patient developed coronary heart disease in the next 10 years
-20. **MonthlyRate**: whether or not the patient developed coronary heart disease in the next 10 years
-21. **NumCompaniesWorked**: whether or not the patient developed coronary heart disease in the next 10 years
-22. **Over18**: whether or not the patient developed coronary heart disease in the next 10 years
-23. **OverTime**: whether or not the patient developed coronary heart disease in the next 10 years
-24. **PercentSalaryHike**: whether or not the patient developed coronary heart disease in the next 10 years
-25. **PerformanceRating**: whether or not the patient developed coronary heart disease in the next 10 years
-26. **RelationshipSatisfaction**: whether or not the patient developed coronary heart disease in the next 10 years
-27. **StandardHours**: whether or not the patient developed coronary heart disease in the next 10 years
-28. **StockOptionLevel**: whether or not the patient developed coronary heart disease in the next 10 years
-29. **TotalWorkingYears**: whether or not the patient developed coronary heart disease in the next 10 years
-30. **TrainingTimesLastYear**: whether or not the patient developed coronary heart disease in the next 10 years
-31. **WorkLifeBalance**: whether or not the patient developed coronary heart disease in the next 10 years
-32. **YearsAtCompany**: whether or not the patient developed coronary heart disease in the next 10 years
-33. **YearsInCurrentRole**: whether or not the patient developed coronary heart disease in the next 10 years
-34. **YearsSinceLastPromotion**: whether or not the patient developed coronary heart disease in the next 10 years
-35. **YearsWithCurrManager**: whether or not the patient developed coronary heart disease in the next 10 years
-36. **City**: whether or not the patient developed coronary heart disease in the next 10 years
+1. **Age**: Variable that represent the age of the employee
+2. **Attrition**: variable that represent the departure of employees from the organization for any reason
+3. **BusinessTravel**: Represent how often an employee travel for work purpose 
+4. **DailyRate**: The amount of money the employees are paid per day
+5. **Department**: Department of the company at which the employee belong
+6. **DistanceFromHome**: Employee home distance from the workplace 
+7. **Education**: Educational level of the employee (1=Below College, 2=College,
+3=Bachelor, 4=Master,5 = Doctor)
+8. **EducationField**: Education field of employee (Human Resources, Life Sciencies, Marketing, Medical, Technical Degree, Other)
+9. **EmployeeCount**: Coolumn all equal to 1 to count the total number of employee in the data set
+10. **EmployeeNumber**: unique number to identify the employee
+11. **EnvironmentSatisfaction**: level of environment satisfaction (1=Low, 2=Medium, 3=High, 4=Very High)
+12. **Gender**: Gender of the employee (Male, Female) 
+13. **HourlyRate**: The amount of money the employees are paid per hour
+14. **JobInvolvement**: Level of involvement of the employee (1=Low, 2=Medium, 3=High, 4=Very High)
+15. **JobLevel**: Is a category of authority in the company (1=low, 5=High)
+16. **JobRole**: Represent the role cover by the employee (Sales Executive, Research Scientist, Laboratory Technician, Manufacturing Director, Healthcare Representative, Manager, Sales Representative, Research Director, Human Resources)
+17. **JobSatisfaction**: Level of satisfaction of the employee (1=Low, 2=Medium, 3=High, 4=Very High)
+18. **MaritalStatus**: Marital status of the employee ( Divorced, Married, Single)
+19. **MonthlyIncome**: Monthly income of the employee 
+20. **MonthlyRate**: Monthly rate of employee
+21. **NumCompaniesWorked**: Number of companies for ehich the employee worked
+22. **Over18**: If the age of the employee is higher than 18 (Y = yes, N = no)
+23. **OverTime**: If the employee perform over time (Yes, No) 
+24. **PercentSalaryHike**: Represent the percentage inrease of a salary
+25. **PerformanceRating**: Performance rating of the employee (1=Low, 2=Good,3=Excellent,4=Outstanding)
+26. **RelationshipSatisfaction**: Relationship satisfaction of the employee (1=Low, 2=Medium, 3=High, 4=Very High)
+27. **StandardHours**: Standard working hour per **week?** (80 for everyone)
+28. **StockOptionLevel**: Stock option level
+29. **TotalWorkingYears**: Total years of working
+30. **TrainingTimesLastYear**: Training hours of the last year
+31. **WorkLifeBalance**: the amount of time you spend doing your job compared with the amount of time you spend with your family and doing things you enjoy (1=Bad,2=Good, 3=Better, 4=Best)
+32. **YearsAtCompany**: Total years of working at the company
+33. **YearsInCurrentRole**: Total years spent in the current position
+34. **YearsSinceLastPromotion**: How many year ago the employee had the last promotion
+35. **YearsWithCurrManager**: How many years the employee is with the actual manager
+36. **City**: where the employee works (London, Barcelona)
 
 
 # Cleaning Data
