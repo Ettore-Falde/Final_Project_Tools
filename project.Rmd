@@ -213,20 +213,67 @@ From know on we can easiliy proceed with our analysis.
 
 **Taking in consideration both company**
 ```{r}
-ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method="lm")
+ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth()
 ```
 
 **Taking in consideration London**
 ```{r}
-ggplot(mydb%>%filter(city=="London"), aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method="lm")
+ggplot(mydb%>%filter(city=="London"), aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth()
 ```
+
+
 
 **Taking in consideration Barcelona**
 ```{r}
-ggplot(mydb%>%filter(city=="Barcelona"), aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method="lm")
+ggplot(mydb%>%filter(city=="Barcelona"), aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth()
 ```
 
+#### satisfaction of male and female in each department in the different city
 
+```{r}
+##Sales
+ggplot(mydb%>%filter(department =="Sales"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
+```
+
+```{r}
+##Research & Development
+ggplot(mydb%>%filter(department =="Research & Development"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
+```
+
+```{r}
+##Human Resource
+ggplot(mydb%>%filter(department =="Human Resources"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
+```
+
+#### Differences between the two cities in term of job satisfaction male and female
+```{r}
+##Sales  London
+ggplot(mydb%>%filter(department =="Sales" & city == "London"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
+```
+```{r}
+##Sales  Barcelona
+ggplot(mydb%>%filter(department =="Sales" & city == "Barcelona"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
+```
+
+```{r}
+##Research & Development London 
+ggplot(mydb%>%filter(department =="Research & Development" & city=="London"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
+```
+
+```{r}
+##Research & Development Barcelona 
+ggplot(mydb%>%filter(department =="Research & Development" & city=="Barcelona"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
+```
+
+```{r}
+##Human Resource London
+ggplot(mydb%>%filter(department =="Human Resources" & city=="London"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
+```
+
+```{r}
+##Human Resource London
+ggplot(mydb%>%filter(department =="Human Resources" & city=="Barcelona"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
+```
 # Conclusions
 ...
 
