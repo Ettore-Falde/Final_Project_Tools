@@ -209,22 +209,45 @@ mydb <- mydb %>% drop_na()
 From know on we can easiliy proceed with our analysis. 
 
 # Analysis
+
 ##### scatter plot monthly income with respect to age of wich you work in the company differentiate by gender
 
 **Taking in consideration both company**
 ```{r}
-ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method="lm")
+ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method = 'loess', formula = y ~ x)
 ```
 
 **Taking in consideration London**
 ```{r}
-ggplot(mydb%>%filter(city=="London"), aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method="lm")
+ggplot(mydb%>%filter(city=="London"), aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method = 'loess', formula = y ~ x)
 ```
 
 **Taking in consideration Barcelona**
 ```{r}
-ggplot(mydb%>%filter(city=="Barcelona"), aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method="lm")
+ggplot(mydb%>%filter(city=="Barcelona"), aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method = 'loess', formula = y ~ x)
 ```
+
+##### Plot job role frequency 
+```{r}
+# This would help to analyse the number of types of jobs and compare with types
+k <- mydb %>% tabyl(job_role)
+
+ggplot(k, aes(x = reorder(job_role, -n), y = n)) + 
+  geom_bar(stat = "identity", fill = "#4271AE", colour = "#1F3552") + 
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) + 
+  geom_text(aes(label = n), vjust = 0, colour = "#1F3552")+labs(y= "# of values", x = "job role") + 
+  ggtitle("Job Role Frequency")
+
+rm("k")
+```
+
+```{r}
+ggplot(mydb, aes(x = job_role, color = city, fill = city)) + 
+  geom_bar(stat = "count") + 
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) + 
+  ggtitle("Job Role Frequency Barcelona & London")
+```
+
 
 
 # Conclusions
