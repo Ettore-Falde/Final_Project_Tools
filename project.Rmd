@@ -31,12 +31,14 @@ The software used for the development of the study and the writing of the report
 
 ```{r, echo = FALSE, message=FALSE, warning=FALSE}
 # Directory
-#setwd("/Users/ettorefalde/Documents/Ettore\ Falde/UNI/UPC/Tools\ for\ Decision\ Making\ /Final_Project_Tools")
+setwd("/Users/ettorefalde/Documents/Ettore\ Falde/UNI/UPC/Tools\ for\ Decision\ Making\ /Final_Project_Tools")
 ```
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(ggplot2)
+library(gridExtra)
+library(yardstick)
 library(broom)
 library(janitor)
 library(caTools)
@@ -47,6 +49,10 @@ library(corrplot)
 ## Importing Data
 
 The first step is to load the dataset in the system, and check the names of the variables. 
+```{r}
+source("functions_script.R")
+```
+
 
 ```{r}
 mydb <- read.csv2("dataset.csv")
@@ -120,7 +126,7 @@ Here, we are going to check the first 10 elements at the beginning and at the en
 ```{r}
 mydb %>% head(10)
 mydb %>% tail(10)
-mydb<-rename(mydb, age =i_age)
+mydb<-rename(mydb, age =age)
 mydb %>% arrange(desc(age)) %>% top_n(10, age) 
 mydb %>% arrange(age) %>% top_n(-10, age) 
 ```
@@ -212,68 +218,80 @@ From know on we can easiliy proceed with our analysis.
 
 ##### scatter plot monthly income with respect to age of wich you work in the company differentiate by gender
 
-**Taking in consideration both company**
+**Taking in consideration both company location**
+In this graphs in order to show that up in a better way, we decided to remove the confidence interval and the points. 
 ```{r}
-ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method = 'loess', formula = y ~ x)
+ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+ geom_smooth(method = 'loess', formula = y ~ x, se=F) + 
+  labs(title = "Income related to seniority to all company location",
+       x = "Years in the company",
+       y = "Monthly income") +
+  theme_minimal()
 ```
 
 **Taking in consideration London**
 ```{r}
-ggplot(mydb%>%filter(city=="London"), aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method = 'loess', formula = y ~ x)
+ggplot(mydb%>%filter(city=="London"), aes(x=years_at_company, y=monthly_income, colour=gender)) + geom_smooth(method = 'loess', formula = y ~ x, se=F) + labs(
+      title = "Income related to seniority: London",
+       x = "Years in the company",
+       y = "Monthly income"
+    ) +
+  theme_minimal()
 ```
 
 
 
 **Taking in consideration Barcelona**
 ```{r}
-ggplot(mydb%>%filter(city=="Barcelona"), aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method = 'loess', formula = y ~ x)
+ggplot(mydb%>%filter(city=="Barcelona"), aes(x=years_at_company, y=monthly_income, colour=gender)) + geom_smooth(method = 'loess', formula = y ~ x, se=F) + labs(
+      title = "Income related to seniority: Barcelona",
+       x = "Years in the company",
+       y = "Monthly income"
+    ) +
+  theme_minimal()
 ```
+
+
+
 
 #### satisfaction of male and female in each department in the different city
 
 ```{r}
 ##Sales
-ggplot(mydb%>%filter(department =="Sales"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
-```
+g1 <- ggplot(mydb%>%filter(department =="Sales"), aes(x= job_satisfaction, y=gender, fill= gender))+geom_boxplot(show.legend = FALSE)
 
-```{r}
 ##Research & Development
-ggplot(mydb%>%filter(department =="Research & Development"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
-```
+g2 <- ggplot(mydb%>%filter(department =="Research & Development"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
 
-```{r}
 ##Human Resource
-ggplot(mydb%>%filter(department =="Human Resources"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
+g3 <- ggplot(mydb%>%filter(department =="Human Resources"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
 ```
 
 #### Differences between the two cities in term of job satisfaction male and female
 ```{r}
 ##Sales  London
-ggplot(mydb%>%filter(department =="Sales" & city == "London"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
-```
-```{r}
+g4 <- ggplot(mydb%>%filter(department =="Sales" & city == "London"), aes(x= job_satisfaction, y= gender, fill= gender))+geom_boxplot(show.legend = FALSE)
+
 ##Sales  Barcelona
-ggplot(mydb%>%filter(department =="Sales" & city == "Barcelona"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
-```
+g5 <- ggplot(mydb%>%filter(department =="Sales" & city == "Barcelona"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
 
-```{r}
 ##Research & Development London 
-ggplot(mydb%>%filter(department =="Research & Development" & city=="London"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
-```
+g6 <- ggplot(mydb%>%filter(department =="Research & Development" & city=="London"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
 
-```{r}
 ##Research & Development Barcelona 
-ggplot(mydb%>%filter(department =="Research & Development" & city=="Barcelona"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
+g7 <- ggplot(mydb%>%filter(department =="Research & Development" & city=="Barcelona"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
+
+##Human Resource London
+g8 <- ggplot(mydb%>%filter(department =="Human Resources" & city=="London"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
+
+##Human Resource London
+g9 <- ggplot(mydb%>%filter(department =="Human Resources" & city=="Barcelona"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
 ```
 
 ```{r}
-##Human Resource London
-ggplot(mydb%>%filter(department =="Human Resources" & city=="London"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
-```
+grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, ncol = 3)
 
-```{r}
-##Human Resource London
-ggplot(mydb%>%filter(department =="Human Resources" & city=="Barcelona"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
+# clean variables
+rm(g1, g2, g3, g4, g5, g6, g7, g8, g9)
 ```
 
 ##### Plot job role frequency 
@@ -296,6 +314,26 @@ ggplot(mydb, aes(x = job_role, color = city, fill = city)) +
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) + 
   ggtitle("Job Role Frequency Barcelona & London")
 ```
+```{r}
+# Create a temporary dataset to get the percentage of employees that would leave the company 
+temp <- mydb %>% 
+  group_by(attrition) %>%
+  summarize(counts = n()) %>%
+  mutate(percent = percentage_func(counts)) %>%
+  arrange(desc(percent))
+
+# Create a pie chart to see the percentage of people that will leave the company
+pie_chart_func(dataset = temp, 
+               counts_var = temp$counts, 
+               var_interest = temp$attrition, 
+               title = "Are the Attrition var Balanced?", 
+               subtitle = "Pie Plot, percentortion of YES to NO in Attrition Var", 
+               caption = "UPC")
+
+# Removing the un-used variables
+rm("temp")
+```
+
 
 # Conclusions
 ...
@@ -305,6 +343,7 @@ ggplot(mydb, aes(x = job_role, color = city, fill = city)) +
 2. Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
 3. H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
 4. David Robinson, Alex Hayes and Simon Couch (2021). broom: Convert Statistical Objects into Tidy Tibbles. R package version 0.7.9. https://CRAN.R-project.org/package=broom
+
 
 
 
