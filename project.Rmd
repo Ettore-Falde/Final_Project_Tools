@@ -274,6 +274,10 @@ ggplot(mydb%>%filter(department =="Human Resources" & city=="London"), aes(x= ge
 ##Human Resource London
 ggplot(mydb%>%filter(department =="Human Resources" & city=="Barcelona"), aes(x= gender, y=job_satisfaction))+geom_boxplot()
 ```
+
+
+
+
 # Conclusions
 ...
 
