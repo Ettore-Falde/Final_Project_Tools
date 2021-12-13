@@ -42,9 +42,6 @@ library(janitor)
 library(caTools)
 library(ROCR)
 library(corrplot)
-
-
-
 ```
 
 ## Importing Data
@@ -159,6 +156,9 @@ mydb %>% tabyl(department)
 mydb <- mydb %>% filter(department != "")
 mydb$department <- ifelse(mydb$department == 
                             "Research and Development", 
+                          "Research & Development", mydb$department)
+mydb$department <- ifelse(mydb$department == 
+                            "HR", 
                           "Research & Development", mydb$department)
 
 mydb %>% tabyl(education_field)
