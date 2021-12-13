@@ -209,7 +209,23 @@ mydb <- mydb %>% drop_na()
 From know on we can easiliy proceed with our analysis. 
 
 # Analysis
-...
+##### scatter plot monthly income with respect to age of wich you work in the company differentiate by gender
+
+**Taking in consideration both company**
+```{r}
+ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method="lm")
+```
+
+**Taking in consideration London**
+```{r}
+ggplot(mydb%>%filter(city=="London"), aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method="lm")
+```
+
+**Taking in consideration Barcelona**
+```{r}
+ggplot(mydb%>%filter(city=="Barcelona"), aes(x=years_at_company, y=monthly_income, colour=gender))+geom_point()+ geom_smooth(method="lm")
+```
+
 
 # Conclusions
 ...
