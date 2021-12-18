@@ -2,7 +2,17 @@
 title: "Final Project"
 author: "Ettore Falde, Samoussa Fofana, Federico Basaglia"
 date: "11/29/2021"
-output: html_document
+header-includes: 
+   \usepackage{titling}
+   \pretitle{\begin{center}\LARGE\includegraphics[width=12cm]{upc-positiu-p3005.png}\\[\bigskipamount]}
+   \posttitle{\end{center}}
+   \usepackage{graphicx}
+   \usepackage{fancyhdr}
+   \pagestyle{fancy}
+   \setlength\headheight{28pt}
+   \fancyhead[L]{\includegraphics[width=5cm]{upc-positiu-p3005.png}}
+   \fancyfoot[LE,RO]{GPIM}
+output: pdf_document
 ---
 
 
@@ -56,7 +66,6 @@ source("functions_script.R")
 
 ```{r}
 mydb <- read.csv2("dataset.csv")
-names(mydb)
 # web_db <- read.csv("WA_Fn-UseC_-HR-Employee-Attrition.csv")
 # names(web_db)
 ```
@@ -109,7 +118,6 @@ The variables selected for this dataset  are:
 In this sub-point we are going to change the names of the variables in order to have all he names of the variables with the same layout. 
 ```{r}
 mydb <- mydb %>% clean_names(., "snake")
-names(mydb)
 ```
 
 #### Dimensions
@@ -123,7 +131,7 @@ mydb %>% ncol()
 
 #### Head and Tail
 Here, we are going to check the first 10 elements at the beginning and at the end of the dataset. Consecutively, we are going to check the top and the bottom values of the main relevant variables to catch some errors. 
-```{r}
+```{r, results='hide'}
 mydb %>% head(10)
 mydb %>% tail(10)
 mydb<-rename(mydb, age =age)
@@ -145,7 +153,7 @@ mydb <- mydb %>% filter(num_companies_worked >= 0)
 Therefore, as we can see, this line of code did not affected our dataset. So, this mean that there are no rows or columns that are empty.
 
 Now, we are going to pass to the study of duplicates, by the _employee_number_ variable that we suggest it is the key.
-```{r}
+```{r, results='hide'}
 # Duplicates removal
 mydb %>% get_dupes(employee_number)
 mydb <- mydb %>% distinct(employee_number, .keep_all= TRUE)
@@ -153,7 +161,7 @@ mydb <- mydb %>% distinct(employee_number, .keep_all= TRUE)
 
 
 Hence, now it is time to check the n's.
-```{r, echo = FALSE}
+```{r, echo = FALSE, results='hide'}
 mydb %>% tabyl(attrition)
 
 mydb %>% tabyl(business_travel)
@@ -221,7 +229,8 @@ From know on we can easiliy proceed with our analysis.
 **Taking in consideration both company location**
 In this graphs in order to show that up in a better way, we decided to remove the confidence interval and the points. 
 ```{r}
-ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+ geom_smooth(method = 'loess', formula = y ~ x, se=F) + 
+ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+ 
+  geom_smooth(method = 'loess', formula = y ~ x, se=F) + 
   labs(title = "Income related to seniority to all company location",
        x = "Years in the company",
        y = "Monthly income") +
@@ -230,7 +239,9 @@ ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+ geom_smo
 
 **Taking in consideration London**
 ```{r}
-ggplot(mydb%>%filter(city=="London"), aes(x=years_at_company, y=monthly_income, colour=gender)) + geom_smooth(method = 'loess', formula = y ~ x, se=F) + labs(
+ggplot(mydb%>%filter(city=="London"), 
+       aes(x=years_at_company, y=monthly_income, colour=gender)) + 
+  geom_smooth(method = 'loess', formula = y ~ x, se=F) + labs(
       title = "Income related to seniority: London",
        x = "Years in the company",
        y = "Monthly income"
@@ -242,7 +253,9 @@ ggplot(mydb%>%filter(city=="London"), aes(x=years_at_company, y=monthly_income, 
 
 **Taking in consideration Barcelona**
 ```{r}
-ggplot(mydb%>%filter(city=="Barcelona"), aes(x=years_at_company, y=monthly_income, colour=gender)) + geom_smooth(method = 'loess', formula = y ~ x, se=F) + labs(
+ggplot(mydb%>%filter(city=="Barcelona"), 
+       aes(x=years_at_company, y=monthly_income, colour=gender)) + 
+  geom_smooth(method = 'loess', formula = y ~ x, se=F) + labs(
       title = "Income related to seniority: Barcelona",
        x = "Years in the company",
        y = "Monthly income"
@@ -254,59 +267,85 @@ ggplot(mydb%>%filter(city=="Barcelona"), aes(x=years_at_company, y=monthly_incom
 
 
 #### satisfaction of male and female in each department in the different city
-
 ```{r}
 ##Sales
-g1 <- ggplot(mydb%>%filter(department =="Sales"), aes(x= job_satisfaction, y=gender, fill= gender))+geom_boxplot(show.legend = FALSE)
+g1 <- ggplot(mydb%>%filter(department =="Sales"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)
 
 ##Research & Development
-g2 <- ggplot(mydb%>%filter(department =="Research & Development"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
+g2 <- ggplot(mydb%>%filter(department =="Research & Development"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)
 
 ##Human Resource
-g3 <- ggplot(mydb%>%filter(department =="Human Resources"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
+g3 <- ggplot(mydb%>%filter(department =="Human Resources"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)
 ```
 
 #### Differences between the two cities in term of job satisfaction male and female
 ```{r}
 ##Sales  London
-g4 <- ggplot(mydb%>%filter(department =="Sales" & city == "London"), aes(x= job_satisfaction, y= gender, fill= gender))+geom_boxplot(show.legend = FALSE)
+g4 <- ggplot(mydb%>%filter(department =="Sales" & city == "London"), 
+             aes(x= gender, y= job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)
 
 ##Sales  Barcelona
-g5 <- ggplot(mydb%>%filter(department =="Sales" & city == "Barcelona"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
+g5 <- ggplot(mydb%>%
+               filter(department =="Sales" & city == "Barcelona"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)
 
 ##Research & Development London 
-g6 <- ggplot(mydb%>%filter(department =="Research & Development" & city=="London"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
+g6 <- ggplot(mydb%>%
+               filter(department =="Research & Development" & city=="London"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)
 
 ##Research & Development Barcelona 
-g7 <- ggplot(mydb%>%filter(department =="Research & Development" & city=="Barcelona"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
+g7 <- ggplot(mydb%>%
+               filter(department =="Research & Development" & city=="Barcelona"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)
 
 ##Human Resource London
-g8 <- ggplot(mydb%>%filter(department =="Human Resources" & city=="London"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
+g8 <- ggplot(mydb%>%
+               filter(department =="Human Resources" & city=="London"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)
 
 ##Human Resource London
-g9 <- ggplot(mydb%>%filter(department =="Human Resources" & city=="Barcelona"), aes(x= gender, y=job_satisfaction, fill= gender))+geom_boxplot(show.legend = FALSE)
+g9 <- ggplot(mydb%>%
+               filter(department =="Human Resources" & city=="Barcelona"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)
 ```
 
-```{r}
+
+```{r, fig.align='left'}
 grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, ncol = 3)
 
 # clean variables
 rm(g1, g2, g3, g4, g5, g6, g7, g8, g9)
 ```
 
+
 ##### Plot job role frequency 
-```{r}
+```{r, fig.align='left'}
 # This would help to analyse the number of types of jobs and compare with types
 k <- mydb %>% tabyl(job_role)
 
 ggplot(k, aes(x = reorder(job_role, -n), y = n)) + 
   geom_bar(stat = "identity", fill = "#4271AE", colour = "#1F3552") + 
   theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) + 
-  geom_text(aes(label = n), vjust = 0, colour = "#1F3552")+labs(y= "# of values", x = "job role") + 
+  geom_text(aes(label = n), vjust = 0, colour = "#1F3552")+
+  labs(y= "# of values", x = "job role") + 
   ggtitle("Job Role Frequency")
 
 rm("k")
 ```
+
 
 ```{r}
 ggplot(mydb, aes(x = job_role, color = city, fill = city)) + 
@@ -327,7 +366,7 @@ pie_chart_func(dataset = temp,
                counts_var = temp$counts, 
                var_interest = temp$attrition, 
                title = "Are the Attrition var Balanced?", 
-               subtitle = "Pie Plot, percentortion of YES to NO in Attrition Var", 
+               subtitle = "Pie Plot,percentortion of YES to NO in Attrition Var", 
                caption = "UPC")
 
 # Removing the un-used variables
