@@ -47,6 +47,7 @@ setwd("/Users/ettorefalde/Documents/Ettore\ Falde/UNI/UPC/Tools\ for\ Decision\ 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(ggplot2)
+library(GGally)
 library(gridExtra)
 library(yardstick)
 library(broom)
@@ -54,6 +55,13 @@ library(janitor)
 library(caTools)
 library(ROCR)
 library(corrplot)
+library(tidytext)
+library(glue)
+library(scales)
+library(plotly)
+library(patchwork)
+library(skimr)
+library(RColorBrewer)
 ```
 
 ## Importing Data
@@ -324,7 +332,7 @@ g9 <- ggplot(mydb%>%
 
 
 ```{r, fig.align='left'}
-grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, ncol = 3)
+grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, ncol = 3, top = "Comparison between job satisfaction and gender")
 
 # clean variables
 rm(g1, g2, g3, g4, g5, g6, g7, g8, g9)
@@ -371,6 +379,157 @@ pie_chart_func(dataset = temp,
 
 # Removing the un-used variables
 rm("temp")
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+mydb %>% glimpse()
+
+mydb %>% select(starts_with("years"), attrition) %>% 
+
+ggpairs(
+  aes(color = attrition),
+  lower = list(continuous = wrap(
+    "smooth",
+    alpha = 0.2,
+    size = 0.5,
+    color = "#DE945E"
+  )),
+  diag = list(continuous = "barDiag"),
+  upper = list(continuous = wrap("cor", size = 4))
+) +
+  theme(
+    axis.text = element_text(size = 8),
+    panel.background = element_rect(fill = "white"),
+    strip.background = element_rect(fill = "white"),
+    strip.background.x = element_rect(colour = "black"),
+    strip.background.y = element_rect(colour = "black"),
+    strip.text = element_text(color = "black", face = "bold", size = 8)
+  ) +
+  labs(
+    title = "Pair plot by attrition Var",
+    subtitle = "Pair Plot, scatter plot, Histogram and Correlation coefficient",
+    caption = "Data Source: Kaggle IBM HR Employee Attrition",
+    x = NULL,
+    y = NULL
+  )
+```
+
+
+```{r}
+plt_gender <- bar_plot_proportions(gender)
+plt_gender_att <- bar_plot_proportions(gender, attrition)
+plt_marital_status <- bar_plot_proportions(marital_status)
+plt_marital_status_att <- bar_plot_proportions(marital_status, attrition) 
+
+
+(plt_gender +
+   plt_gender_att)+ 
+  plot_annotation(
+  title = "Proportions of Gender VS Attrition",
+  caption = "Data Source: Kaggle IBM HR Employee Attrition"
+) & 
+  theme(plot.caption = element_text(color = "#969696", size = 7))
+```
+
+
+```{r}
+  (plt_marital_status +
+   plt_marital_status_att ) + 
+  plot_annotation(
+  title = "Proportions of Marital Status VS Attrition",
+  caption = "Data Source: Kaggle IBM HR Employee Attrition"
+) & 
+  theme(plot.caption = element_text(color = "#969696", size = 7))
+```
+
+```{r}
+plt_business_travel <- bar_plot_proportions(business_travel)
+plt_business_travel_att <- bar_plot_proportions(business_travel, attrition)
+plt_department <- bar_plot_proportions(department)
+plt_department_att <- bar_plot_proportions(department, attrition) 
+
+
+(plt_business_travel + 
+   plt_business_travel_att ) + 
+  plot_annotation(
+  title = "Proportions of Business travel VS Attrition",
+  caption = "Data Source: Kaggle IBM HR Employee Attrition"
+) & 
+  theme(plot.caption = element_text(color = "#969696", size = 7))
+```
+
+```{r}
+ (plt_department + 
+   plt_department_att) + 
+  plot_annotation(
+  title = "Proportions of Departments VS Attrition",
+  caption = "Data Source: Kaggle IBM HR Employee Attrition"
+) & 
+  theme(plot.caption = element_text(color = "#969696", size = 7))
+```
+```{r}
+plt_job_role <- bar_plot_proportions(job_role)
+plt_job_role_att <- bar_plot_proportions(job_role, attrition) 
+plt_education_field <- bar_plot_proportions(education_field)
+plt_education_field_att <- bar_plot_proportions(education_field, attrition) 
+
+(plt_job_role /
+   plt_job_role_att) + 
+  plot_annotation(
+  title = "Proportions of Job role VS Attrition",
+  caption = "Data Source: Kaggle IBM HR Employee Attrition"
+) & 
+  theme(plot.caption = element_text(color = "#969696", size = 7))
+```
+
+
+```{r}
+(plt_education_field /
+   plt_education_field_att) + 
+  plot_annotation(
+  title = "Proportions of Education field VS Attrition",
+  caption = "Data Source: Kaggle IBM HR Employee Attrition"
+) & 
+  theme(plot.caption = element_text(color = "#969696", size = 7))
+```
+
+
+```{r}
+monthly_income_dist <- mydb %>% select(monthly_income,) %>% 
+  ggplot(aes( x = monthly_income)) +
+  geom_histogram(color = "#16529A", fill = "#D3E8FB", bins = 40) +
+  geom_vline(aes(xintercept = mean(monthly_income)), color = "#FE8304", size = 1.5) +
+   geom_vline(aes(xintercept = median(monthly_income)), color = "#83470A", size = 1.5) +
+  labs(
+    title = "Monthly Income Distributions",
+    subtitle = "Histogram Plot",
+    caption = "Data Source: Kaggle IBM HR Employee Attrition",
+    x = NULL,
+    y = NULL
+  )
+monthly_income_dist
+```
+
+
+```{r}
+mean_mi <- round(mean(mydb$monthly_income),2)
+median_mi <- round(median(mydb$monthly_income),2)
+```
+
+
+```{r}
+ggplot(mydb,
+       aes(x = gender,
+           y = monthly_income,
+           fill = gender)) +
+  geom_boxplot(show.legend = FALSE) +
+  coord_flip() +
+   scale_y_continuous(labels = label_dollar()) +
+  labs(title = "The gender gap in monthly income",
+       caption = "Data Source: Kaggle IBM HR Employee Attrition",
+       x = "Gender",
+       y = "Monthly Income")
 ```
 
 
