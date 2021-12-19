@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.12.18)  19 DEC 2021 18:30
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.12.18)  19 DEC 2021 23:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1277,14 +1277,9 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
 [32]
-File: project_files/figure-latex/unnamed-chunk-40-1.pdf Graphic file (type pdf)
+File: project_files/figure-latex/unnamed-chunk-41-1.pdf Graphic file (type pdf)
 
-<use project_files/figure-latex/unnamed-chunk-40-1.pdf>
-
-Underfull \hbox (badness 10000) in paragraph at lines 1035--1037
-[][]
- []
-
+<use project_files/figure-latex/unnamed-chunk-41-1.pdf>
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -1296,11 +1291,11 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
 [33]
-File: project_files/figure-latex/unnamed-chunk-41-1.pdf Graphic file (type pdf)
+File: project_files/figure-latex/unnamed-chunk-41-2.pdf Graphic file (type pdf)
 
-<use project_files/figure-latex/unnamed-chunk-41-1.pdf>
+<use project_files/figure-latex/unnamed-chunk-41-2.pdf>
 
-Overfull \hbox (29.26685pt too wide) in paragraph at lines 1048--1048
+Overfull \hbox (29.26685pt too wide) in paragraph at lines 1062--1062
 [][] 
  []
 
@@ -1325,17 +1320,28 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
-[35] (./project.aux)
+[35]
+File: upc-positiu-p3005.png Graphic file (type bmp)
+<upc-positiu-p3005.png>
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[36] (./project.aux)
 Package rerunfilecheck Info: File `project.out' has not changed.
-(rerunfilecheck)             Checksum: 7657241BD60EBC7FC127B28724DCD267;4757.
+(rerunfilecheck)             Checksum: 2701E7A930F446761955B7642F4D3F93;4874.
  ) 
 Here is how much of TeX's memory you used:
- 17352 strings out of 478256
- 328461 string characters out of 5854791
- 777484 words of memory out of 5000000
- 37630 multiletter control sequences out of 15000+600000
+ 17353 strings out of 478256
+ 328477 string characters out of 5854791
+ 777522 words of memory out of 5000000
+ 37631 multiletter control sequences out of 15000+600000
  409881 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  86i,13n,121p,666b,472s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on project.pdf (35 pages).
+Output written on project.pdf (36 pages).

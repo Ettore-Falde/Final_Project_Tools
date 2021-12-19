@@ -244,7 +244,29 @@ mydb <- mydb %>% drop_na()
 
 From know on we can easiliy proceed with our analysis. 
 
+
+
+
+
+
+
+
+
+
+
 # Analysis
+Our analysis consists in different parts. 
+
+1. First of all, we want to describe the gender equality inside the company and understand if there are discrepancies and how we can solve those problems. 
+
+2. Secondly, we want to understand the attrition factor and have a clear comprehension of what is the structure of the officies between Barcelona and London. This would be very helpful in otder to decrease the percentace of people who want to leave and how the company can improve the level of comfort of its employees.
+
+3. Thirdly, we think is very important to describe the attitude of our employees and what it their satisfaction level. So, combining this solution with the previous question we can improve our decision and suggest to the company where it can adopt new HR methodologies. 
+
+4. Fourthly, we want to understand how the company can find its successor and what could be the best solution. 
+
+5. To conclude, there is also the good practice to import in our project new datasets that could improve the decions that we can take. 
+
 
 ## scatter plot monthly income with respect to age of wich you work in the company differentiate by gender
 
@@ -428,7 +450,6 @@ rm("temp")
 
 
 ```{r, message=FALSE, warning=FALSE}
-mydb %>% glimpse()
 
 mydb %>% select(starts_with("years"), attrition) %>% 
 
