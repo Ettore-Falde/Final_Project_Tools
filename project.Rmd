@@ -667,6 +667,20 @@ ggplot(mydb, aes(y= education_field, x = performance_rating))+
 -year since last promotion and, years in current role,years at company, job roles, attrition
 
 
+
+
+
+# Adding dataset
+
+```{r}
+london_data<- read.csv("1st Dataset.csv")
+london_data<- london_data%>%filter(Geography == "London", Sex == c("Female", "Male"), WorkingPattern == "Full-Time" )%>%drop_na()
+```
+
+
+
+
+
 # Conclusions
 ...
 
