@@ -538,7 +538,7 @@ mydb %>% select(monthly_income, gender) %>%
   ggplot(aes(monthly_income)) +
   geom_histogram(
     aes(monthly_income, color = gender, fill = gender),
-    alpha = 0.4,
+    alpha = 0.2,
     position = "identity",
     bins = 50,
   ) +
@@ -554,6 +554,81 @@ mydb %>% select(monthly_income, gender) %>%
 
 ```
 
+
+
+```{r}
+mydb %>% 
+  select(gender, monthly_income) %>%
+  group_by(gender) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = gender, y = avg_income)) +
+  geom_col(aes(fill = gender), width = 0.3, show.legend = FALSE) +
+  geom_text(
+    aes(
+      x = gender,
+      y = 0.01,
+      label = dollar(avg_income, prefix = "USD  ")
+    ),
+    hjust = -0.2,
+    size = 3,
+    colour = "white",
+    fontface = "bold"
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  scale_fill_manual(values = c("#E41AAC", "#00838F")) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender",
+       x = NULL,
+       y = NULL)
+
+
+ mydb %>%
+  group_by(department, gender) %>% 
+  summarise(amount = n(), .groups = "drop") %>%
+  ggplot(aes(
+    x = fct_reorder(department, amount),
+    y = amount,
+    fill = gender
+  )) + 
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  scale_fill_manual(values = c("#E41AAC", "#00838F")) +
+  labs(title = "Number of Employees by Department and Gender",
+x = NULL,
+y = NULL,
+fill = NULL)
+
+mydb %>% 
+  group_by(department) %>% 
+  summarise(amount = n()) %>%
+  mutate(prop = round(amount / sum(amount) * 100, 1),
+         ypos = cumsum(prop)- 0.5*prop ) %>%
+  ggplot(aes(x = "", y = prop, fill = department)) +
+  geom_col() +
+  coord_polar("y", start = 0) +
+  
+  geom_text(
+    aes(y = prop, label = str_c(prop, "%", sep = "")),
+    position = position_stack(vjust = 0.5),
+    size = 3,
+    col = "white",
+    fontface = "bold"
+  ) +
+  scale_fill_manual (values = c("#0E8A41", "#0B2D5B", "#E4652E")) +
+  theme(legend.position = "top")+
+  labs(
+    title = "Number of Employees by Department",
+    fill = NULL,
+    x = NULL,
+    y = NULL
+  )
+
+
+```
+
 # Conclusions
 ...
 
@@ -562,6 +637,7 @@ mydb %>% select(monthly_income, gender) %>%
 2. Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
 3. H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
 4. David Robinson, Alex Hayes and Simon Couch (2021). broom: Convert Statistical Objects into Tidy Tibbles. R package version 0.7.9. https://CRAN.R-project.org/package=broom
+
 
 
 

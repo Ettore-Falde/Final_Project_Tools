@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.12.18)  18 DEC 2021 12:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.12.18)  19 DEC 2021 13:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -514,7 +514,7 @@ File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 File: upc-positiu-p3005.png Graphic file (type png)
 <use upc-positiu-p3005.png>
-Package pdftex.def Info: upc-positiu-p3005.png  used on input line 272.
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 264.
 (pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
 
 Package fancyhdr Warning: \headheight is too small (28.0pt): 
@@ -525,14 +525,14 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
 [2]
-Overfull \hbox (19.547pt too wide) in paragraph at lines 283--286
+Overfull \hbox (19.547pt too wide) in paragraph at lines 290--293
 []\T1/lmr/bx/n/10 PerformanceRating\T1/lmr/m/n/10 : Per-for-mance rat-ing of th
 e em-ployee (1=Low, 2=Good,3=Excellent,4=Outstanding) 
  []
 
 File: upc-positiu-p3005.png Graphic file (type png)
 <use upc-positiu-p3005.png>
-Package pdftex.def Info: upc-positiu-p3005.png  used on input line 383.
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 381.
 (pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
 
 Package fancyhdr Warning: \headheight is too small (28.0pt): 
@@ -544,21 +544,21 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 
 [3]
 LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-445.
+452.
 (/Users/ettorefalde/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<project_files/figure-latex/unnamed-chunk-12-1.pdf, id=102, 469.755pt x 325.215
+<project_files/figure-latex/unnamed-chunk-12-1.pdf, id=101, 469.755pt x 325.215
 pt>
 File: project_files/figure-latex/unnamed-chunk-12-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-12-1.pdf>
 Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-12-1.pdf  use
-d on input line 453.
+d on input line 460.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 File: upc-positiu-p3005.png Graphic file (type png)
 <use upc-positiu-p3005.png>
-Package pdftex.def Info: upc-positiu-p3005.png  used on input line 455.
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 462.
 (pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
 
 Package fancyhdr Warning: \headheight is too small (28.0pt): 
@@ -575,11 +575,11 @@ File: project_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-13-1.pdf>
 Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-13-1.pdf  use
-d on input line 470.
+d on input line 477.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 File: upc-positiu-p3005.png Graphic file (type png)
 <use upc-positiu-p3005.png>
-Package pdftex.def Info: upc-positiu-p3005.png  used on input line 472.
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 479.
 (pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
 
 Package fancyhdr Warning: \headheight is too small (28.0pt): 
@@ -596,11 +596,11 @@ File: project_files/figure-latex/unnamed-chunk-14-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-14-1.pdf>
 Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-14-1.pdf  use
-d on input line 487.
+d on input line 494.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 File: upc-positiu-p3005.png Graphic file (type png)
 <use upc-positiu-p3005.png>
-Package pdftex.def Info: upc-positiu-p3005.png  used on input line 492.
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 499.
 (pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
 
 Package fancyhdr Warning: \headheight is too small (28.0pt): 
@@ -612,14 +612,14 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 
 [6 <./project_files/figure-latex/unnamed-chunk-13-1.pdf>]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 496.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 503.
 
 LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 496.
+(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 503.
 
 File: upc-positiu-p3005.png Graphic file (type png)
 <use upc-positiu-p3005.png>
-Package pdftex.def Info: upc-positiu-p3005.png  used on input line 555.
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 562.
 (pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
 
 Package fancyhdr Warning: \headheight is too small (28.0pt): 
@@ -636,11 +636,11 @@ File: project_files/figure-latex/unnamed-chunk-17-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-17-1.pdf>
 Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-17-1.pdf  use
-d on input line 563.
+d on input line 570.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 File: upc-positiu-p3005.png Graphic file (type png)
 <use upc-positiu-p3005.png>
-Package pdftex.def Info: upc-positiu-p3005.png  used on input line 563.
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 570.
 (pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
 
 Package fancyhdr Warning: \headheight is too small (28.0pt): 
@@ -657,11 +657,11 @@ File: project_files/figure-latex/unnamed-chunk-18-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-18-1.pdf>
 Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-18-1.pdf  use
-d on input line 589.
+d on input line 596.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 File: upc-positiu-p3005.png Graphic file (type png)
 <use upc-positiu-p3005.png>
-Package pdftex.def Info: upc-positiu-p3005.png  used on input line 589.
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 596.
 (pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
 
 Package fancyhdr Warning: \headheight is too small (28.0pt): 
@@ -678,11 +678,11 @@ File: project_files/figure-latex/unnamed-chunk-19-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-19-1.pdf>
 Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-19-1.pdf  use
-d on input line 606.
+d on input line 613.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 File: upc-positiu-p3005.png Graphic file (type png)
 <use upc-positiu-p3005.png>
-Package pdftex.def Info: upc-positiu-p3005.png  used on input line 608.
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 615.
 (pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
 
 Package fancyhdr Warning: \headheight is too small (28.0pt): 
@@ -699,11 +699,11 @@ File: project_files/figure-latex/unnamed-chunk-20-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-20-1.pdf>
 Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-20-1.pdf  use
-d on input line 627.
+d on input line 634.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 File: upc-positiu-p3005.png Graphic file (type png)
 <use upc-positiu-p3005.png>
-Package pdftex.def Info: upc-positiu-p3005.png  used on input line 629.
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 636.
 (pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
 
 Package fancyhdr Warning: \headheight is too small (28.0pt): 
@@ -714,12 +714,9 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
 [11 <./project_files/figure-latex/unnamed-chunk-19-1.pdf>]
-Overfull \vbox (1.76363pt too high) detected at line 667
- []
-
 File: upc-positiu-p3005.png Graphic file (type png)
 <use upc-positiu-p3005.png>
-Package pdftex.def Info: upc-positiu-p3005.png  used on input line 667.
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 688.
 (pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
 
 Package fancyhdr Warning: \headheight is too small (28.0pt): 
@@ -736,17 +733,11 @@ File: project_files/figure-latex/unnamed-chunk-21-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-21-1.pdf>
 Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-21-1.pdf  use
-d on input line 669.
+d on input line 723.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 688.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 688.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 688.
 File: upc-positiu-p3005.png Graphic file (type png)
 <use upc-positiu-p3005.png>
-Package pdftex.def Info: upc-positiu-p3005.png  used on input line 698.
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 725.
 (pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
 
 Package fancyhdr Warning: \headheight is too small (28.0pt): 
@@ -756,18 +747,289 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
-[13 <./project_files/figure-latex/unnamed-chunk-21-1.pdf>] (./project.aux)
+[13]
+<project_files/figure-latex/unnamed-chunk-22-1.pdf, id=203, 469.755pt x 325.215
+pt>
+File: project_files/figure-latex/unnamed-chunk-22-1.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-22-1.pdf>
+Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-22-1.pdf  use
+d on input line 743.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+File: upc-positiu-p3005.png Graphic file (type png)
+<use upc-positiu-p3005.png>
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 745.
+(pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[14 <./project_files/figure-latex/unnamed-chunk-21-1.pdf>]
+<project_files/figure-latex/unnamed-chunk-23-1.pdf, id=219, 469.755pt x 325.215
+pt>
+File: project_files/figure-latex/unnamed-chunk-23-1.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-23-1.pdf>
+Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-23-1.pdf  use
+d on input line 757.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+File: upc-positiu-p3005.png Graphic file (type png)
+<use upc-positiu-p3005.png>
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 759.
+(pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[15 <./project_files/figure-latex/unnamed-chunk-22-1.pdf>]
+<project_files/figure-latex/unnamed-chunk-24-1.pdf, id=230, 469.755pt x 325.215
+pt>
+File: project_files/figure-latex/unnamed-chunk-24-1.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-24-1.pdf>
+Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-24-1.pdf  use
+d on input line 777.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+File: upc-positiu-p3005.png Graphic file (type png)
+<use upc-positiu-p3005.png>
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 779.
+(pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[16 <./project_files/figure-latex/unnamed-chunk-23-1.pdf>]
+<project_files/figure-latex/unnamed-chunk-25-1.pdf, id=241, 469.755pt x 325.215
+pt>
+File: project_files/figure-latex/unnamed-chunk-25-1.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-25-1.pdf>
+Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-25-1.pdf  use
+d on input line 791.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+File: upc-positiu-p3005.png Graphic file (type png)
+<use upc-positiu-p3005.png>
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 793.
+(pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[17 <./project_files/figure-latex/unnamed-chunk-24-1.pdf>]
+<project_files/figure-latex/unnamed-chunk-26-1.pdf, id=252, 469.755pt x 325.215
+pt>
+File: project_files/figure-latex/unnamed-chunk-26-1.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-26-1.pdf>
+Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-26-1.pdf  use
+d on input line 810.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+File: upc-positiu-p3005.png Graphic file (type png)
+<use upc-positiu-p3005.png>
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 812.
+(pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[18 <./project_files/figure-latex/unnamed-chunk-25-1.pdf>]
+<project_files/figure-latex/unnamed-chunk-27-1.pdf, id=263, 469.755pt x 325.215
+pt>
+File: project_files/figure-latex/unnamed-chunk-27-1.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-27-1.pdf>
+Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-27-1.pdf  use
+d on input line 824.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+File: upc-positiu-p3005.png Graphic file (type png)
+<use upc-positiu-p3005.png>
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 826.
+(pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[19 <./project_files/figure-latex/unnamed-chunk-26-1.pdf>]
+<project_files/figure-latex/unnamed-chunk-28-1.pdf, id=275, 469.755pt x 325.215
+pt>
+File: project_files/figure-latex/unnamed-chunk-28-1.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-28-1.pdf>
+Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-28-1.pdf  use
+d on input line 844.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+File: upc-positiu-p3005.png Graphic file (type png)
+<use upc-positiu-p3005.png>
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 846.
+(pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[20 <./project_files/figure-latex/unnamed-chunk-27-1.pdf>]
+<project_files/figure-latex/unnamed-chunk-30-1.pdf, id=287, 469.755pt x 325.215
+pt>
+File: project_files/figure-latex/unnamed-chunk-30-1.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-30-1.pdf>
+Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-30-1.pdf  use
+d on input line 869.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+File: upc-positiu-p3005.png Graphic file (type png)
+<use upc-positiu-p3005.png>
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 871.
+(pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[21 <./project_files/figure-latex/unnamed-chunk-28-1.pdf>]
+<project_files/figure-latex/unnamed-chunk-31-1.pdf, id=297, 469.755pt x 325.215
+pt>
+File: project_files/figure-latex/unnamed-chunk-31-1.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-31-1.pdf>
+Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-31-1.pdf  use
+d on input line 893.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+File: upc-positiu-p3005.png Graphic file (type png)
+<use upc-positiu-p3005.png>
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 895.
+(pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[22 <./project_files/figure-latex/unnamed-chunk-30-1.pdf>]
+<project_files/figure-latex/unnamed-chunk-32-1.pdf, id=307, 469.755pt x 325.215
+pt>
+File: project_files/figure-latex/unnamed-chunk-32-1.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-32-1.pdf>
+Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-32-1.pdf  use
+d on input line 924.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+File: upc-positiu-p3005.png Graphic file (type png)
+<use upc-positiu-p3005.png>
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 926.
+(pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[23 <./project_files/figure-latex/unnamed-chunk-31-1.pdf>]
+<project_files/figure-latex/unnamed-chunk-32-2.pdf, id=320, 469.755pt x 325.215
+pt>
+File: project_files/figure-latex/unnamed-chunk-32-2.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-32-2.pdf>
+Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-32-2.pdf  use
+d on input line 948.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+File: upc-positiu-p3005.png Graphic file (type png)
+<use upc-positiu-p3005.png>
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 950.
+(pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[24 <./project_files/figure-latex/unnamed-chunk-32-1.pdf>]
+<project_files/figure-latex/unnamed-chunk-32-3.pdf, id=331, 469.755pt x 325.215
+pt>
+File: project_files/figure-latex/unnamed-chunk-32-3.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-32-3.pdf>
+Package pdftex.def Info: project_files/figure-latex/unnamed-chunk-32-3.pdf  use
+d on input line 979.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+File: upc-positiu-p3005.png Graphic file (type png)
+<use upc-positiu-p3005.png>
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 982.
+(pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[25 <./project_files/figure-latex/unnamed-chunk-32-2.pdf>]
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 998.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 998.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 998.
+File: upc-positiu-p3005.png Graphic file (type png)
+<use upc-positiu-p3005.png>
+Package pdftex.def Info: upc-positiu-p3005.png  used on input line 1008.
+(pdftex.def)             Requested size: 142.26384pt x 42.65405pt.
+
+Package fancyhdr Warning: \headheight is too small (28.0pt): 
+(fancyhdr)                Make it at least 46.25409pt, for example:
+(fancyhdr)                \setlength{\headheight}{46.25409pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+
+(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
+
+[26 <./project_files/figure-latex/unnamed-chunk-32-3.pdf>] (./project.aux)
 Package rerunfilecheck Info: File `project.out' has not changed.
 (rerunfilecheck)             Checksum: 37487C45E794B79B630615CE4D58FE92;762.
  ) 
 Here is how much of TeX's memory you used:
- 11467 strings out of 480313
- 181792 string characters out of 5896114
- 478878 words of memory out of 5000000
- 29052 multiletter control sequences out of 15000+600000
+ 11564 strings out of 480313
+ 186335 string characters out of 5896114
+ 479878 words of memory out of 5000000
+ 29124 multiletter control sequences out of 15000+600000
  457584 words of font info for 72 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 60i,16n,63p,442b,414s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,16n,63p,442b,491s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/Users/ettorefalde/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{
 /Users/ettorefalde/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}</U
 sers/ettorefalde/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></
@@ -781,10 +1043,10 @@ Users/ettorefalde/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><
 fb></Users/ettorefalde/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.
 pfb></Users/ettorefalde/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti1
 0.pfb>
-Output written on project.pdf (13 pages, 491533 bytes).
+Output written on project.pdf (26 pages, 573388 bytes).
 PDF statistics:
- 290 PDF objects out of 1000 (max. 8388607)
- 233 compressed objects within 3 object streams
- 84 named destinations out of 1000 (max. 500000)
- 102 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 431 PDF objects out of 1000 (max. 8388607)
+ 336 compressed objects within 4 object streams
+ 97 named destinations out of 1000 (max. 500000)
+ 162 words of extra memory for PDF output out of 10000 (max. 10000000)
 
