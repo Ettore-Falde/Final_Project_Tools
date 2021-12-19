@@ -153,7 +153,7 @@ Here, we are going to check the first 10 elements at the beginning and at the en
 ```{r, results='hide'}
 mydb %>% head(10)
 mydb %>% tail(10)
-mydb<-rename(mydb, age =i_age)
+mydb<-rename(mydb, age =age)
 mydb %>% arrange(desc(age)) %>% top_n(10, age) 
 mydb %>% arrange(age) %>% top_n(-10, age) 
 ```
@@ -643,15 +643,24 @@ ggplot(mydb%>%filter(city == "Barcelona", gender== "Female"), aes(x= department,
 - performance rating e percent salary hike,
 
 ```{r}
-ggplot(mydb, aes(y= percent_salary_hike, x = performance_rating, color= city))+
-  geom_point()
+# Fa togliere 
+# ggplot(mydb%>%filter(city == "Barcelona"), aes(y= percent_salary_hike, x = performance_rating))+
+#   geom_point()
+# 
+# ggplot(mydb%>%filter(city == "London"), aes(y= percent_salary_hike, x = performance_rating))+
+#   geom_point()
+# 
+# ggplot(mydb, aes(x= percent_salary_hike, y = monthly_income)) + geom_point()
 ```
 We can
 
 -performance rating education field
 
 ```{r}
-ggplot(mydb, aes(y= education_field, x = performance_rating))+
+ggplot(mydb, aes(y= education_field, x = monthly_income, fill = gender))+
+  geom_boxplot()
+
+ggplot(mydb, aes(y= education_field, x = monthly_income, fill = city))+
   geom_boxplot()
 ```
 -
