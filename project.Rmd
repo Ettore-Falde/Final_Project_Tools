@@ -554,8 +554,6 @@ mydb %>% select(monthly_income, gender) %>%
 
 ```
 
-
-
 ```{r}
 mydb %>% 
   select(gender, monthly_income) %>%
@@ -628,7 +626,6 @@ mydb %>%
 
 
 ```
-
 # Conclusions
 ...
 
