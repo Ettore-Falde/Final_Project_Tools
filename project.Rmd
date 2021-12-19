@@ -533,6 +533,27 @@ ggplot(mydb,
 ```
 
 
+```{r}
+mydb %>% select(monthly_income, gender) %>%
+  ggplot(aes(monthly_income)) +
+  geom_histogram(
+    aes(monthly_income, color = gender, fill = gender),
+    alpha = 0.4,
+    position = "identity",
+    bins = 50,
+  ) +
+  geom_freqpoly(aes(linetype = gender), bins = 30) +
+  geom_rug(aes(color = gender)) +
+  scale_x_continuous(labels = label_dollar()) +
+  guides(color = "none") +
+  labs(title = "Distridution of Monthly Income by Gender",
+       x = "Monthly Income",
+       y = NULL,
+       fill = NULL,
+       linetype = NULL) 
+
+```
+
 # Conclusions
 ...
 
