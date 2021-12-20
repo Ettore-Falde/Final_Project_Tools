@@ -1,7 +1,7 @@
 ---
 title: "Final Project"
 author: "Ettore Falde, Samoussa Fofana, Federico Basaglia"
-date: "11/29/2021"
+date: "12/20/2021"
 header-includes: 
    \usepackage{titling}
    \pretitle{\begin{center}\LARGE\includegraphics[width=12cm]{upc-positiu-p3005.png}\\[\bigskipamount]}
@@ -11,14 +11,11 @@ header-includes:
    \pagestyle{fancy}
    \setlength\headheight{28pt}
    \fancyhead[L]{\includegraphics[width=5cm]{upc-positiu-p3005.png}}
-   \fancyfoot[LE,RO]{GPIM}
+   \fancyfoot[LE,RO]{UPC}
 output: 
   pdf_document:
     latex_engine: xelatex
     number_sections: yes
-  
-   
-
 ---
 
 \newpage
@@ -44,6 +41,7 @@ Note: It is highly recommended to seek external sources of information (either i
 
 Based on this information, we will to carry out an exploratory data analysis and prepare a technical report (with Rmarkdown) and a technical presentation (5-10 minutes).
 
+\newpage
 # Setup the software
 
 The software used for the development of the study and the writing of the report is R[1]. The first step is to define the work directory and to load the libraries needed:  
@@ -73,6 +71,7 @@ library(skimr)
 library(RColorBrewer)
 ```
 
+\newpage
 # Importing Data
 
 The first step is to load the dataset in the system, and check the names of the variables. 
@@ -130,7 +129,7 @@ The variables selected for this dataset  are:
 35. **YearsWithCurrManager**: How many years the employee is with the actual manager
 36. **City**: where the employee works (London, Barcelona)
 
-
+\newpage
 # Cleaning Data
 
 ## Names
@@ -253,7 +252,7 @@ From know on we can easiliy proceed with our analysis.
 
 
 
-
+\newpage
 # Analysis
 Our analysis consists in different parts. 
 
@@ -594,7 +593,32 @@ ggplot(mydb%>%filter(city=="Barcelona"),
     ) + 
   theme_minimal()
 ```
-Now, in Barcelona we can see hat the resoult we obtained is pretty different than before. In fact, the female gender has generally an higher incoem compared to the male gender. 
+Now, in Barcelona we can see hat the results we obtained is pretty different than before. In fact, the female gender has generally an higher income compared to the male gender. 
+
+Other interesting graphs we can draw are the one related to the age. 
+```{r}
+mydb %>%
+  select(age, monthly_income) %>%
+  group_by(age) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = age, y = avg_income)) +
+  geom_col(aes(fill = age), width = 0.3, show.legend = FALSE) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender",
+       x = NULL,
+       y = NULL)
+
+ggplot(mydb, 
+       aes(x=age, y=monthly_income, colour=gender)) + 
+  geom_smooth(method = 'loess', formula = y ~ x, se=F) + labs(
+      title = "Income related to age",
+       x = "Age",
+       y = "Monthly income"
+    ) + 
+  theme_minimal()
+```
 
 ### Education field
 Performance rating education field. 
@@ -868,26 +892,21 @@ To sum up, we can see that in the first regression we can see the diferent types
 
 In conclusion the _mod2_ shows all the variables that have a significative effect in the the definition of the attrition variable. 
 
+## Satisfaction analysis 
 
+In this section we want to analyze the level of satisfaction of the employees and of the workplace more in general to see if there are some differences between the factors and characteristics that we are going to consider.
+For this reason our studyings are focused on the variable and their trends:
 
+1-job_satisfaction
 
+2-environment_satisfaction
 
+### 1-Job_satisfaction
 
+####  Gender and Department
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-_satisfaction of male and female in each department considering the whole data set_
+Considering the satisfaction of our employees to make a first summary of the data we represent its value in each department differentiated per gender.
+For this section we use some boxplot to explain our results as to have an idea on the main distribution of the values between different factor we will consider later.
 ```{r}
 ##Sales
 g1 <- ggplot(mydb%>%filter(department =="Sales"), 
@@ -910,9 +929,15 @@ g3 <- ggplot(mydb%>%filter(department =="Human Resources"),
 grid.arrange(g1, g2, g3, ncol = 3)
 ```
 
-## Differences between the two cities in term of job satisfaction 
+In this first general overview we can observe a constant trend per each department, also due to the fact that we have a limited choice of value for the variable "job_satisfaction"and so it's normal to see similar pattern.
+It's relevant the distribution for male in the Human resource business unit,  where we see that the median and the 1st quantile are overlapped and then presents the lowest value of satisfaction.
 
-### Sales, Gender, Job satisfaction
+### Differences between the two cities in term of job satisfaction 
+
+A possible way to go further in our analysis is to study the possible differences in the feelings of the workers between London and Barcellona to understand if there are some parameters or other point to go into detail.
+In this way we compare for each department the level of satisfaction per gender.
+
+#### Sales department , Gender
 
 ```{r}
 ##Sales  London
@@ -929,8 +954,9 @@ g5 <- ggplot(mydb%>%
   labs(title = " Sales Barcelona ")
 grid.arrange(g4,g5, ncol = 2)
 ```
+Starting from Sales department we do not observe any peculiarity as the 2 graph are equal ; in general we can assume a medium level of satisfaction of the workers in this field, which stands at the value "3".
 
-### R&D, Gender, Job satisfaction
+#### R&D department , Gender
 
 ```{r}
 ##Research & Development London 
@@ -949,8 +975,10 @@ g7 <- ggplot(mydb%>%
 
 grid.arrange(g6,g7, ncol = 2)
 ```
- 
-### HR, Gender, Job satisfaction
+ For R&D we observe another time a regular trend close to 3 as average value of satisfaction.
+ The only relevant note is the equality between the median and the 3rd quantile at the value 3, but except for that we can consider this as a medium satisfaction level department.
+
+#### HR department , Gender
 
 ```{r}
 ##Human Resource London
@@ -970,7 +998,14 @@ g9 <- ggplot(mydb%>%
 
 grid.arrange(g8,g9, ncol= 3)
 ```
+Going deep in H&R department we see that the previous graph present inside it some interest sides ; in fact it is clearly evident from this division some difference between the 2 cities.
+For London size we observe that the median in located between 2 and 3 for both male and female gender , with maximum values for male that reach 4 , that is also the 3rd quantile.
+On the other side in Barcelona we see a big discrepancy inside gender : in fact considering male they present lowest values, a median which is equal to 2 (medium low value) and also with 1 as 1st quantile.
+Opposite is the trend for female in which we can observe a median equal to 4 which indicates a good level of satistaction.
+That is can due to the fact that , doing further analysis on the number of employees, there is a clear predominance of female in this department in Barcelona and so this a general course could be not the best for the integration of male in this sector.
 
+
+However to have a main view of the graph presented as now we resume them in this picture :
 
 ```{r, fig.align='left'}
 grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, ncol = 3, top = "Comparison between job satisfaction and gender")
@@ -978,30 +1013,6 @@ grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, ncol = 3, top = "Comparison bet
 # clean variables
 rm(g1, g2, g3, g4, g5, g6, g7, g8, g9)
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```{r}
-
-```
-
-
 
 
 ```{r}
@@ -1023,82 +1034,89 @@ ggplot(mydb,
        x = "Gender",
        y = "Monthly Income")
 ```
+### Environemnt_satisfaction
 
-## Environment Satisfaction per department
+#### Environment Satisfaction per department
 
+Now we focus on the satisfaction on the workplace and we try to go deepen if there are some interesting aspects into the single department.
 
-###
 
 ```{r}
 ggplot(mydb, aes(x= department, y= environment_satisfaction, fill = department))+
   geom_boxplot(show.legend = FALSE)
 ```
+Generally there is a medium level of satisfaction dor R&D and Sales department while we see a medium negative attitude in Human Resources . However this pattern is not so oustanding , reason for what we decide to go deepen in considerations per gender and per city.
 
-London male
+
+#### London , Male
+
 ```{r}
 ggplot(mydb%>%filter(city == "London", gender== "Male"), aes(x= department, y= environment_satisfaction, fill = department))+
   geom_boxplot(show.legend = FALSE)
 ```
-London female
+Firstly we have filtered per "Male" and "London" and as in the previous analysis we observe a medium low trend for male in Human Resources department.
+For the other two business unit we observe a constant trend that we have found also considering job_satisfaction.
+
+
+#### London , Female
+
 ```{r}
 ggplot(mydb%>%filter(city == "London", gender== "Female"), aes(x= department, y= environment_satisfaction, fill = department))+
   geom_boxplot(show.legend = FALSE)
 ```
-Barcelona malemale
+As we were supposing to see the medium low level in Human Resources for male is balanced in the female as to reach in general the medium trend (=3) of environment satisfaction which we can also find for the other 2 department.
+
+#### Barcelona , Male 
+
 ```{r}
 ggplot(mydb%>%filter(city == "Barcelona", gender== "Male"), aes(x= department, y= environment_satisfaction, fill = department))+
   geom_boxplot(show.legend = FALSE)
 ```
+For the city of Barcelona it's confirmed the unsatisfaction( in this case related if the environment) for male in Human Resource department : in fact even if we have 1st quantile = 4 , we see the median equal to 2 , value that can not be appreciated by the company.
+R&D presents a positive average of values with the 1st quantile =4 and the median=3 while the Sales department has lowest value distribution that stay most in a range between 2 and 3.
 
-Barcelona Female
+#### Barcellona , Female
+
 ```{r}
 ggplot(mydb%>%filter(city == "Barcelona", gender== "Female"), aes(x= department, y= environment_satisfaction, fill = department))+
   geom_boxplot()+ labs(show.legend = FALSE)
 ```
-# linear regression to understand which variable influence monthly income 
+
+In this last graph , we do not see differences from the boxplot of R&D and Sales which are the same as the one of male.
+However, as we were expecting , Human Resources department follows a pretty positive course , thus going against the trend of the other sex.
+
+This series of graph so confirms the big differences between male and female satisfaction level just for the city of Barcelona.
+
+#### Regression 
+
+We firstly try to interpretate the variable "job_satisfaction" and "environemnt_satisfaction" using the linear regression model :
 
 ```{r}
- #m1<-lm(city ~ ., mydb%>%drop_na()%>% select(-employee_count,-employee_number,-standard_hours))
-#summary(m1)
+
+mod4 <- lm(job_satisfaction ~ ., data = mydb)
+summary(mod4)
+
+mod5 <- lm(environment_satisfaction ~ ., data = mydb)
+summary(mod5)
+
+mod6 <-lm(job_satisfaction ~ gender + city, data = mydb)
+summary(mod6)
+
+mod7 <- lm(environment_satisfaction ~ gender + city, data = mydb)
+summary(mod7)
 
 ```
 
-
-
-- performance rating e percent salary hike,
-
-```{r}
-# Fa togliere 
-# ggplot(mydb%>%filter(city == "Barcelona"), aes(y= percent_salary_hike, x = performance_rating))+
-#   geom_point()
-# 
-# ggplot(mydb%>%filter(city == "London"), aes(y= percent_salary_hike, x = performance_rating))+
-#   geom_point()
-# 
-# ggplot(mydb, aes(x= percent_salary_hike, y = monthly_income)) + geom_point()
-```
-We can
-
-
--
-
-- total working year e age, years at company, relationship satisfaction, numb of companies worked, monthly income, job role, job level
-
-- environment satisfaction e  over time (Yes), over 18, hourly rate, attrition yes
-
-- job involvement job role, business travel and attrition
-
-- job satisfaction attrition, years with current manager, overtime, marital status, hourly rate
-
--year since last promotion and, years in current role,years at company, job roles, attrition
+We can observe that both "gender" and "city" are not relevant to explain the two variables studied "job_satisfaction" and "environment_satisfaction".
+Anyway is it clear from the previous part that there is a more pronounced dissatisfaction among Spanish male workers and so in this sense would be useful to understand the motivations of this general mood and also the difference between them and London workers in their workplace.
+A more deepen analysis on the behavior of the workers in this company, the approach between males and females and , more than all , their growth prospects within the company  : in our opinion this  could be the key in order to solve this problem.
 
 
 
 
+## Adding dataset
 
-# Adding dataset
-
-```{r}
+```{r, results='hide'}
 # UK
 london_data<-read.csv("survey_results_public2.csv")
 
@@ -1215,16 +1233,6 @@ In this case, we can see how in Barcelona Male has generally an higher salary co
 
 
 ```{r}
-barcelona_data %>% ggplot(aes(x = age, y = monthly_income)) +
-  geom_col(aes(fill = age), width = 0.3, show.legend = FALSE) +
-  coord_flip() +
-  scale_y_continuous(labels = label_dollar()) +
-  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
-  labs(title = "Average Monthly Income by Gender",
-       x = NULL,
-       y = NULL)
-
-
 barcelona_data %>% 
   select(age, monthly_income) %>%
   group_by(age) %>%
@@ -1251,51 +1259,73 @@ barcelona_data %>%
 ```
 To conclude, we can understand here how the people between 65 and 74 years old have higher monthly_income.
 
-
+\newpage
 # Conclusions
-In the analysis we reach some conclusion let's take a look on what we reach.
+In the analysis, we reach some conclusions let's take a look at what we reach.
 
-We started by analyzing the frequency of the different role that we have in the dataset, we obtained that looking at the whole data set without differentiating by city the most frequent role are:
+We started by analyzing the frequency of the different roles that we have in the dataset, we obtained that looking at the whole data set without differentiating by city the most frequent role are:
 
 - Sales Executive
 - Research Scientist
 - Laboratory technician
 
-The next step is relate to see if this path is followed also in the two city. The second graph show us that the distribution of the role is the same in both city.
+The next step is related to see if this path is followed also in the two cities. The second graph shows us that the distribution of the role is the same in both cities.
 
-Proceeding forward, we shift on the gender analysis to understand if both company reach the goal of the gender equality.
+Proceeding forward, we shift on the gender analysis to understand if both companies reach the goal of gender equality.
 
-We fisrst calculate some statistcs indicator of the distribution of the monthly income, obtaining an average monthly income of 6510 euro.
+We first calculate some statistics indicator of the distribution of the monthly income, obtaining an average monthly income of 6510 euro.
 
-We plotted a graph that show the genral situation of the whole company, and there we can see that on average the monthly income of the female employee tend to be higher. In fact, the average monthly income for male is 6395.65 while for the female is 6682.85 euro.
+We plotted a graph that shows the general situation of the whole company, and there we can see that on average the monthly income of the female employee tends to be higher. The average monthly income for males is 6395.65 while for females is 6682.85 euros.
 
-The next step will be to analyze the same point but after a distinction between the two different city. 
+The next step will be to analyze the same point but after a distinction between the two different cities. 
 
 In both the city the monthly income of the female is higher than the male, but the gap in Barcelona is more significant.
 
-Let's shift to the result that take in consideration also the department to which the employee belong.
+Let's shift to the result that takes into consideration also the department to which the employee belongs.
 
-In general the number of male per department is always higher with respect to the female, and the majority of personnel work in the Research & Development.
+In general, the number of males per department is always higher concerning the female, and the majority of personnel work in the Research & Development.
 
-As before we will take a look also in the two different city. The gap between the gender per department is very high in London, but in Barcelona the HR department respect the gender eqaulity, so our CEO need to work firstly on the department of Sales and Research & Development.
+As before we will take a look also in the two different cities. The gap between the gender per department is very high in London, but in Barcelona, the HR department respect gender equality, so our CEO needs to work firstly on the department of Sales and Research & Development.
 
-Let's shift now on the job role, in all the role we have more male than female. From the graph where we don't differentiate between the city, all the role has more male than girl except the Manufacturing director role where the number of male and female are almost the same. We can state the same conclusion also if we analyze only London. In the case of Barcelona we have a slight difference, the female are higher in three role.
+Let's shift now to the job role, in all the roles we have more males than females. From the graph where we don't differentiate between the city, all the role has more male than girl except the Manufacturing director role where the number of male and female are almost the same. We can state the same conclusion also if we analyze only London. In the case of Barcelona, we have a slight difference, the female is higher in the three roles.
 
 - Manager
 - Research Director 
 - Manufacturing director
 
-Now, we want to write done the result obtained once we put in relation the monthly income versus the years in the company differentiating by gender and then by city also.
+Now, we want to write done the result obtained once we put in relation the monthly income versus the years in the company differentiating by gender and then by the city also.
 
-The whole picture dhow us that  in the initial stage the female tend to get more money with respect to the male, then in the middle stage from 8 years till 20 the income is almost the same, but in the final stage so after 20 years of seniority the gap between female and male increase in the favor of the male.
+The whole picture dhow us that in the initial stage the female tends to get more money than the male, then in the middle stage from 8 years till 20 the income is almost the same, but in the final stage so after 20 years of seniority the gap between the female and male increase in the favor of the male.
 
-Looking to the two city, we can state the same things only the duration of the middle stage change, because now the male start earn more money 15 years of seniority. In barcelona the picture is totally different, female employee tend to earn more almost always.
+Looking at the two cities, we can state the same things only the duration of the middle stage change, because now the male start earns more money 15 years of seniority. In Barcelona the picture is different, female employees tend to earn more almost always.
 
-Let's consider the monthly income in relation to the different department and differentiate also by gender. 
+Let's consider the monthly income of the different departments and differentiate also by gender. 
 
-In the graph where we consider at the same time both the city we can see that the differences in income are present in the education field of technical degree and Human resource cause the mean of female income with respect to trhe male is more bigger. Considering the two city the problem are still present but in Barcelona is more bigger.
+In the graph where we consider at the same time both the city, we can see that the differences in income are present in the education field of technical degree and Human resource causes the mean of female income for the male is bigger. Considering the two cities the problem is still present but in Barcelona is bigger.
 
-We carried out the same type of analysis but now focusing on the job role instead of education field. We obtained that in general the income as the same path for both male and female, but in two role which are Research Director and Manager the male tend to earn more than the female. In barcelona the discrepancy is present for both cause in some role male earn in average more than female and also the contrary happen. While in London only the research director show a big gap in favor of the male.
+We carried out the same type of analysis but now focus on the job role instead of the education field. We obtained that in general the income as the same path for both male and female, but in two roles which are Research Director and Manager the male tend to earn more than the female. In Barcelona, the discrepancy is present for both causes in some roles males earn on average more than females and also the contrary happens. While in London only the research director shows a big gap in favor of the male.
+
+For what concerns the variable _Attrition_ we assumed at first it depends on many factors, in particular _gender_ , _city_ that are not relevant. Other factors, were found out to be relevant like _marital_status_  but we cannot modify them in any way as they depend on the personal life of the workers.
+Most important we recognize the significance of some variables like _business_travel_ , _department_ , that could be improved by paying more attention at some key point : 
+
+- _business_travel_ <- let workers enter the travel logic to ensure that this does not become a negative impact factor on them.
+- _department_ <- pay more attention in the critical department in which we have higher values of people that want to leave the company, like in this case R&D.
+
+On the other side looking at the Satisfaction ( _job_satisfaction_ , _environment_satisfaction_ ) into our company we noticed some important differences for the city of Barcelona per genre, as there was an important slack between males and females perceptions.
+Through the linear model, we have seen that in general, they are not significant to explain the phenomenon in itself.
+However, to improve the issue found about Barcelona's worker's satisfaction could be relevant analyze and eventually make wider the growth prospects for the employees in the company to entice them to make appreciate more their work and keep united the workplace to pursue company's objectives.
+
+To understand if our analysis is made on reliable data we take into consideration 2 new dataset one relates to Barcelona and the other relate to the UK.
+
+In the UK dataset, we compare how the size of the company can influence the high level of job satisfaction. In particular, we saw that the level of job satisfaction increases a lot when the company has a medium size,(20 to 90 employees).
+
+We carried out the same analysis but now consider the career satisfaction, and the result that we obtain follows the one that we enunciate before. The career satisfaction for the employee is higher in a company of medium size.
+
+We mainly decide to carry out this type of analysis cause we saw that in the dataset we have a predominance of observations related to London, which can be explicated in this way, the dimension of the company in London is bigger than the dimension in Barcelona.
+
+We decide to take into consideration the Barcelona dataset to enlighten the result that we obtained from the gender analysis, to see if they reflect the situation of Barcelona in general or it is only related to the company that we are analyzing.
+We mainly see that in Barcelona the average monthly income is almost the same between males and females. So the CEO should take into consideration to run further analysis to understand why we have so much difference between the male and female monthly income.
+
 
 
 
