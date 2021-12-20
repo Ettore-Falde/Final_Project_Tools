@@ -1350,10 +1350,44 @@ We mainly see that in Barcelona the average monthly income is almost the same be
 
 
 # Referemces
-1. _M., L. (2004). Moneyball: The art of winning an unfair game. New york: John Wiley and sons._
-2. Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
-3. H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
-4. David Robinson, Alex Hayes and Simon Couch (2021). broom: Convert Statistical Objects into Tidy Tibbles. R package version 0.7.9. https://CRAN.R-project.org/package=broom
+# References  
+
+[1] R Core Team (2016). R: A language and environment for statistical computing. R Foundation for
+Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
+
+[2] Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software,
+  4(43), 1686, https://doi.org/10.21105/joss.01686
+
+[3] Garrett Grolemund, Hadley Wickham (2011). Dates and Times Made Easy with lubridate.
+  Journal of Statistical Software, 40(3), 1-25. URL
+  https://www.jstatsoft.org/v40/i03/.
+
+[4] Joe Cheng, Bhaskar Karambelkar and Yihui Xie (2021). leaflet: Create Interactive
+  Web Maps with the JavaScript 'Leaflet' Library. R package version 2.0.4.1.
+  https://CRAN.R-project.org/package=leaflet
+
+[5] Kuhn et al., (2020). Tidymodels: a collection of packages for modeling and machine
+  learning using tidyverse principles. https://www.tidymodels.org
+
+[6] Terry Therneau and Beth Atkinson (2019). rpart: Recursive Partitioning and
+  Regression Trees. R package version 4.1-15.
+  https://CRAN.R-project.org/package=rpart
+
+[7] Stephen Milborrow (2021). rpart.plot: Plot 'rpart' Models: An Enhanced Version of
+  'plot.rpart'. R package version 3.1.0.
+  https://CRAN.R-project.org/package=rpart.plot
+
+[8] Jarek Tuszynski (2021). caTools: Tools: Moving Window Statistics, GIF, Base64, ROC
+  AUC, etc. R package version 1.18.2. https://CRAN.R-project.org/package=caTools
+  
+[9] Jeroen Ooms, David James, Saikat DebRoy, Hadley Wickham and Jeffrey Horner (2021).
+  RMySQL: Database Interface and 'MySQL' Driver for R. R package version 0.10.22.
+  https://CRAN.R-project.org/package=RMySQL
+
+[10] Original S code by Richard A. Becker and Allan R.
+  Wilks. R version by Ray Brownrigg. (2018). mapdata:
+  Extra Map Databases. R package version 2.3.0.
+  https://CRAN.R-project.org/package=mapdata
 
 
 
