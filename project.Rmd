@@ -594,7 +594,32 @@ ggplot(mydb%>%filter(city=="Barcelona"),
     ) + 
   theme_minimal()
 ```
-Now, in Barcelona we can see hat the resoult we obtained is pretty different than before. In fact, the female gender has generally an higher incoem compared to the male gender. 
+Now, in Barcelona we can see hat the results we obtained is pretty different than before. In fact, the female gender has generally an higher income compared to the male gender. 
+
+Other interesting graphs we can draw are the one related to the age. 
+```{r}
+mydb %>%
+  select(age, monthly_income) %>%
+  group_by(age) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = age, y = avg_income)) +
+  geom_col(aes(fill = age), width = 0.3, show.legend = FALSE) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender",
+       x = NULL,
+       y = NULL)
+
+ggplot(mydb, 
+       aes(x=age, y=monthly_income, colour=gender)) + 
+  geom_smooth(method = 'loess', formula = y ~ x, se=F) + labs(
+      title = "Income related to age",
+       x = "Age",
+       y = "Monthly income"
+    ) + 
+  theme_minimal()
+```
 
 ### Education field
 Performance rating education field. 
