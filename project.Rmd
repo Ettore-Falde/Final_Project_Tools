@@ -45,21 +45,24 @@ Based on this information, we will to carry out an exploratory data analysis and
 
 The software used for the development of the study and the writing of the report is R[1]. The first step is to define the work directory and to load the libraries needed:  
 
-```{r, echo = FALSE, message=FALSE, warning=FALSE}
-# Directory
-#setwd("/Users/ettorefalde/Documents/Ettore\ Falde/UNI/UPC/Tools\ for\ Decision\ Making\ /Final_Project_Tools")
-```
 
 ```{r, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(ggplot2)
 library(GGally)
 library(gridExtra)
+library(yardstick)
+library(broom)
 library(janitor)
+library(caTools)
+library(ROCR)
+library(corrplot)
 library(tidytext)
 library(glue)
 library(scales)
 library(plotly)
+library(patchwork)
+library(skimr)
 library(RColorBrewer)
 ```
 
@@ -74,8 +77,6 @@ source("functions_script.R")
 
 ```{r}
 mydb <- read.csv2("dataset.csv")
-# web_db <- read.csv("WA_Fn-UseC_-HR-Employee-Attrition.csv")
-# names(web_db)
 ```
 
 ## Variables analysis 
@@ -307,8 +308,10 @@ mydb %>% select(monthly_income, gender) %>%
   geom_freqpoly(aes(linetype = gender), bins = 30) +
   geom_rug(aes(color = gender)) +
   scale_x_continuous(labels = label_dollar()) +
-  geom_vline(aes(xintercept = mean(monthly_income)), color = "#E67AEC", size = 1) +
-  geom_vline(aes(xintercept = median(monthly_income)), color = "#6899F1", size = 1) +
+  geom_vline(aes(xintercept = mean(monthly_income)), 
+             color = "#E67AEC", size = 1) +
+  geom_vline(aes(xintercept = median(monthly_income)), 
+             color = "#6899F1", size = 1) +
   guides(color = "none") +
   labs(title = "Distridution of Monthly Income by Gender",
        caption = "BLUE = median; PINK = mean",
@@ -616,16 +619,20 @@ ggplot(mydb,
 Performance rating education field. 
 ```{r}
 ggplot(mydb, aes(y= education_field, x = monthly_income, fill = gender))+ 
-  labs(y = "Eduction Field", x = "Monthly Income", title = "Income per gender and Education field") +
+  labs(y = "Eduction Field", 
+       x = "Monthly Income", 
+       title = "Income per gender and Education field") +
   geom_boxplot()
 
 # Barcelona
-g1 <- ggplot(mydb%>%filter(city == "Barcelona"), aes(y= education_field, x = monthly_income, fill = gender))+ 
+g1 <- ggplot(mydb%>%filter(city == "Barcelona"), 
+             aes(y= education_field, x = monthly_income, fill = gender))+ 
   labs(y = "Eduction Field", x = "Monthly Income", title = "Barcelona") +
   geom_boxplot()
 
 # London
-g2 <- ggplot(mydb%>%filter(city == "London"), aes(y= education_field, x = monthly_income, fill = gender))+ 
+g2 <- ggplot(mydb%>%filter(city == "London"), 
+             aes(y= education_field, x = monthly_income, fill = gender))+ 
   labs(y = "Eduction Field", x = "Monthly Income", title = "London") +
   geom_boxplot()
 
@@ -640,7 +647,8 @@ Clearly, per education field we can see also that in some cases also the male ge
 
 Moreover, we want also to understand if for the same job role the gender has a crucial role in the determination of the monthly income of each employee. 
 ```{r}
-ggplot(mydb, aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplot() +
+ggplot(mydb, aes(x = monthly_income, y = job_role, fill = gender)) + 
+  geom_boxplot() +
   theme(axis.text.x = element_text(angle = 90),
         plot.title = element_text(hjust = 0.5),
         legend.position = "top") + 
@@ -651,7 +659,8 @@ fill = NULL)
 
 
 # Barcelona
-ggplot(mydb%>%filter(city == "Barcelona"), aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplot() +
+ggplot(mydb%>%filter(city == "Barcelona"), 
+       aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplot() +
   theme(axis.text.x = element_text(angle = 90),
         plot.title = element_text(hjust = 0.5),
         legend.position = "top") + 
@@ -661,7 +670,8 @@ y = "job role",
 fill = NULL)
 
 # London
-ggplot(mydb%>%filter(city == "London"), aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplot() +
+ggplot(mydb%>%filter(city == "London"), 
+       aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplot() +
   theme(axis.text.x = element_text(angle = 90),
         plot.title = element_text(hjust = 0.5),
         legend.position = "top") + 
@@ -682,7 +692,10 @@ mod2 <- lm(monthly_income ~ gender, data = mydb)
 summary(mod2)
 
 names(mydb)
-mod3 <- lm(monthly_income ~ age + gender + business_travel + education_field + education + distance_from_home + job_level + job_role + marital_status + total_working_years + performance_rating + years_at_company, data = mydb)
+mod3 <- lm(monthly_income ~ age + gender + business_travel + 
+             education_field + education + distance_from_home + 
+             job_level + job_role + marital_status + total_working_years + 
+             performance_rating + years_at_company, data = mydb)
 summary(mod3)
 
 rm(mod1, mod2, mod3)
@@ -875,7 +888,11 @@ mydb$attrition <-ifelse(mydb$attrition=="Yes",1,0)
 mod1 <- glm(attrition ~ ., data = mydb)
 summary(mod1)
 
-mod2 <- glm(attrition ~ age + business_travel + distance_from_home + environment_satisfaction + job_involvement + job_role + job_satisfaction + num_companies_worked + over_time + relationship_satisfaction + training_times_last_year + work_life_balance + years_since_last_promotion, data = mydb)
+mod2 <- glm(attrition ~ age + business_travel + distance_from_home +
+              environment_satisfaction + job_involvement + job_role + 
+              job_satisfaction + num_companies_worked + over_time + 
+              relationship_satisfaction + training_times_last_year + 
+              work_life_balance + years_since_last_promotion, data = mydb)
 summary(mod2)
 
 rm(mod1, mod2)
@@ -1000,7 +1017,8 @@ That is can due to the fact that , doing further analysis on the number of emplo
 However to have a main view of the graph presented as now we resume them in this picture :
 
 ```{r, fig.align='left'}
-grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, ncol = 3, top = "Comparison between job satisfaction and gender")
+grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, ncol = 3, 
+             top = "Comparison between job satisfaction and gender")
 
 # clean variables
 rm(g1, g2, g3, g4, g5, g6, g7, g8, g9)
@@ -1030,7 +1048,8 @@ Generally there is a medium level of satisfaction dor R&D and Sales department w
 #### London , Male
 
 ```{r}
-ggplot(mydb%>%filter(city == "London", gender== "Male"), aes(x= department, y= environment_satisfaction, fill = department))+
+ggplot(mydb%>%filter(city == "London", gender== "Male"), 
+       aes(x= department, y= environment_satisfaction, fill = department))+
   geom_boxplot(show.legend = FALSE)
 ```
 Firstly we have filtered per "Male" and "London" and as in the previous analysis we observe a medium low trend for male in Human Resources department.
@@ -1040,7 +1059,8 @@ For the other two business unit we observe a constant trend that we have found a
 #### London , Female
 
 ```{r}
-ggplot(mydb%>%filter(city == "London", gender== "Female"), aes(x= department, y= environment_satisfaction, fill = department))+
+ggplot(mydb%>%filter(city == "London", gender== "Female"), 
+       aes(x= department, y= environment_satisfaction, fill = department))+
   geom_boxplot(show.legend = FALSE)
 ```
 As we were supposing to see the medium low level in Human Resources for male is balanced in the female as to reach in general the medium trend (=3) of environment satisfaction which we can also find for the other 2 department.
@@ -1048,7 +1068,8 @@ As we were supposing to see the medium low level in Human Resources for male is 
 #### Barcelona , Male 
 
 ```{r}
-ggplot(mydb%>%filter(city == "Barcelona", gender== "Male"), aes(x= department, y= environment_satisfaction, fill = department))+
+ggplot(mydb%>%filter(city == "Barcelona", gender== "Male"), 
+       aes(x= department, y= environment_satisfaction, fill = department))+
   geom_boxplot(show.legend = FALSE)
 ```
 For the city of Barcelona it's confirmed the unsatisfaction( in this case related if the environment) for male in Human Resource department : in fact even if we have 1st quantile = 4 , we see the median equal to 2 , value that can not be appreciated by the company.
@@ -1057,7 +1078,8 @@ R&D presents a positive average of values with the 1st quantile =4 and the media
 #### Barcellona , Female
 
 ```{r}
-ggplot(mydb%>%filter(city == "Barcelona", gender== "Female"), aes(x= department, y= environment_satisfaction, fill = department))+
+ggplot(mydb%>%filter(city == "Barcelona", gender== "Female"), 
+       aes(x= department, y= environment_satisfaction, fill = department))+
   geom_boxplot()+ labs(show.legend = FALSE)
 ```
 
@@ -1094,24 +1116,30 @@ A more deepen analysis on the behavior of the workers in this company, the appro
 
 ```{r}
 
-mean.envi<-mydb%>%group_by(department)%>%summarise(mean.env.sat= mean(environment_satisfaction))
+mean.envi<-mydb%>%group_by(department)%>%
+  summarise(mean.env.sat= mean(environment_satisfaction))
 mean.envi$mean.env.sat
-ggplot(mean.envi, aes(x = department, y= mean.env.sat, fill = department))+ geom_col()
+ggplot(mean.envi, aes(x = department, y= mean.env.sat, fill = department))+ 
+  geom_col()
 ```
 
 
 ```{r}
-mean.years.cur.Man<-mydb%>%filter(attrition == "0")%>%group_by(department)%>%summarise(currman= mean(years_with_curr_manager))
+mean.years.cur.Man<-mydb%>%filter(attrition == "0")%>%
+  group_by(department)%>%summarise(currman= mean(years_with_curr_manager))
 
-ggplot(mean.years.cur.Man, aes(x = department, y= currman, fill = department))+ geom_col()
+ggplot(mean.years.cur.Man, aes(x = department, y= currman, fill = department))+ 
+  geom_col()
 
 ```
 
 
 ```{r}
-perf.rating.dep<-mydb%>%filter(attrition == "0")%>%group_by(department)%>%summarise(perf.mean= mean(performance_rating))
+perf.rating.dep<-mydb%>%filter(attrition == "0")%>%group_by(department)%>%
+  summarise(perf.mean= mean(performance_rating))
 
-ggplot(perf.rating.dep, aes(x = department, y= perf.mean, fill = department))+ geom_col()
+ggplot(perf.rating.dep, aes(x = department, y= perf.mean, fill = department))+ 
+  geom_col()
 
 ```
 
@@ -1190,8 +1218,14 @@ barcelona_data$monthly_income <- as.numeric(barcelona_data$monthly_income)
 
 ## UK Comparation
 ```{r}
-ggplot(london_data%>%filter(JobSatisfaction == "Extremely satisfied"), aes(x= CompanySize, fill = JobSatisfaction))+ geom_bar()+
-  theme( axis.text.x  = element_text(angle=45, hjust=1, vjust=0.9))+ scale_x_discrete(limits = c("Fewer than 10 employees","10 to 19 employees","20 to 99 employees", "100 to 499 employees","500 to 999 employees", "1,000 to 4,999 employees", "5,000 to 9,999 employees", "10,000 or more employees"))
+ggplot(london_data%>%filter(JobSatisfaction == "Extremely satisfied"), 
+       aes(x= CompanySize, fill = JobSatisfaction))+ geom_bar()+
+  theme( axis.text.x  = element_text(angle=45, hjust=1, vjust=0.9))+ 
+  scale_x_discrete(limits = c("Fewer than 10 employees","10 to 19 employees",
+                              "20 to 99 employees", "100 to 499 employees",
+                              "500 to 999 employees", "1,000 to 4,999 employees", 
+                              "5,000 to 9,999 employees", 
+                              "10,000 or more employees"))
 ```
 
 
@@ -1201,7 +1235,15 @@ As we can see from this graph in the Uk if people work in a company which is sma
 
 ```{r, warning=FALSE}
 ggplot(london_data, aes(x= CompanySize , fill = CareerSatisfaction))+ geom_bar()+
-  theme( axis.text.x  = element_text(angle=45, hjust=1, vjust=0.9))+ scale_x_discrete(limits = c("Fewer than 10 employees","10 to 19 employees","20 to 99 employees", "100 to 499 employees","500 to 999 employees", "1,000 to 4,999 employees", "5,000 to 9,999 employees", "10,000 or more employees"))
+  theme( axis.text.x  = element_text(angle=45, hjust=1, vjust=0.9))+
+scale_x_discrete(limits = c("Fewer than 10 employees",
+                           "10 to 19 employees",
+                           "20 to 99 employees", 
+                           "100 to 499 employees",
+                           "500 to 999 employees", 
+                           "1,000 to 4,999 employees", 
+                           "5,000 to 9,999 employees", 
+                           "10,000 or more employees"))
 ```
 
 ## Barcelona Comparation

@@ -46,7 +46,7 @@ Let's consider that the new CEO of a specific IT company has contacted us becaus
 
 The software used for the development of the study and the writing of the report is R[1]. The first step is to define the work directory and to load the libraries needed:  
 
-```{r, echo = FALSE, message=FALSE, warning=FALSE, echo=TRUE}
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
 # Libraries
 library(tidyverse)
 library(ggplot2)
@@ -549,7 +549,10 @@ mydb %>%
   labs(title = "Average Monthly Income by Gender",
        x = NULL,
        y = NULL)
+```
 
+## {.codefont}
+```{r, echo = FALSE}
 ggplot(mydb, 
        aes(x=age, y=monthly_income, colour=gender)) + 
   geom_smooth(method = 'loess', formula = y ~ x, se=F) + labs(
@@ -567,7 +570,10 @@ Performance rating education field.
 ggplot(mydb, aes(y= education_field, x = monthly_income, fill = gender))+ 
   labs(y = "Eduction Field", x = "Monthly Income", title = "Income per gender and Education field") +
   geom_boxplot()
+```
 
+## {.codefont}
+```{r, echo = FALSE}
 # Barcelona
 g1 <- ggplot(mydb%>%filter(city == "Barcelona"), aes(y= education_field, x = monthly_income, fill = gender))+ 
   labs(y = "Eduction Field", x = "Monthly Income", title = "Barcelona") +
@@ -582,6 +588,7 @@ grid.arrange(g1, g2, nrow = 2)
 rm(g1, g2)
 ```
 
+## {.codefont}
 So, in the first graph we can see that there are some differences. Hence we decided to locate them and understood that the major problems are in Barcelona. In fact, in the HR sector, women have an higher salary than men, also for technical degree we can see how the female gender seems to have a clear advantage on that. 
 
 Clearly, per education field we can see also that in some cases also the male gender seems to have a slightly higer salary, but the main focus are those from which the discrepancy are very high, such as HR in Barcelona and Technical Degree, always in Barcelona. 
@@ -597,8 +604,10 @@ ggplot(mydb, aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplo
 x = "monthly income",
 y = "job role",
 fill = NULL)
+```
 
-
+## {.codefont}
+```{r, echo = FALSE}
 # Barcelona
 ggplot(mydb%>%filter(city == "Barcelona"), aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplot() +
   theme(axis.text.x = element_text(angle = 90),
@@ -608,7 +617,10 @@ ggplot(mydb%>%filter(city == "Barcelona"), aes(x = monthly_income, y = job_role,
 x = "monthly income",
 y = "job role",
 fill = NULL)
+```
 
+## {.codefont}
+```{r, echo = FALSE}
 # London
 ggplot(mydb%>%filter(city == "London"), aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplot() +
   theme(axis.text.x = element_text(angle = 90),
@@ -1324,35 +1336,40 @@ We mainly see that in Barcelona the average monthly income is almost the same be
 ## {.emphasized}
 
 
-[1] R Core Team (2016). R: A language and environment for statistical computing.
-  R Foundation for Statistical Computing, Vienna, Austria. URL   https://www.R-project.org/.
+[1] R Core Team (2016). R: A language and environment for statistical computing. R Foundation for
+Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
 
-[2] Nathaniel Phillips (2017). yarrr: A Companion to the e-Book "YaRrr!: The Pirate's Guide to R". R package version 0.1.5.   https://CRAN.R-project.org/package=yarrr
+[2] Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software,
+  4(43), 1686, https://doi.org/10.21105/joss.01686
 
-[3] Hadley Wickham, Romain François, Lionel Henry and Kirill Müller (2018). dplyr: A Grammar of Data Manipulation. R package version 0.7.5. https://CRAN.R-project.org/package=dplyr
+[3] H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
 
-[4] Hadley Wickham, RStudio (2021). tidyverse: A set of packages that work in harmony because they share common data representations and 'API' design. R package version 	1.3.1. https://CRAN.R-project.org/package=tidyverse
+[4] Barret Schloerke, Di Cook, Joseph Larmarange, Francois Briatte, Moritz Marbach, Edwin Thoen, Amos Elberg
+  and Jason Crowley (2021). GGally: Extension to 'ggplot2'. R package version 2.1.2.
+  https://CRAN.R-project.org/package=GGally
+  
+[5] Baptiste Auguie (2017). gridExtra: Miscellaneous Functions for "Grid" Graphics. R package version 2.3.
+  https://CRAN.R-project.org/package=gridExtra
+  
+[6] Sam Firke (2021). janitor: Simple Tools for Examining and Cleaning Dirty Data. R package version 2.1.0.
+  https://CRAN.R-project.org/package=janitor
+  
+[7] Silge J, Robinson D (2016). “tidytext: Text Mining and Analysis Using Tidy Data Principles in R.” _JOSS_,
+*1*(3). doi: 10.21105/joss.00037 (URL: https://doi.org/10.21105/joss.00037), <URL:
+http://dx.doi.org/10.21105/joss.00037>.
 
-[5] Sam Firke, Bill Denney, Chris Haid, Ryan Knight, Malte Grosser, Jonathan Zadra (2021). janitor: Can perfectly format data.frame column names; provide quick counts of variable combinations (i.e., frequency tables and crosstabs); and isolate duplicate records. Other janitor functions nicely format the tabulation results. These tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel. This package follows the principles of the "tidyverse" and works well with the pipe function %>%. janitor was built with beginning-to-intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff. R package version 	2.1.0. https://CRAN.R-project.org/package=janitor
+[8] Jim Hester (2021). glue: Interpreted String Literals. R package version 1.5.0.
+  https://CRAN.R-project.org/package=glue
 
-[6] Max Kuhn, Hadley Wickham, RStudio (2021). tidymodels: The tidy modeling "verse" is a collection of packages for modeling and statistical analysis that share the underlying design philosophy, grammar, and data structures of the tidyverse. R package version 	0.1.4. https://CRAN.R-project.org/package=tidymodels
+[9]  Hadley Wickham and Dana Seidel (2020). scales: Scale Functions for Visualization. R package version
+  1.1.1. https://CRAN.R-project.org/package=scales
 
-[7] Hadley Wickham, Jim Hester, Romain Francois, RStudio,Jukka Jylänki, Mikkel Jørgensen (2021). readr: The goal of 'readr' is to provide a fast and friendly way to read rectangular data (like 'csv', 'tsv', and 'fwf'). It is designed to flexibly parse many types of data found in the wild, while still cleanly failing when data unexpectedly changes. R package version 	2.0.2. https://CRAN.R-project.org/package=readr 
+[10]  C. Sievert. Interactive Web-Based Data Visualization with R, plotly, and shiny. Chapman and Hall/CRC
+  Florida, 2020.
+  
+[11] Erich Neuwirth (2014). RColorBrewer: ColorBrewer Palettes. R package version 1.1-2.
+  https://CRAN.R-project.org/package=RColorBrewer
 
-[8] Hadley Wickham, Jennifer Bryan, RStudio, Marcin Kalicinski, Komarov Valery, Christophe Leitienne, Bob Colbert, David Hoerl, Evan Miller (2019). readxl: Import excel files into R. Supports '.xls' via the embedded 'libxls' C library <https://github.com/libxls/libxls> and '.xlsx' via the embedded 'RapidXML' C++ library <http://rapidxml.sourceforge.net>. R package version 	1.3.1. https://CRAN.R-project.org/package=readxl
-
-[9] Hadley Wickhame, Evan Miller, RStudio (2021). haven: Import foreign statistical formats into R via the embedded 'ReadStat' C library, <https://github.com/WizardMac/ReadStat>. R package version 2.4.3. https://CRAN.R-project.org/package=haven
-
-[10] Vitalie Spinu , Garrett Grolemund,Hadley Wickham , Davis Vaughan, Ian Lyttle , Imanuel Costigan , Jason Law , Doug Mitarotonda, Joseph Larmarange , Jonathan Boiser , Chel Hee Lee , Google Inc.(2010).
-lubridate :functions to work with date-times and time-spans: fast and user friendly parsing of date-time data, extraction and updating of components of a date-time (years, months, days, hours, minutes, and seconds), algebraic manipulation on date-time and time-span objects. The 'lubridate' package has a consistent and memorable syntax that makes working with dates easy and fun. Parts of the 'CCTZ' source code, released under the Apache 2.0 License, are included in this package. See <https://github.com/google/cctz> for more details. R package version   1.8.0.
- https://CRAN.R-project.org/package=lubridate
-
-[11] Hadley Wickham, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke , Kara Woo, Hiroaki Yutani, Dewey Dunnington, RStudio (2021). ggplot2: A system for 'declaratively' creating graphics, based on "The Grammar of Graphics". You provide the data, tell 'ggplot2' how to map variables to aesthetics, what graphical primitives to use, and it takes care of the details. R package version 	3.3.5. https://CRAN.R-project.org/package=ggplot2
-
-[12] Baptiste Auguie , Anton Antonov (2017). gridExtra :provides a number of user-level functions to work with "grid" graphics, notably to arrange multiple grid-based plots on a page, and draw tables.
-R package version 2.3. https://CRAN.R-project.org/package=gridExtra
-
-[13] Hadley Wickham (2020). reshape2: Flexibly restructure and aggregate data using just two functions: melt and 'dcast' (or 'acast'). R package version 1.4.4. https://CRAN.R-project.org/package=reshape2
 
 ----
 
