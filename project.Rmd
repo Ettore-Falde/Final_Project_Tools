@@ -904,7 +904,7 @@ For this reason our studyings are focused on the variable and their trends:
 
 ### 1-Job_satisfaction
 
-###  Gender and Department
+####  Gender and Department
 
 Considering the satisfaction of our employees to make a first summary of the data we represent its value in each department differentiated per gender.
 For this section we use some boxplot to explain our results as to have an idea on the main distribution of the values between different factor we will consider later.
@@ -938,7 +938,7 @@ It's relevant the distribution for male in the Human resource business unit,  wh
 A possible way to go further in our analysis is to study the possible differences in the feelings of the workers between London and Barcellona to understand if there are some parameters or other point to go into detail.
 In this way we compare for each department the level of satisfaction per gender.
 
-### Sales department , Gender
+#### Sales department , Gender
 
 ```{r}
 ##Sales  London
@@ -957,7 +957,7 @@ grid.arrange(g4,g5, ncol = 2)
 ```
 Starting from Sales department we do not observe any peculiarity as the 2 graph are equal ; in general we can assume a medium level of satisfaction of the workers in this field, which stands at the value "3".
 
-### R&D department , Gender
+#### R&D department , Gender
 
 ```{r}
 ##Research & Development London 
@@ -979,7 +979,7 @@ grid.arrange(g6,g7, ncol = 2)
  For R&D we observe another time a regular trend close to 3 as average value of satisfaction.
  The only relevant note is the equality between the median and the 3rd quantile at the value 3, but except for that we can consider this as a medium satisfaction level department.
 
-### HR department , Gender
+#### HR department , Gender
 
 ```{r}
 ##Human Resource London
@@ -1037,7 +1037,7 @@ ggplot(mydb,
 ```
 ### Environemnt_satisfaction
 
-### Environment Satisfaction per department
+#### Environment Satisfaction per department
 
 Now we focus on the satisfaction on the workplace and we try to go deepen if there are some interesting aspects into the single department.
 
@@ -1049,7 +1049,7 @@ ggplot(mydb, aes(x= department, y= environment_satisfaction, fill = department))
 Generally there is a medium level of satisfaction dor R&D and Sales department while we see a medium negative attitude in Human Resources . However this pattern is not so oustanding , reason for what we decide to go deepen in considerations per gender and per city.
 
 
-### London , Male
+#### London , Male
 
 ```{r}
 ggplot(mydb%>%filter(city == "London", gender== "Male"), aes(x= department, y= environment_satisfaction, fill = department))+
@@ -1059,7 +1059,7 @@ Firstly we have filtered per "Male" and "London" and as in the previous analysis
 For the other two business unit we observe a constant trend that we have found also considering job_satisfaction.
 
 
-### London , Female
+#### London , Female
 
 ```{r}
 ggplot(mydb%>%filter(city == "London", gender== "Female"), aes(x= department, y= environment_satisfaction, fill = department))+
@@ -1067,7 +1067,7 @@ ggplot(mydb%>%filter(city == "London", gender== "Female"), aes(x= department, y=
 ```
 As we were supposing to see the medium low level in Human Resources for male is balanced in the female as to reach in general the medium trend (=3) of environment satisfaction which we can also find for the other 2 department.
 
-### Barcelona , Male 
+#### Barcelona , Male 
 
 ```{r}
 ggplot(mydb%>%filter(city == "Barcelona", gender== "Male"), aes(x= department, y= environment_satisfaction, fill = department))+
@@ -1076,7 +1076,7 @@ ggplot(mydb%>%filter(city == "Barcelona", gender== "Male"), aes(x= department, y
 For the city of Barcelona it's confirmed the unsatisfaction( in this case related if the environment) for male in Human Resource department : in fact even if we have 1st quantile = 4 , we see the median equal to 2 , value that can not be appreciated by the company.
 R&D presents a positive average of values with the 1st quantile =4 and the median=3 while the Sales department has lowest value distribution that stay most in a range between 2 and 3.
 
-### Barcellona , Female
+#### Barcellona , Female
 
 ```{r}
 ggplot(mydb%>%filter(city == "Barcelona", gender== "Female"), aes(x= department, y= environment_satisfaction, fill = department))+
@@ -1088,7 +1088,7 @@ However, as we were expecting , Human Resources department follows a pretty posi
 
 This series of graph so confirms the big differences between male and female satisfaction level just for the city of Barcelona.
 
-### Regression 
+#### Regression 
 
 We firstly try to interpretate the variable "job_satisfaction" and "environemnt_satisfaction" using the linear regression model :
 

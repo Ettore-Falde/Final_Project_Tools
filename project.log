@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.12.18)  20 DEC 2021 18:56
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.12.18)  20 DEC 2021 19:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1546,9 +1546,14 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
 [49]
-File: project_files/figure-latex/unnamed-chunk-45-1.pdf Graphic file (type pdf)
+File: project_files/figure-latex/unnamed-chunk-46-1.pdf Graphic file (type pdf)
 
-<use project_files/figure-latex/unnamed-chunk-45-1.pdf>
+<use project_files/figure-latex/unnamed-chunk-46-1.pdf>
+
+Underfull \hbox (badness 10000) in paragraph at lines 1896--1898
+[][]
+ []
+
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -1564,7 +1569,7 @@ File: project_files/figure-latex/unnamed-chunk-47-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-47-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1910--1912
+Underfull \hbox (badness 10000) in paragraph at lines 1913--1918
 [][]
  []
 
@@ -1583,7 +1588,7 @@ File: project_files/figure-latex/unnamed-chunk-48-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-48-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1927--1932
+Underfull \hbox (badness 10000) in paragraph at lines 1929--1934
 [][]
  []
 
@@ -1602,7 +1607,7 @@ File: project_files/figure-latex/unnamed-chunk-49-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-49-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1943--1948
+Underfull \hbox (badness 10000) in paragraph at lines 1945--1950
 [][]
  []
 
@@ -1621,7 +1626,7 @@ File: project_files/figure-latex/unnamed-chunk-50-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-50-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1959--1964
+Underfull \hbox (badness 10000) in paragraph at lines 1961--1969
 [][]
  []
 
@@ -1639,11 +1644,6 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 File: project_files/figure-latex/unnamed-chunk-51-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-51-1.pdf>
-
-Underfull \hbox (badness 10000) in paragraph at lines 1975--1983
-[][]
- []
-
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -1655,9 +1655,6 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
 [55]
-File: project_files/figure-latex/unnamed-chunk-52-1.pdf Graphic file (type pdf)
-
-<use project_files/figure-latex/unnamed-chunk-52-1.pdf>
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -1713,6 +1710,9 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
 [60]
+File: project_files/figure-latex/unnamed-chunk-54-1.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-54-1.pdf>
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -1724,6 +1724,9 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
 [61]
+File: project_files/figure-latex/unnamed-chunk-55-1.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-55-1.pdf>
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -1746,6 +1749,14 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
 [63]
+File: project_files/figure-latex/unnamed-chunk-57-1.pdf Graphic file (type pdf)
+
+<use project_files/figure-latex/unnamed-chunk-57-1.pdf>
+
+Underfull \hbox (badness 10000) in paragraph at lines 2384--2387
+[][]
+ []
+
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -1757,9 +1768,9 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
 [64]
-File: project_files/figure-latex/unnamed-chunk-55-1.pdf Graphic file (type pdf)
+File: project_files/figure-latex/unnamed-chunk-58-1.pdf Graphic file (type pdf)
 
-<use project_files/figure-latex/unnamed-chunk-55-1.pdf>
+<use project_files/figure-latex/unnamed-chunk-58-1.pdf>
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -1771,9 +1782,14 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
 [65]
-File: project_files/figure-latex/unnamed-chunk-56-1.pdf Graphic file (type pdf)
+File: project_files/figure-latex/unnamed-chunk-58-2.pdf Graphic file (type pdf)
 
-<use project_files/figure-latex/unnamed-chunk-56-1.pdf>
+<use project_files/figure-latex/unnamed-chunk-58-2.pdf>
+
+Underfull \hbox (badness 10000) in paragraph at lines 2431--2434
+[][]
+ []
+
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -1796,14 +1812,6 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
 [67]
-File: project_files/figure-latex/unnamed-chunk-58-1.pdf Graphic file (type pdf)
-
-<use project_files/figure-latex/unnamed-chunk-58-1.pdf>
-
-Underfull \hbox (badness 10000) in paragraph at lines 2569--2572
-[][]
- []
-
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -1814,72 +1822,17 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
-[68]
-File: project_files/figure-latex/unnamed-chunk-59-1.pdf Graphic file (type pdf)
-
-<use project_files/figure-latex/unnamed-chunk-59-1.pdf>
-File: upc-positiu-p3005.png Graphic file (type bmp)
-<upc-positiu-p3005.png>
-
-Package fancyhdr Warning: \headheight is too small (28.0pt): 
-(fancyhdr)                Make it at least 46.25409pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.25409pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
-
-[69]
-File: project_files/figure-latex/unnamed-chunk-59-2.pdf Graphic file (type pdf)
-
-<use project_files/figure-latex/unnamed-chunk-59-2.pdf>
-
-Underfull \hbox (badness 10000) in paragraph at lines 2616--2619
-[][]
- []
-
-File: upc-positiu-p3005.png Graphic file (type bmp)
-<upc-positiu-p3005.png>
-
-Package fancyhdr Warning: \headheight is too small (28.0pt): 
-(fancyhdr)                Make it at least 46.25409pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.25409pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
-
-[70]
-File: upc-positiu-p3005.png Graphic file (type bmp)
-<upc-positiu-p3005.png>
-
-Package fancyhdr Warning: \headheight is too small (28.0pt): 
-(fancyhdr)                Make it at least 46.25409pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.25409pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
-
-[71]
-File: upc-positiu-p3005.png Graphic file (type bmp)
-<upc-positiu-p3005.png>
-
-Package fancyhdr Warning: \headheight is too small (28.0pt): 
-(fancyhdr)                Make it at least 46.25409pt, for example:
-(fancyhdr)                \setlength{\headheight}{46.25409pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-
-(fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
-
-[72] (./project.aux)
+[68] (./project.aux)
 Package rerunfilecheck Info: File `project.out' has not changed.
 (rerunfilecheck)             Checksum: 56246D215C027B75467831190764DB0E;6688.
  ) 
 Here is how much of TeX's memory you used:
- 17519 strings out of 478256
- 336159 string characters out of 5854791
- 797328 words of memory out of 5000000
- 37779 multiletter control sequences out of 15000+600000
+ 17511 strings out of 478256
+ 335743 string characters out of 5854791
+ 783328 words of memory out of 5000000
+ 37772 multiletter control sequences out of 15000+600000
  409881 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  86i,13n,121p,826b,474s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on project.pdf (72 pages).
+Output written on project.pdf (68 pages).
