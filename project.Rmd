@@ -622,6 +622,40 @@ So, in the first graph we can see that there are some differences. Hence we deci
 Clearly, per education field we can see also that in some cases also the male gender seems to have a slightly higer salary, but the main focus are those from which the discrepancy are very high, such as HR in Barcelona and Technical Degree, always in Barcelona. 
 
 
+Moreover, we want also to understand if for the same job role the gender has a crucial role in the determination of the monthly income of each employee. 
+```{r}
+ggplot(mydb, aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "Number of Employees by Job Role and Gender",
+x = "monthly income",
+y = "job role",
+fill = NULL)
+
+
+# Barcelona
+ggplot(mydb%>%filter(city == "Barcelona"), aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "Barcelona",
+x = "monthly income",
+y = "job role",
+fill = NULL)
+
+# London
+ggplot(mydb%>%filter(city == "London"), aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "London",
+x = "monthly income",
+y = "job role",
+fill = NULL)
+```
+Hence, we can understand that also in this case the majority of the problem related to gender are located in Barcelona. 
+
 ### Regression
 To conclude, we wanted also to see if the gender is a relevan variable that affect _monthly_income_ or other variables relavant for our study. 
 ```{r}
@@ -766,7 +800,7 @@ bar_plot_proportions(department, attrition)
 Here instead, we can see how the R&D department seems the one with higher attrition. Anyway, we have also have to take into consideration that the majority of the people inside the company work in this department. 
 
 
-Now, we want to study also the 
+Now, we want to study also the _job_role_ versus the _attrition_ variable. This would tell us what are the most common job positions that will affect this variable and where we can work in order to reduce the percentage of people who leave the company in the specific job role. 
 ```{r}
 plt_job_role <- bar_plot_proportions(job_role)
 plt_job_role_att <- bar_plot_proportions(job_role, attrition) 
@@ -778,8 +812,9 @@ plt_job_role_att <- bar_plot_proportions(job_role, attrition)
 ) & 
   theme(plot.caption = element_text(color = "#969696", size = 7))
 ```
+In this case, Laboratory Technician, Sales Executive, Research Scientist and Sales Representative, tend to leave the organisation more than others.
 
-
+Another interesting graph that we can draw is the proportion of education version attrition.
 ```{r}
 plt_education_field <- bar_plot_proportions(education_field)
 plt_education_field_att <- bar_plot_proportions(education_field, attrition) 
@@ -788,28 +823,50 @@ plt_education_field_att <- bar_plot_proportions(education_field, attrition)
    plt_education_field_att) + 
   plot_annotation(
   title = "Proportions of Education field VS Attrition",
-  caption = "Data Source: Kaggle IBM HR Employee Attrition"
+  caption = ""
 ) & 
   theme(plot.caption = element_text(color = "#969696", size = 7))
 ```
 
+Hence, life sciences, meical will leave the company mroe frequently than the others. 
+
+
+Another variable that can affect the attrition is the dummy variable if the employees work over time or not. 
+```{r}
+plt_education_field <- bar_plot_proportions(over_time)
+plt_education_field_att <- bar_plot_proportions(over_time, attrition) 
+
+(plt_education_field /
+   plt_education_field_att) + 
+  plot_annotation(
+  title = "Proportions of over time work VS Attrition",
+  caption = ""
+) & 
+  theme(plot.caption = element_text(color = "#969696", size = 7))
+```
+Therefore, we can conclude that if employees work more overtime they would tend to leave the company more than the people who do not. 
+This variable is extremely significant becase as we can see the majority of the workers don't work overtime.
+
+
+
 ### Regression
+In order to deal with _attrition_ we have to convert the yes or no variable into a binary variable. Once we did that we can work with the logistic regression model. 
+Obviously, we are dealing now with a dummy variable. Hence, we can try to understand what are the variables that will affect our attrition. 
 ```{r}
 
 mydb$attrition <-ifelse(mydb$attrition=="Yes",1,0)
+
 mod1 <- glm(attrition ~ ., data = mydb)
 summary(mod1)
 
-# mod2 <- lm(monthly_income ~ gender, data = mydb)
-# summary(mod2)
-# 
-# names(mydb)
-# mod3 <- lm(monthly_income ~ age + gender + business_travel + education_field + education + distance_from_home + job_level + job_role + marital_status + total_working_years + performance_rating + years_at_company, data = mydb)
-# summary(mod3)
+mod2 <- glm(attrition ~ age + business_travel + distance_from_home + environment_satisfaction + job_involvement + job_role + job_satisfaction + num_companies_worked + over_time + relationship_satisfaction + training_times_last_year + work_life_balance + years_since_last_promotion, data = mydb)
+summary(mod2)
 
-rm(mod1, mod2, mod3)
+rm(mod1, mod2)
 ```
+To sum up, we can see that in the first regression we can see the diferent types of variables and their correlations, while in the second model we took only those variable with a low p-value in the _mod1_.
 
+In conclusion the _mod2_ shows all the variables that have a significative effect in the the definition of the attrition variable. 
 
 
 
