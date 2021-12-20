@@ -1021,19 +1021,6 @@ median_mi <- round(median(mydb$monthly_income),2)
 ```
 
 
-```{r}
-ggplot(mydb,
-       aes(x = gender,
-           y = monthly_income,
-           fill = gender)) +
-  geom_boxplot(show.legend = FALSE) +
-  coord_flip() +
-   scale_y_continuous(labels = label_dollar()) +
-  labs(title = "The gender gap in monthly income",
-       caption = "Data Source: Kaggle IBM HR Employee Attrition",
-       x = "Gender",
-       y = "Monthly Income")
-```
 ### Environemnt_satisfaction
 
 #### Environment Satisfaction per department
