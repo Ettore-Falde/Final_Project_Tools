@@ -1,7 +1,7 @@
 ---
 title: "Final Project"
 author: "Ettore Falde, Samoussa Fofana, Federico Basaglia"
-date: "11/29/2021"
+date: "12/20/2021"
 header-includes: 
    \usepackage{titling}
    \pretitle{\begin{center}\LARGE\includegraphics[width=12cm]{upc-positiu-p3005.png}\\[\bigskipamount]}
@@ -16,9 +16,6 @@ output:
   pdf_document:
     latex_engine: xelatex
     number_sections: yes
-  
-   
-
 ---
 
 \newpage
@@ -1263,70 +1260,72 @@ To conclude, we can understand here how the people between 65 and 74 years old h
 
 
 # Conclusions
-In the analysis we reach some conclusion let's take a look on what we reach.
+In the analysis, we reach some conclusions let's take a look at what we reach.
 
-We started by analyzing the frequency of the different role that we have in the dataset, we obtained that looking at the whole data set without differentiating by city the most frequent role are:
+We started by analyzing the frequency of the different roles that we have in the dataset, we obtained that looking at the whole data set without differentiating by city the most frequent role are:
 
 - Sales Executive
 - Research Scientist
 - Laboratory technician
 
-The next step is relate to see if this path is followed also in the two city. The second graph show us that the distribution of the role is the same in both city.
+The next step is related to see if this path is followed also in the two cities. The second graph shows us that the distribution of the role is the same in both cities.
 
-Proceeding forward, we shift on the gender analysis to understand if both company reach the goal of the gender equality.
+Proceeding forward, we shift on the gender analysis to understand if both companies reach the goal of gender equality.
 
-We fisrst calculate some statistcs indicator of the distribution of the monthly income, obtaining an average monthly income of 6510 euro.
+We first calculate some statistics indicator of the distribution of the monthly income, obtaining an average monthly income of 6510 euro.
 
-We plotted a graph that show the genral situation of the whole company, and there we can see that on average the monthly income of the female employee tend to be higher. In fact, the average monthly income for male is 6395.65 while for the female is 6682.85 euro.
+We plotted a graph that shows the general situation of the whole company, and there we can see that on average the monthly income of the female employee tends to be higher. The average monthly income for males is 6395.65 while for females is 6682.85 euros.
 
-The next step will be to analyze the same point but after a distinction between the two different city. 
+The next step will be to analyze the same point but after a distinction between the two different cities. 
 
 In both the city the monthly income of the female is higher than the male, but the gap in Barcelona is more significant.
 
-Let's shift to the result that take in consideration also the department to which the employee belong.
+Let's shift to the result that takes into consideration also the department to which the employee belongs.
 
-In general the number of male per department is always higher with respect to the female, and the majority of personnel work in the Research & Development.
+In general, the number of males per department is always higher concerning the female, and the majority of personnel work in the Research & Development.
 
-As before we will take a look also in the two different city. The gap between the gender per department is very high in London, but in Barcelona the HR department respect the gender eqaulity, so our CEO need to work firstly on the department of Sales and Research & Development.
+As before we will take a look also in the two different cities. The gap between the gender per department is very high in London, but in Barcelona, the HR department respect gender equality, so our CEO needs to work firstly on the department of Sales and Research & Development.
 
-Let's shift now on the job role, in all the role we have more male than female. From the graph where we don't differentiate between the city, all the role has more male than girl except the Manufacturing director role where the number of male and female are almost the same. We can state the same conclusion also if we analyze only London. In the case of Barcelona we have a slight difference, the female are higher in three role.
+Let's shift now to the job role, in all the roles we have more males than females. From the graph where we don't differentiate between the city, all the role has more male than girl except the Manufacturing director role where the number of male and female are almost the same. We can state the same conclusion also if we analyze only London. In the case of Barcelona, we have a slight difference, the female is higher in the three roles.
 
 - Manager
 - Research Director 
 - Manufacturing director
 
-Now, we want to write done the result obtained once we put in relation the monthly income versus the years in the company differentiating by gender and then by city also.
+Now, we want to write done the result obtained once we put in relation the monthly income versus the years in the company differentiating by gender and then by the city also.
 
-The whole picture dhow us that  in the initial stage the female tend to get more money with respect to the male, then in the middle stage from 8 years till 20 the income is almost the same, but in the final stage so after 20 years of seniority the gap between female and male increase in the favor of the male.
+The whole picture dhow us that in the initial stage the female tends to get more money than the male, then in the middle stage from 8 years till 20 the income is almost the same, but in the final stage so after 20 years of seniority the gap between the female and male increase in the favor of the male.
 
-Looking to the two city, we can state the same things only the duration of the middle stage change, because now the male start earn more money 15 years of seniority. In barcelona the picture is totally different, female employee tend to earn more almost always.
+Looking at the two cities, we can state the same things only the duration of the middle stage change, because now the male start earns more money 15 years of seniority. In Barcelona the picture is different, female employees tend to earn more almost always.
 
-Let's consider the monthly income in relation to the different department and differentiate also by gender. 
+Let's consider the monthly income of the different departments and differentiate also by gender. 
 
-In the graph where we consider at the same time both the city we can see that the differences in income are present in the education field of technical degree and Human resource cause the mean of female income with respect to trhe male is more bigger. Considering the two city the problem are still present but in Barcelona is more bigger.
+In the graph where we consider at the same time both the city, we can see that the differences in income are present in the education field of technical degree and Human resource causes the mean of female income for the male is bigger. Considering the two cities the problem is still present but in Barcelona is bigger.
 
-We carried out the same type of analysis but now focusing on the job role instead of education field. We obtained that in general the income as the same path for both male and female, but in two role which are Research Director and Manager the male tend to earn more than the female. In barcelona the discrepancy is present for both cause in some role male earn in average more than female and also the contrary happen. While in London only the research director show a big gap in favor of the male.
+We carried out the same type of analysis but now focus on the job role instead of the education field. We obtained that in general the income as the same path for both male and female, but in two roles which are Research Director and Manager the male tend to earn more than the female. In Barcelona, the discrepancy is present for both causes in some roles males earn on average more than females and also the contrary happens. While in London only the research director shows a big gap in favor of the male.
 
-For what concerns the variable _Attrition_ we assumed at first its depends from many factors, in particular _gender_ , _city_ that are not relevant. Others factor , were found out to be relevant like _marital_status_  but we cannot modify in any way as they depend on the personal life of the workers.
-Most important we recognize the significance of some variables like _business_travel_ , _department_ , that could be improved paying more attention at some key point : 
+For what concerns the variable _Attrition_ we assumed at first it depends on many factors, in particular _gender_ , _city_ that are not relevant. Other factors, were found out to be relevant like _marital_status_  but we cannot modify them in any way as they depend on the personal life of the workers.
+Most important we recognize the significance of some variables like _business_travel_ , _department_ , that could be improved by paying more attention at some key point : 
 
 - _business_travel_ <- let workers enter the travel logic to ensure that this does not become a negative impact factor on them.
-- _department_ <- pay more attention in the critical department in which we have higher values of people that want to leave the company , like in this case R&D.
+- _department_ <- pay more attention in the critical department in which we have higher values of people that want to leave the company, like in this case R&D.
 
 On the other side looking at the Satisfaction ( _job_satisfaction_ , _environment_satisfaction_ ) into our company we noticed some important differences for the city of Barcelona per genre, as there was an important slack between males and females perceptions.
-Through the linear model we have seen that in general they are not significant to explain the phenomenon in intself.
-However to improve the issue found about Barcelona's workers satisfaction could be relevant analyze and eventually make wider the growth prospects for the employees in the company to entice them to make appreciate more their work and keep united the workplace to pursue company's objectives.
+Through the linear model, we have seen that in general, they are not significant to explain the phenomenon in itself.
+However, to improve the issue found about Barcelona's worker's satisfaction could be relevant analyze and eventually make wider the growth prospects for the employees in the company to entice them to make appreciate more their work and keep united the workplace to pursue company's objectives.
 
-In order to understand if our analysis is made on relyable data we take in consideration 2 new dataset one relate to Barcelona and the other relate to the UK.
+To understand if our analysis is made on reliable data we take into consideration 2 new dataset one relates to Barcelona and the other relate to the UK.
 
-In the UK dataset we compare how the size of the company can influence the high level of job satisfaction. In particular we saw that the level of job satisfaction increasee a lot when the company has a medium size,(20 to 90 employees).
+In the UK dataset, we compare how the size of the company can influence the high level of job satisfaction. In particular, we saw that the level of job satisfaction increases a lot when the company has a medium size,(20 to 90 employees).
 
-We carried out the same analysis but now considering the carreer satisfaction, and the result that we obtain follow the one that we enunciate before. The carrer satisfaction  for employee is higher in the company of medium size.
+We carried out the same analysis but now consider the career satisfaction, and the result that we obtain follows the one that we enunciate before. The career satisfaction for the employee is higher in a company of medium size.
 
-We mainly decide to carryout this type of analysis cause we saw that in the dataset we have a predonminance of observations relate to London, that can be explicate in this way, the dimension of the company in London is bigger than the dimension in Barcelona.
+We mainly decide to carry out this type of analysis cause we saw that in the dataset we have a predominance of observations related to London, which can be explicated in this way, the dimension of the company in London is bigger than the dimension in Barcelona.
 
-We decide to take in consideration the Barcelona dataset to enlight the result that we obtained from the gender analysis, to see if they reflect the situation of Barcelona in general or it is only relate to the company that we are analysing.
-We mainly see that in Barcelona the avergae monthly income is almost the same between male and female. So the CEO should take in consideration to run further analysis to understand why we have so much difference between the male and female monthly income.
+We decide to take into consideration the Barcelona dataset to enlighten the result that we obtained from the gender analysis, to see if they reflect the situation of Barcelona in general or it is only related to the company that we are analyzing.
+We mainly see that in Barcelona the average monthly income is almost the same between males and females. So the CEO should take into consideration to run further analysis to understand why we have so much difference between the male and female monthly income.
+
+
 # Referemces
 1. _M., L. (2004). Moneyball: The art of winning an unfair game. New york: John Wiley and sons._
 2. Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
