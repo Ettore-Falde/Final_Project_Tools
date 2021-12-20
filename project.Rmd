@@ -32,6 +32,7 @@ The new CEO is concerned about several issues. She truly believes in gender equa
 
 Let's consider that the new CEO of a specific IT company has contacted us because she wants us to analyze the current Human Resources status of the company. She has just sent a data set with all available employee information. This information is in the attached data set. As we can see, the company has two locations: the first one in London, and the second one in Barcelona.
 
+
 Based on this information, we need to carry out an exploratory data analysis and prepare a technical report (with Rmarkdown) and a technical presentation (5-10 minutes).
 
 Note: It is highly recommended to seek external sources of information (either in dataset or report formats) for the analysis and the reporting.  
@@ -54,18 +55,11 @@ library(tidyverse)
 library(ggplot2)
 library(GGally)
 library(gridExtra)
-library(yardstick)
-library(broom)
 library(janitor)
-library(caTools)
-library(ROCR)
-library(corrplot)
 library(tidytext)
 library(glue)
 library(scales)
 library(plotly)
-library(patchwork)
-library(skimr)
 library(RColorBrewer)
 ```
 
@@ -1096,10 +1090,43 @@ We can observe that both "gender" and "city" are not relevant to explain the two
 Anyway is it clear from the previous part that there is a more pronounced dissatisfaction among Spanish male workers and so in this sense would be useful to understand the motivations of this general mood and also the difference between them and London workers in their workplace.
 A more deepen analysis on the behavior of the workers in this company, the approach between males and females and , more than all , their growth prospects within the company  : in our opinion this  could be the key in order to solve this problem.
 
+# Succesion strategy
+
+```{r}
+
+mean.envi<-mydb%>%group_by(department)%>%summarise(mean.env.sat= mean(environment_satisfaction))
+mean.envi$mean.env.sat
+ggplot(mean.envi, aes(x = department, y= mean.env.sat, fill = department))+ geom_col()
+```
+
+
+```{r}
+mean.years.cur.Man<-mydb%>%filter(attrition == "0")%>%group_by(department)%>%summarise(currman= mean(years_with_curr_manager))
+
+ggplot(mean.years.cur.Man, aes(x = department, y= currman, fill = department))+ geom_col()
+
+```
+
+
+```{r}
+perf.rating.dep<-mydb%>%filter(attrition == "0")%>%group_by(department)%>%summarise(perf.mean= mean(performance_rating))
+
+ggplot(perf.rating.dep, aes(x = department, y= perf.mean, fill = department))+ geom_col()
+
+```
+
+As succession strategy we decide to take in consideration 3 indicator to observe, the first one will analyse 2 different indicator that will help us in understand which department need to change the leader. The indicator are :
+
+-  the mean of environment satisfaction
+-  the mean of the performance rating
+-  average of years with current manager
+
+Based on that we will try first to change leader in the department with lower performance rating or environment satisfaction. Then once we choose the department on which we want to have change we will try to evaluate all the attitude, and job performance information that we can have relate to a worker and see if he can cover the role designed for him.
+ In particular the list of variable that we will analyse are, total working year, years at company, relationship satisfaction, number of companies worked, job role and job level. The job level will be the most important cause the one with already an high level of job level will be the one that we will privilege. 
 
 
 
-## Adding dataset
+# Adding dataset
 
 ```{r, results='hide'}
 # UK
@@ -1244,39 +1271,6 @@ barcelona_data %>%
 ```
 To conclude, we can understand here how the people between 65 and 74 years old have higher monthly_income.
 
-# Succesion strategy
-
-```{r}
-
-mean.envi<-mydb%>%group_by(department)%>%summarise(mean.env.sat= mean(environment_satisfaction))
-mean.envi$mean.env.sat
-ggplot(mean.envi, aes(x = department, y= mean.env.sat, fill = department))+ geom_col()
-```
-
-
-```{r}
-mean.years.cur.Man<-mydb%>%filter(attrition == "0")%>%group_by(department)%>%summarise(currman= mean(years_with_curr_manager))
-
-ggplot(mean.years.cur.Man, aes(x = department, y= currman, fill = department))+ geom_col()
-
-```
-
-
-```{r}
-perf.rating.dep<-mydb%>%filter(attrition == "0")%>%group_by(department)%>%summarise(perf.mean= mean(performance_rating))
-
-ggplot(perf.rating.dep, aes(x = department, y= perf.mean, fill = department))+ geom_col()
-
-```
-
-As succession strategy we decide to take in consideration 3 indicator to observe, the first one will analyse 2 different indicator that will help us in understand which department need to change the leader. The indicator are :
-
--  the mean of environment satisfaction
--  the mean of the performance rating
--  average of years with current manager
-
-Based on that we will try first to change leader in the department with lower performance rating or environment satisfaction. Then once we choose the department on which we want to have change we will try to evaluate all the attitude, and job performance information that we can have relate to a worker and see if he can cover the role designed for him.
- In particular the list of variable that we will analyse are, total working year, years at company, relationship satisfaction, number of companies worked, job role and job level. The job level will be the most important cause the one with already an high level of job level will be the one that we will privilege. 
 
 \newpage
 # Conclusions
@@ -1346,14 +1340,40 @@ We decide to take into consideration the Barcelona dataset to enlighten the resu
 We mainly see that in Barcelona the average monthly income is almost the same between males and females. So the CEO should take into consideration to run further analysis to understand why we have so much difference between the male and female monthly income.
 
 
+# References  
 
+[1] R Core Team (2016). R: A language and environment for statistical computing. R Foundation for
+Statistical Computing, Vienna, Austria. URL https://www.R-project.org/.
 
-# Referemces
-1. _M., L. (2004). Moneyball: The art of winning an unfair game. New york: John Wiley and sons._
-2. Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
-3. H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
-4. David Robinson, Alex Hayes and Simon Couch (2021). broom: Convert Statistical Objects into Tidy Tibbles. R package version 0.7.9. https://CRAN.R-project.org/package=broom
+[2] Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software,
+  4(43), 1686, https://doi.org/10.21105/joss.01686
 
+[3] H. Wickham. ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New York, 2016.
 
+[4] Barret Schloerke, Di Cook, Joseph Larmarange, Francois Briatte, Moritz Marbach, Edwin Thoen, Amos Elberg
+  and Jason Crowley (2021). GGally: Extension to 'ggplot2'. R package version 2.1.2.
+  https://CRAN.R-project.org/package=GGally
+  
+[5] Baptiste Auguie (2017). gridExtra: Miscellaneous Functions for "Grid" Graphics. R package version 2.3.
+  https://CRAN.R-project.org/package=gridExtra
+  
+[6] Sam Firke (2021). janitor: Simple Tools for Examining and Cleaning Dirty Data. R package version 2.1.0.
+  https://CRAN.R-project.org/package=janitor
+  
+[7] Silge J, Robinson D (2016). “tidytext: Text Mining and Analysis Using Tidy Data Principles in R.” _JOSS_,
+*1*(3). doi: 10.21105/joss.00037 (URL: https://doi.org/10.21105/joss.00037), <URL:
+http://dx.doi.org/10.21105/joss.00037>.
+
+[8] Jim Hester (2021). glue: Interpreted String Literals. R package version 1.5.0.
+  https://CRAN.R-project.org/package=glue
+
+[9]  Hadley Wickham and Dana Seidel (2020). scales: Scale Functions for Visualization. R package version
+  1.1.1. https://CRAN.R-project.org/package=scales
+
+[10]  C. Sievert. Interactive Web-Based Data Visualization with R, plotly, and shiny. Chapman and Hall/CRC
+  Florida, 2020.
+  
+[11] Erich Neuwirth (2014). RColorBrewer: ColorBrewer Palettes. R package version 1.1-2.
+  https://CRAN.R-project.org/package=RColorBrewer
 
 
