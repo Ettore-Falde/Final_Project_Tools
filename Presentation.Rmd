@@ -21,7 +21,6 @@ css <- "/Users/ettorefalde/Desktop/Presentation/styles.css"
 # Introduction
 
 ## What to do
-# Analysis
 Our analysis consists in different parts. 
 
 1. First of all, we want to describe the gender equality inside the company and understand if there are discrepancies and how we can solve those problems. 
@@ -34,107 +33,1292 @@ Our analysis consists in different parts.
 
 5. To conclude, there is also the good practice to import in our project new datasets that could improve the decions that we can take. 
 
-## Description
+## Description {.codefont}
+In this report we consider that the new CEO of a specific IT company has contacted us because she wants us to **analyze the current Human Resources status** of the company. 
+\ 
+She has just sent a data set with all available employee information. As we can see, the **company has two locations**: the first one in **London**, and the second one in **Barcelona**.
+
 The new CEO is concerned about several issues. She truly believes in gender equality in organizations as it implies a signal to society. On the other hand, she is concerned that the offices in Barcelona do not follow a similar structure to the one in London. **In her opinion, the structure of the Barcelona offices should tend towards the London structure.** In her meeting with us, she also told us that she would like to know the attitudes (e.g., satisfaction) of the employees across the different departments and if anything could be done to improve them. Finally, she commented that she is very concerned about the company's succession strategy and in particular some positions in certain departments.
 
-
-## Considerations
-
-We need to use:
-
-* A picture related to the activity
-* Boxplot
-* Scatterplot
-* Circular barplot
-* Thank you for your attention (in the final slide)
+Let's consider that the new CEO of a specific IT company has contacted us because she wants us to analyze the current Human Resources status of the company. She has just sent a data set with all available employee information. This information is in the attached data set. As we can see, the company has two locations: the first one in London, and the second one in Barcelona.
 
 ## Setup the software {.codefont}
 
-The software used for the development of the study and the writing of the report is R[1]. The first step is to define the work directory and to load the libraries:
+The software used for the development of the study and the writing of the report is R[1]. The first step is to define the work directory and to load the libraries needed:  
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
-# Directory
-setwd("/Users/ettorefalde/Documents/Ettore\ Falde/UNI/UPC/Tools\ for\ Decision\ Making\ /R/2-ClassAssignment/Presentation")
-```
-
-```{r, message=FALSE, warning=FALSE, echo=TRUE}
+```{r, echo = FALSE, message=FALSE, warning=FALSE, echo=TRUE}
 # Libraries
-library(yarrr)
-library(dplyr)
 library(tidyverse)
-library(janitor)
-library(tidymodels)
-library(readr)
-library(readxl)
-library(haven)
-library(lubridate)
 library(ggplot2)
+library(GGally)
 library(gridExtra)
-library(reshape2)
+library(yardstick)
+library(broom)
+library(janitor)
+library(caTools)
+library(ROCR)
+library(corrplot)
+library(tidytext)
+library(glue)
+library(scales)
+library(plotly)
+library(patchwork)
+library(skimr)
+library(RColorBrewer)
 ```
 
 
-## Importing Dataset Bank {.emphasized}
-### A know dataset
+## Importing Data {.codefont}
+```{r}
+source("functions_script.R")
+```
 
-We got the dataset from the website of Atenea.
-The variables selected for this dataset  are:
-
-1. **age**: The age of the person
-2. **job**: The job of the person
-3. **marital**: The marital status
-4. **education**: The educatoin 
-5. **default**: The default dummy variable
-6. **balance**: The balance 
-7. **housing**: The dummy var housing
-8. **loan**: The dummy var has a loan? 
-9. **contact**: The type of contact
-10. **day**: The day number
-11. **month**: The month
-12. **duration**: The duration
-14. **pdays**: The number of paydays
-15. **previous**
-16. **poutcome**: The outcome of the pay
-17. **y**
+```{r}
+mydb <- read.csv2("dataset.csv")
+```
 
 ## {.codefont}
 The first step is to load the dataset in the system, and check the names of the variables. 
 
 ```{r}
 mydb <- read.csv2("dataset.csv")
-names (mydb)
 ```
 
-## {data-background=bankspain.jpeg}
 
 
 # Cleaning Data
 
-## {.codefont}
-Knowing this dataset, we can surely state that there is nothing to clean in this dataset. 
+## Names {.codefont}
+In this sub-point we are going to change the names of the variables in order to have all he names of the variables with the same layout. 
+```{r}
+mydb <- mydb %>% clean_names(., "snake")
+```
+
+## Dimensions {.codefont}
+First of all, we are going to check the actual dimension of our dataset. 
+Hence, from the following code we can  understand that there are 36 variables in total and 
+```{r}
+mydb %>% dim()
+mydb %>% nrow()
+mydb %>% ncol()
+```
+
+## Head and Tail {.codefont}
+Here, we are going to check the first 10 elements at the beginning and at the end of the dataset. Consecutively, we are going to check the top and the bottom values of the main relevant variables to catch some errors. 
+```{r, results='hide'}
+mydb %>% head(10)
+mydb %>% tail(10)
+mydb<-rename(mydb, age =age)
+mydb %>% arrange(desc(age)) %>% top_n(10, age) 
+mydb %>% arrange(age) %>% top_n(-10, age) 
+```
+
+## Removing {.codefont}
+In this part of the data cleaning we are going to remove all the blank rows, the duplicates and strange values that may affect our analysis.
+```{r}
+# Remove blank rows and columsn 
+mydb <- mydb %>% remove_empty(c("rows", "cols"))
+
+# Removing entries with too high and too low age
+mydb <- mydb %>% filter(age <= 80 & age >= 16)
+mydb <- mydb %>% filter(job_involvement <= 4)
+mydb <- mydb %>% filter(num_companies_worked >= 0)
+```
+Therefore, as we can see, this line of code did not affected our dataset. So, this mean that there are no rows or columns that are empty.
+
+## {.codefont} 
+
+Now, we are going to pass to the study of duplicates, by the _employee_number_ variable that we suggest it is the key.
+```{r, results='hide'}
+# Duplicates removal
+mydb %>% get_dupes(employee_number)
+mydb <- mydb %>% distinct(employee_number, .keep_all= TRUE)
+```
+
+## Checking n's {.codefont}
+
+Hence, now it is time to check the n's.
+```{r, echo = FALSE, results='hide'}
+mydb %>% tabyl(attrition)
+
+mydb %>% tabyl(business_travel)
+mydb <- mydb %>% filter(business_travel != "")
+
+mydb %>% tabyl(department)
+mydb <- mydb %>% filter(department != "")
+mydb$department <- ifelse(mydb$department == 
+                            "Research and Development", 
+                          "Research & Development", mydb$department)
+mydb$department <- ifelse(mydb$department == 
+                            "HR", 
+                          "Human Resources", mydb$department)
+
+mydb %>% tabyl(education_field)
+mydb <- mydb %>% filter(education_field != "")
+
+mydb %>% tabyl(gender)
+mydb <- mydb %>% filter(gender != "")
+mydb$gender <- ifelse(mydb$gender == 
+                            "female", 
+                          "Female", mydb$gender)
+mydb$gender <- ifelse(mydb$gender == 
+                            "female ", 
+                          "Female", mydb$gender)
+mydb$gender <- ifelse(mydb$gender == 
+                            "male", 
+                          "Male", mydb$gender)
+
+
+mydb %>% tabyl(job_role)
+mydb <- mydb %>% filter(job_role != "")
+
+
+mydb %>% tabyl(marital_status)
+mydb <- mydb %>% filter(marital_status != "")
+mydb$marital_status <- ifelse(mydb$marital_status == 
+                            "Marrie", 
+                          "Married", mydb$marital_status)
+mydb$marital_status <- ifelse(mydb$marital_status == 
+                            "Soltero", 
+                          "Single", mydb$marital_status)
+
+
+mydb %>% tabyl(over18)
+mydb <- mydb %>% filter(over18 != "")
+mydb %>% tabyl(city)
+mydb$city <- ifelse(mydb$city == 
+                            "Barcelone", 
+                          "Barcelona", mydb$city)
+```
+
+## Droping na {.codefont} 
+
+To conclude, the cleaning of the dataset, we are going to remove every line with at least one empy gap. 
+```{r}
+mydb <- mydb %>% drop_na()
+```
+From know on we can easiliy proceed with our analysis. 
+
 
 # Analysis
+## Introduction Analysis {.codefont}
 
-## Boxplot between the variables duration and marital status {.codefont}
-```{r}
-ggplot(mydb, aes(x = duration, y = marital)) + geom_boxplot(fill = "#4271AE", colour = "#1F3552")
+### Plot job role frequency 
+```{r, echo = FALSE, fig.align='left'}
+# This would help to analyse the number of types of jobs and compare with types
+k <- mydb %>% tabyl(job_role)
+
+ggplot(k, aes(x = reorder(job_role, -n), y = n)) + 
+  geom_bar(stat = "identity", fill = "#4271AE", colour = "#1F3552") + 
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) + 
+  geom_text(aes(label = n), vjust = 0, colour = "#1F3552")+
+  labs(y= "# of values", x = "job role") + 
+  ggtitle("Job Role Frequency")
+
+rm("k")
 ```
 
-## Scatterplot {.codefont}
-```{r, warning=FALSE}
-m <- mydb[c(1:100),c(0,1:17)]
-
-ggplot(m, aes(x = m$age, y = m$balance, color=marital, size=campaign, shape=contact)) + geom_point()
+## {.codefont}
+```{r echo = FALSE}
+ggplot(mydb, aes(x = job_role, color = city, fill = city)) + 
+  geom_bar(stat = "count") + 
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) + 
+  ggtitle("Job Role Frequency Barcelona & London")
 ```
 
-## Circular barplot {.codefont}
+
+## Gender Analysis
+First of all, we want to understand the salary that sex has. This would give us a better overview on how the salary is distributed inside the company. Moreover, we will also take into account the possibile differences that we have in the Barcelona and London headwarters. 
+
+
+### Monthly Income 
+It is pretty clear that the monthly income could be one of the most important variable that will determine the differences inside a compnay taking into accout the gender analysis. 
+
+_Introduction_
 ```{r}
-g1 <- ggplot(mydb, aes(x = marital == "married")) + geom_bar() + coord_polar()
-g2 <- ggplot(mydb, aes(x = marital == "divorced")) + geom_bar() + coord_polar()
-g3 <- ggplot(mydb, aes(x = marital == "single")) + geom_bar() + coord_polar()
+summary(mydb$monthly_income)
+```
+
+## {.codefont}
+```{r, echo = FALSE}
+mydb %>% select(monthly_income, gender) %>%
+  ggplot(aes(monthly_income)) +
+  geom_histogram(
+    aes(monthly_income, color = gender, fill = gender),
+    alpha = 0.4,
+    position = "identity",
+    bins = 50,
+  ) +
+  geom_freqpoly(aes(linetype = gender), bins = 30) +
+  geom_rug(aes(color = gender)) +
+  scale_x_continuous(labels = label_dollar()) +
+  geom_vline(aes(xintercept = mean(monthly_income)), color = "#E67AEC", size = 1) +
+  geom_vline(aes(xintercept = median(monthly_income)), color = "#6899F1", size = 1) +
+  guides(color = "none") +
+  labs(title = "Distridution of Monthly Income by Gender",
+       caption = "BLUE = median; PINK = mean",
+       x = "Monthly Income",
+       y = NULL,
+       fill = NULL,
+       linetype = NULL) 
+```
+
+Hence, from this graph we can see that most of the employee have a salary lower than the average. In ddition, we can also see that generally we have the dotted male line almost always above the female line, but this can be considered acceptable, due to the fact that in our dataset we have more men and women.To conclude, we can also see that the major discrepancies are given from the lower range of salary, while the higher is the salary, the lower are the differences between the female and male monthly income. 
+
+## {.codefont}
+Now, we will take a closer look to the monthly income between male an female . So, we can observe that the male have a worse results. While, the female has in medium an higher salray than man. 
+```{r , echo = FALSE}
+mydb %>% 
+  select(gender, monthly_income) %>%
+  group_by(gender) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = gender, y = avg_income)) +
+  geom_col(aes(fill = gender), width = 0.3, show.legend = FALSE) +
+  geom_text(
+    aes(
+      x = gender,
+      y = 0.01,
+      label = dollar(avg_income, prefix = "EUR  ")
+    ),
+    hjust = -0.2,
+    size = 4,
+    colour = "white",
+    fontface = "bold"
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender",
+       x = NULL,
+       y = NULL)
+
+```
+Clearly, this difference is so minimal that we need to go further in detail to clearly understand if we can adopt any strategy to balance the gender inside a company or not. 
+
+## {.codefont}
+So, due to we also need to understan where is located this difference, we will filter by country. 
+```{r, echo = FALSE}
+
+# Barcelona
+g1 <- mydb %>% filter(city == "Barcelona") %>% 
+  select(gender, monthly_income) %>%
+  group_by(gender) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = gender, y = avg_income)) +
+  geom_col(aes(fill = gender), width = 0.3, show.legend = FALSE) +
+  geom_text(
+    aes(
+      x = gender,
+      y = 0.01,
+      label = dollar(avg_income, prefix = "EUR  ")
+    ),
+    hjust = -0.2,
+    size = 4,
+    colour = "white",
+    fontface = "bold"
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender: Barcelona",
+       x = NULL,
+       y = NULL)
+
+
+# London
+g2 <- mydb %>% filter(city == "London") %>% 
+  select(gender, monthly_income) %>%
+  group_by(gender) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = gender, y = avg_income)) +
+  geom_col(aes(fill = gender), width = 0.3, show.legend = FALSE) +
+  geom_text(
+    aes(
+      x = gender,
+      y = 0.01,
+      label = dollar(avg_income, prefix = "EUR  ")
+    ),
+    hjust = -0.2,
+    size = 4,
+    colour = "white",
+    fontface = "bold"
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender: London",
+       x = NULL,
+       y = NULL)
+
+grid.arrange(g1, g2, nrow = 2)
+
+rm(g1, g2)
+```
+
+In this differentiation is definetely more clear how in Barcelona the monthly salary seems to privilege the female gender despite the male one. While, in London even if women has slightly higher average monthly salary, this is so small that can be omitted. In conclusion, we can focus to Barcelona and try to identify here the causes of this differences. 
+
+## {.codefont}
+### Department
+```{r, echo = FALSE}
+mydb %>%
+  group_by(department, gender) %>% 
+  summarise(amount = n(), .groups = "drop") %>%
+  ggplot(aes(
+    x = fct_reorder(department, amount),
+    y = amount,
+    fill = gender
+  )) + 
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "Number of Employees by Department and Gender",
+x = NULL,
+y = NULL,
+fill = NULL)
+```
+Therefore, in this graph we can see how inside the company we have the majority of employees in the field of research and development. Moreover, also here we can see that in general the male sex has an higher frequency in each department compared to to female one. 
+
+## {.codefont}
+Also here we found pretty important to stat that the differences between Barcelona and London to decide ultimately where to take decisions. 
+```{r, echo = FALSE}
+# Barcelona
+g1 <- mydb %>% filter(city == "Barcelona") %>%
+  group_by(department, gender) %>% 
+  summarise(amount = n(), .groups = "drop") %>%
+  ggplot(aes(
+    x = fct_reorder(department, amount),
+    y = amount,
+    fill = gender
+  )) + 
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "Barcelona",
+x = NULL,
+y = NULL,
+fill = NULL)
+  
+# London
+g2 <- mydb %>% filter(city == "London") %>%
+  group_by(department, gender) %>% 
+  summarise(amount = n(), .groups = "drop") %>%
+  ggplot(aes(
+    x = fct_reorder(department, amount),
+    y = amount,
+    fill = gender
+  )) + 
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "London",
+x = NULL,
+y = NULL,
+fill = NULL)
+  
+grid.arrange(g1, g2, nrow = 1)
+
+rm(g1, g2)
+```
+Now, we can start seeing that the major differences about the number of employees and their distribution is mainly in London, while in Barcelona for instance, In the HR department we have almost the same number of employee per gender. 
+This balance inside the company is a good sign of gender equality, even if there are some department, such as sales and R&D where the male sex is predominant In both London and Barcelona. 
+
+## {.codefont}
+### Job Role
+The same analysis as above is represented below taking into account the _job_role_ variable.
+```{r, echo = FALSE}
+mydb %>%
+  group_by(job_role, gender) %>% 
+  summarise(amount = n(), .groups = "drop") %>%
+  ggplot(aes(
+    x = fct_reorder(job_role, amount),
+    y = amount,
+    fill = gender
+  )) + 
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "Number of Employees by Job Role and Gender",
+x = NULL,
+y = NULL,
+fill = NULL)
+```
+
+## {.codefont}
+```{r, echo = FALSE}
+# Barcelona
+g1 <- mydb %>% filter(city == "Barcelona") %>%
+  group_by(job_role, gender) %>% 
+  summarise(amount = n(), .groups = "drop") %>%
+  ggplot(aes(
+    x = fct_reorder(job_role, amount),
+    y = amount,
+    fill = gender
+  )) + 
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "Barcelona",
+x = NULL,
+y = NULL,
+fill = NULL)
+
+# London
+g2 <- mydb %>% filter(city == "London") %>%
+  group_by(job_role, gender) %>% 
+  summarise(amount = n(), .groups = "drop") %>%
+  ggplot(aes(
+    x = fct_reorder(job_role, amount),
+    y = amount,
+    fill = gender
+  )) + 
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "London",
+x = NULL,
+y = NULL,
+fill = NULL)
+
+grid.arrange(g1, g2, nrow = 1)
+
+rm(g1, g2)
+```
+This two graphs seems to be relevant in some job roles. In fact, as we can see in Barcelona, women play an essential role in the two Director job roles. 
+
+## {.codefont}
+### Seniority
+
+_Taking in consideration both company location_
+In this graphs in order to show that up in a better way, we decided to remove the confidence interval and the points. 
+```{r, echo = FALSE}
+ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+ 
+  geom_smooth(method = 'loess', formula = y ~ x, se=F) + 
+  labs(title = "Income related to seniority to all company location",
+       x = "Years in the company",
+       y = "Monthly income") +
+  theme_minimal()
+```
+So, as we can see here, generally speaking the female gender has an higher salary compare to the male gender. This is true  till approximately the 20th year of seniority inside the company where the male gender will overcome the female monthly income in a dramatic way. 
+
+## {.codefont}
+_Taking in consideration London_
+```{r, echo = FALSE}
+ggplot(mydb%>%filter(city=="London"), 
+       aes(x=years_at_company, y=monthly_income, colour=gender)) + 
+  geom_smooth(method = 'loess', formula = y ~ x, se=F) + labs(
+      title = "Income related to seniority: London",
+       x = "Years in the company",
+       y = "Monthly income"
+    ) +
+  theme_minimal()
+```
+In the specific case of London we can stat that generally speaking the monthly income is well balanced between male and female work positions, but around the 15th year of seniority the male gender will have a boost in therm of monthly income. 
+
+## {.codefont}
+_Taking in consideration Barcelona_
+```{r, echo = FALSE}
+ggplot(mydb%>%filter(city=="Barcelona"), 
+       aes(x=years_at_company, y=monthly_income, colour=gender)) + 
+  geom_smooth(method = 'loess', formula = y ~ x, se=F) + labs(
+      title = "Income related to seniority: Barcelona",
+       x = "Years in the company",
+       y = "Monthly income"
+    ) + 
+  theme_minimal()
+```
+Now, in Barcelona we can see hat the results we obtained is pretty different than before. In fact, the female gender has generally an higher income compared to the male gender. 
+
+## {.codefont}
+Other interesting graphs we can draw are the one related to the age. 
+```{r, echo = FALSE}
+mydb %>%
+  select(age, monthly_income) %>%
+  group_by(age) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = age, y = avg_income)) +
+  geom_col(aes(fill = age), width = 0.3, show.legend = FALSE) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender",
+       x = NULL,
+       y = NULL)
+
+ggplot(mydb, 
+       aes(x=age, y=monthly_income, colour=gender)) + 
+  geom_smooth(method = 'loess', formula = y ~ x, se=F) + labs(
+      title = "Income related to age",
+       x = "Age",
+       y = "Monthly income"
+    ) + 
+  theme_minimal()
+```
+
+## {.codefont}
+### Education field
+Performance rating education field. 
+```{r, echo = FALSE}
+ggplot(mydb, aes(y= education_field, x = monthly_income, fill = gender))+ 
+  labs(y = "Eduction Field", x = "Monthly Income", title = "Income per gender and Education field") +
+  geom_boxplot()
+
+# Barcelona
+g1 <- ggplot(mydb%>%filter(city == "Barcelona"), aes(y= education_field, x = monthly_income, fill = gender))+ 
+  labs(y = "Eduction Field", x = "Monthly Income", title = "Barcelona") +
+  geom_boxplot()
+
+# London
+g2 <- ggplot(mydb%>%filter(city == "London"), aes(y= education_field, x = monthly_income, fill = gender))+ 
+  labs(y = "Eduction Field", x = "Monthly Income", title = "London") +
+  geom_boxplot()
+
+grid.arrange(g1, g2, nrow = 2)
+rm(g1, g2)
+```
+
+So, in the first graph we can see that there are some differences. Hence we decided to locate them and understood that the major problems are in Barcelona. In fact, in the HR sector, women have an higher salary than men, also for technical degree we can see how the female gender seems to have a clear advantage on that. 
+
+Clearly, per education field we can see also that in some cases also the male gender seems to have a slightly higer salary, but the main focus are those from which the discrepancy are very high, such as HR in Barcelona and Technical Degree, always in Barcelona. 
+
+## {.codefont}
+Moreover, we want also to understand if for the same job role the gender has a crucial role in the determination of the monthly income of each employee. 
+```{r, echo = FALSE}
+ggplot(mydb, aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "Number of Employees by Job Role and Gender",
+x = "monthly income",
+y = "job role",
+fill = NULL)
+
+
+# Barcelona
+ggplot(mydb%>%filter(city == "Barcelona"), aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "Barcelona",
+x = "monthly income",
+y = "job role",
+fill = NULL)
+
+# London
+ggplot(mydb%>%filter(city == "London"), aes(x = monthly_income, y = job_role, fill = gender)) + geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "London",
+x = "monthly income",
+y = "job role",
+fill = NULL)
+```
+Hence, we can understand that also in this case the majority of the problem related to gender are located in Barcelona. 
+
+## {.codefont}
+### Regression
+To conclude, we wanted also to see if the gender is a relevan variable that affect _monthly_income_ or other variables relavant for our study. 
+```{r}
+mod1 <- lm(monthly_income ~ ., data = mydb)
+summary(mod1)$r.squared
+
+mod2 <- lm(monthly_income ~ gender, data = mydb)
+summary(mod2)$r.squared
+
+mod3 <- lm(monthly_income ~ age + gender + business_travel + education_field + education + distance_from_home + job_level + job_role + marital_status + total_working_years + performance_rating + years_at_company, data = mydb)
+summary(mod3)$r.squared
+
+rm(mod1, mod2, mod3)
+```
+
+Hence, after this tree linear regression models we finally understood that actually the gender variable isn't significative to determine the monthly income. 
+Anyway, this doesn't means that there are no discrepancy between gender, but simply that we need to develop an internal company analysis understand how in Barcelona for some kind of roles women and men have higher salaries compared to the opposite sex. 
+
+
+## Attrition Analysis {.codefont}
+
+First of all, we want to understand how the percentage of attrition is distributed inside the company. 
+Then, we will differenciate per country. 
+```{r, echo = FALSE}
+# Create a temporary dataset to get the percentage of employees that would leave the company 
+temp <- mydb %>% 
+  group_by(attrition) %>%
+  summarize(counts = n()) %>%
+  mutate(percent = percentage_func(counts)) %>%
+  arrange(desc(percent))
+
+# Create a pie chart to see the percentage of people that will leave the company
+pie_chart_func(dataset = temp, 
+               counts_var = temp$counts, 
+               var_interest = temp$attrition, 
+               title = "Are the Attrition var Balanced?", 
+               subtitle = "Pie Plot,percentortion of YES to NO in Attrition Var", 
+               caption = "UPC")
+
+# Removing the un-used variables
+rm("temp")
+```
+
+## {.codefont}
+```{r, echo = FALSE}
+# Barcelona
+# Create a temporary dataset to get the percentage of employees that would leave the company 
+t1 <- mydb %>% filter(city == "Barcelona") %>%
+  group_by(attrition) %>%
+  summarize(counts = n()) %>%
+  mutate(percent = percentage_func(counts)) %>%
+  arrange(desc(percent))
+
+g1 <- pie_chart_func(dataset = t1, 
+               counts_var = t1$counts, 
+               var_interest = t1$attrition, 
+               title = "Barcelona", 
+               subtitle = "Pie Plot,percentortion of YES to NO in Attrition Var",
+               caption = "")
+
+# London
+t2 <- mydb %>% filter(city == "London") %>%
+  group_by(attrition) %>%
+  summarize(counts = n()) %>%
+  mutate(percent = percentage_func(counts)) %>%
+  arrange(desc(percent))
+
+# Create a pie chart to see the percentage of people that will leave the company
+g2 <- pie_chart_func(dataset = t2, 
+               counts_var = t2$counts, 
+               var_interest = t2$attrition, 
+               title = "London", 
+               subtitle = "Pie Plot,percentortion of YES to NO in Attrition Var",
+               caption = "")
+
+
+grid.arrange(g1, g2, nrow = 1)
+# Removing the un-used variables
+rm(g1, g2, t1, t2)
+```
+Fortunately, as we can see the percentage of attrition between Barcleona and London is almost the same, so we can proceed with a generalized analysis. 
+
+## {.codefont}
+```{r, message=FALSE, warning=FALSE, echo = FALSE}
+
+mydb %>% select(starts_with("years"), attrition) %>% 
+
+ggpairs(
+  aes(color = attrition),
+  lower = list(continuous = wrap(
+    "smooth",
+    alpha = 0.2,
+    size = 0.5,
+    color = "#DE945E"
+  )),
+  diag = list(continuous = "barDiag"),
+  upper = list(continuous = wrap("cor", size = 4))
+) +
+  theme(
+    axis.text = element_text(size = 8),
+    panel.background = element_rect(fill = "white"),
+    strip.background = element_rect(fill = "white"),
+    strip.background.x = element_rect(colour = "black"),
+    strip.background.y = element_rect(colour = "black"),
+    strip.text = element_text(color = "black", face = "bold", size = 8)
+  ) +
+  labs(
+    title = "Pair plot by attrition Var",
+    subtitle = "Pair Plot, scatter plot, Histogram and Correlation coefficient",
+    caption = "",
+    x = NULL,
+    y = NULL
+  )
+```
+
+
+## {.codefont}
+### Gender vs Attrition
+```{r, echo = FALSE}
+bar_plot_proportions(gender, attrition)
+```
+So, as we can see male tend to leave the comapny more the women does, but we also have to take into account the fact that there are more men in the company. Hence, the relation seems to be pretty balanced. 
+
+## {.codefont}
+### Marital status vs Attrition
+```{r, echo = FALSE}
+bar_plot_proportions(marital_status, attrition) 
+```
+Here, we can see how single people tend to leave the company more, compared to married and divorced. 
+
+## {.codefont}
+The _business_travel_ variable could be a very important variable that will tell us if the travels affect the attrition variable. 
+```{r, echo = FALSE}
+bar_plot_proportions(business_travel, attrition)
+```
+At the end, we have that the main obs that affect the attrition is the *_travel_rarely_*, which could that the non routine and the change of plans for the single employee could cause an higher attrition. Hence, we suggest to clarify with higher advance if that employee have to travel or not, and finally take the new results and compute a further analysis. 
+
+## {.codefont}
+The _department_ variable could be a very important variable that will tell us if the department affect the attrition variable. 
+```{r, echo = FALSE}
+bar_plot_proportions(department, attrition) 
+```
+
+Here instead, we can see how the R&D department seems the one with higher attrition. Anyway, we have also have to take into consideration that the majority of the people inside the company work in this department. 
+
+## {.codefont}
+Now, we want to study also the _job_role_ versus the _attrition_ variable. This would tell us what are the most common job positions that will affect this variable and where we can work in order to reduce the percentage of people who leave the company in the specific job role. 
+```{r, echo = FALSE}
+plt_job_role <- bar_plot_proportions(job_role)
+plt_job_role_att <- bar_plot_proportions(job_role, attrition) 
+(plt_job_role /
+   plt_job_role_att) + 
+  plot_annotation(
+  title = "Proportions of Job role VS Attrition",
+  caption = ""
+) & 
+  theme(plot.caption = element_text(color = "#969696", size = 7))
+```
+In this case, Laboratory Technician, Sales Executive, Research Scientist and Sales Representative, tend to leave the organisation more than others.
+
+## {.codefont}
+Another interesting graph that we can draw is the proportion of education version attrition.
+```{r, echo = FALSE}
+plt_education_field <- bar_plot_proportions(education_field)
+plt_education_field_att <- bar_plot_proportions(education_field, attrition) 
+
+(plt_education_field /
+   plt_education_field_att) + 
+  plot_annotation(
+  title = "Proportions of Education field VS Attrition",
+  caption = ""
+) & 
+  theme(plot.caption = element_text(color = "#969696", size = 7))
+```
+
+Hence, life sciences, meical will leave the company mroe frequently than the others. 
+
+## {.codefont}
+Another variable that can affect the attrition is the dummy variable if the employees work over time or not. 
+```{r, echo = FALSE}
+plt_education_field <- bar_plot_proportions(over_time)
+plt_education_field_att <- bar_plot_proportions(over_time, attrition) 
+
+(plt_education_field /
+   plt_education_field_att) + 
+  plot_annotation(
+  title = "Proportions of over time work VS Attrition",
+  caption = ""
+) & 
+  theme(plot.caption = element_text(color = "#969696", size = 7))
+```
+Therefore, we can conclude that if employees work more overtime they would tend to leave the company more than the people who do not. 
+This variable is extremely significant becase as we can see the majority of the workers don't work overtime.
+
+
+## {.codefont}
+### Regression
+In order to deal with _attrition_ we have to convert the yes or no variable into a binary variable. Once we did that we can work with the logistic regression model. 
+Obviously, we are dealing now with a dummy variable. Hence, we can try to understand what are the variables that will affect our attrition. 
+```{r}
+
+mydb$attrition <-ifelse(mydb$attrition=="Yes",1,0)
+
+mod1 <- glm(attrition ~ ., data = mydb)
+summary(mod1)$r.squared
+
+mod2 <- glm(attrition ~ age + business_travel + distance_from_home + environment_satisfaction + job_involvement + job_role + job_satisfaction + num_companies_worked + over_time + relationship_satisfaction + training_times_last_year + work_life_balance + years_since_last_promotion, data = mydb)
+summary(mod2)$r.squared
+
+rm(mod1, mod2)
+```
+To sum up, we can see that in the first regression we can see the diferent types of variables and their correlations, while in the second model we took only those variable with a low p-value in the _mod1_.
+
+In conclusion the _mod2_ shows all the variables that have a significative effect in the the definition of the attrition variable. 
+
+
+## Satisfaction analysis {.codefont}
+
+In this section we want to analyze the level of satisfaction of the employees and of the workplace more in general to see if there are some differences between the factors and characteristics that we are going to consider.
+For this reason our studyings are focused on the variable and their trends:
+
+1-job_satisfaction
+
+2-environment_satisfaction
+
+### 1-Job_satisfaction
+
+## {.codefont}
+####  Gender and Department
+
+Considering the satisfaction of our employees to make a first summary of the data we represent its value in each department differentiated per gender.
+For this section we use some boxplot to explain our results as to have an idea on the main distribution of the values between different factor we will consider later.
+```{r, echo = FALSE}
+##Sales
+g1 <- ggplot(mydb%>%filter(department =="Sales"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)+
+  labs(title = " Sales")
+
+##Research & Development
+g2 <- ggplot(mydb%>%filter(department =="Research & Development"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)+
+  labs(title = " Research & Development ")
+
+##Human Resource
+g3 <- ggplot(mydb%>%filter(department =="Human Resources"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)+
+  labs(title = " Human resource ")
 
 grid.arrange(g1, g2, g3, ncol = 3)
 ```
+
+In this first general overview we can observe a constant trend per each department, also due to the fact that we have a limited choice of value for the variable "job_satisfaction"and so it's normal to see similar pattern.
+It's relevant the distribution for male in the Human resource business unit,  where we see that the median and the 1st quantile are overlapped and then presents the lowest value of satisfaction.
+
+## {.codefont}
+### Differences between the two cities in term of job satisfaction 
+
+A possible way to go further in our analysis is to study the possible differences in the feelings of the workers between London and Barcellona to understand if there are some parameters or other point to go into detail.
+In this way we compare for each department the level of satisfaction per gender.
+
+## {.codefont}
+#### Sales department , Gender
+
+```{r, echo = FALSE}
+##Sales  London
+g4 <- ggplot(mydb%>%filter(department =="Sales" & city == "London"), 
+             aes(x= gender, y= job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)+
+  labs(title = " Sales London ")
+
+##Sales  Barcelona
+g5 <- ggplot(mydb%>%
+               filter(department =="Sales" & city == "Barcelona"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)+
+  labs(title = " Sales Barcelona ")
+grid.arrange(g4,g5, ncol = 2)
+```
+Starting from Sales department we do not observe any peculiarity as the 2 graph are equal ; in general we can assume a medium level of satisfaction of the workers in this field, which stands at the value "3".
+
+## {.codefont}
+#### R&D department , Gender
+
+```{r, echo = FALSE}
+##Research & Development London 
+g6 <- ggplot(mydb%>%
+               filter(department =="Research & Development" & city=="London"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)+
+  labs(title = " R&D London")
+
+##Research & Development Barcelona 
+g7 <- ggplot(mydb%>%
+               filter(department =="Research & Development" & city=="Barcelona"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)+
+  labs(title = " R&D Barcelona")
+
+grid.arrange(g6,g7, ncol = 2)
+```
+ For R&D we observe another time a regular trend close to 3 as average value of satisfaction.
+ The only relevant note is the equality between the median and the 3rd quantile at the value 3, but except for that we can consider this as a medium satisfaction level department.
+
+## {.codefont}
+#### HR department , Gender
+
+```{r, echo = FALSE}
+##Human Resource London
+
+g8 <- ggplot(mydb%>%
+               filter(department =="Human Resources" & city=="London"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)+
+  labs(title = " HR London")
+
+##Human Resource BArcelona
+g9 <- ggplot(mydb%>%
+               filter(department =="Human Resources" & city=="Barcelona"), 
+             aes(x= gender, y=job_satisfaction, fill= gender))+
+  geom_boxplot(show.legend = FALSE)+
+    labs(title = " HR Barcelona")
+
+grid.arrange(g8,g9, ncol= 3)
+```
+Going deep in H&R department we see that the previous graph present inside it some interest sides ; in fact it is clearly evident from this division some difference between the 2 cities.
+For London size we observe that the median in located between 2 and 3 for both male and female gender , with maximum values for male that reach 4 , that is also the 3rd quantile.
+On the other side in Barcelona we see a big discrepancy inside gender : in fact considering male they present lowest values, a median which is equal to 2 (medium low value) and also with 1 as 1st quantile.
+Opposite is the trend for female in which we can observe a median equal to 4 which indicates a good level of satistaction.
+That is can due to the fact that , doing further analysis on the number of employees, there is a clear predominance of female in this department in Barcelona and so this a general course could be not the best for the integration of male in this sector.
+
+## {.codefont}
+However to have a main view of the graph presented as now we resume them in this picture :
+
+```{r, fig.align='left', echo = FALSE}
+grid.arrange(g1, g2, g3, g4, g5, g6, g7, g8, g9, ncol = 3, top = "Comparison between job satisfaction and gender")
+
+# clean variables
+rm(g1, g2, g3, g4, g5, g6, g7, g8, g9)
+```
+
+## {.codefont}
+```{r}
+mean_mi <- round(mean(mydb$monthly_income),2)
+median_mi <- round(median(mydb$monthly_income),2)
+```
+
+## {.codefont}
+### Environemnt_satisfaction
+
+#### Environment Satisfaction per department
+
+Now we focus on the satisfaction on the workplace and we try to go deepen if there are some interesting aspects into the single department.
+
+
+```{r, echo = FALSE}
+ggplot(mydb, aes(x= department, y= environment_satisfaction, fill = department))+
+  geom_boxplot(show.legend = FALSE)
+```
+Generally there is a medium level of satisfaction dor R&D and Sales department while we see a medium negative attitude in Human Resources . However this pattern is not so oustanding , reason for what we decide to go deepen in considerations per gender and per city.
+
+## {.codefont}
+#### London , Male
+
+```{r, echo = FALSE}
+ggplot(mydb%>%filter(city == "London", gender== "Male"), aes(x= department, y= environment_satisfaction, fill = department))+
+  geom_boxplot(show.legend = FALSE)
+```
+Firstly we have filtered per "Male" and "London" and as in the previous analysis we observe a medium low trend for male in Human Resources department.
+For the other two business unit we observe a constant trend that we have found also considering job_satisfaction.
+
+## {.codefont}
+#### London , Female
+
+```{r, echo = FALSE}
+ggplot(mydb%>%filter(city == "London", gender== "Female"), aes(x= department, y= environment_satisfaction, fill = department))+
+  geom_boxplot(show.legend = FALSE)
+```
+As we were supposing to see the medium low level in Human Resources for male is balanced in the female as to reach in general the medium trend (=3) of environment satisfaction which we can also find for the other 2 department.
+
+
+## {.codefont}
+#### Barcelona , Male 
+
+```{r, echo = FALSE}
+ggplot(mydb%>%filter(city == "Barcelona", gender== "Male"), aes(x= department, y= environment_satisfaction, fill = department))+
+  geom_boxplot(show.legend = FALSE)
+```
+For the city of Barcelona it's confirmed the unsatisfaction( in this case related if the environment) for male in Human Resource department : in fact even if we have 1st quantile = 4 , we see the median equal to 2 , value that can not be appreciated by the company.
+R&D presents a positive average of values with the 1st quantile =4 and the median=3 while the Sales department has lowest value distribution that stay most in a range between 2 and 3.
+
+
+## {.codefont}
+#### Barcellona , Female
+
+```{r, echo = FALSE}
+ggplot(mydb%>%filter(city == "Barcelona", gender== "Female"), aes(x= department, y= environment_satisfaction, fill = department))+
+  geom_boxplot()+ labs(show.legend = FALSE)
+```
+
+In this last graph , we do not see differences from the boxplot of R&D and Sales which are the same as the one of male.
+However, as we were expecting , Human Resources department follows a pretty positive course , thus going against the trend of the other sex.
+
+This series of graph so confirms the big differences between male and female satisfaction level just for the city of Barcelona.
+
+## {.codefont}
+#### Regression 
+
+We firstly try to interpretate the variable "job_satisfaction" and "environemnt_satisfaction" using the linear regression model :
+
+```{r, echo = FALSE}
+
+mod4 <- lm(job_satisfaction ~ ., data = mydb)
+summary(mod4)$r.squared
+
+mod5 <- lm(environment_satisfaction ~ ., data = mydb)
+summary(mod5)$r.squared
+
+mod6 <-lm(job_satisfaction ~ gender + city, data = mydb)
+summary(mod6)$r.squared
+
+mod7 <- lm(environment_satisfaction ~ gender + city, data = mydb)
+summary(mod7)$r.squared
+
+rm(mod4, mod5, mod6, mod7)
+```
+
+We can observe that both "gender" and "city" are not relevant to explain the two variables studied "job_satisfaction" and "environment_satisfaction".
+Anyway is it clear from the previous part that there is a more pronounced dissatisfaction among Spanish male workers and so in this sense would be useful to understand the motivations of this general mood and also the difference between them and London workers in their workplace.
+A more deepen analysis on the behavior of the workers in this company, the approach between males and females and , more than all , their growth prospects within the company  : in our opinion this  could be the key in order to solve this problem.
+
+
+
+
+## Succesion strategy {.codefont}
+
+```{r, echo = FALSE}
+
+mean.envi<-mydb%>%group_by(department)%>%summarise(mean.env.sat= mean(environment_satisfaction))
+mean.envi$mean.env.sat
+ggplot(mean.envi, aes(x = department, y= mean.env.sat, fill = department))+ geom_col()
+```
+
+## {.codefont}
+```{r, echo = FALSE}
+mean.years.cur.Man<-mydb%>%filter(attrition == "0")%>%group_by(department)%>%summarise(currman= mean(years_with_curr_manager))
+
+ggplot(mean.years.cur.Man, aes(x = department, y= currman, fill = department))+ geom_col()
+
+```
+
+## {.codefont}
+```{r, echo = FALSE}
+perf.rating.dep<-mydb%>%filter(attrition == "0")%>%group_by(department)%>%summarise(perf.mean= mean(performance_rating))
+
+ggplot(perf.rating.dep, aes(x = department, y= perf.mean, fill = department))+ geom_col()
+
+```
+
+## {.codefont}
+As succession strategy we decide to take in consideration 3 indicator to observe, the first one will analyse 2 different indicator that will help us in understand which department need to change the leader. The indicator are :
+
+-  the mean of environment satisfaction
+-  the mean of the performance rating
+-  average of years with current manager
+
+Based on that we will try first to change leader in the department with lower performance rating or environment satisfaction. Then once we choose the department on which we want to have change we will try to evaluate all the attitude, and job performance information that we can have relate to a worker and see if he can cover the role designed for him.
+ In particular the list of variable that we will analyse are, total working year, years at company, relationship satisfaction, number of companies worked, job role and job level. The job level will be the most important cause the one with already an high level of job level will be the one that we will privilege. 
+
+\newpage
+## Adding dataset {.codefont}
+
+```{r, results='hide', echo = FALSE}
+# UK
+london_data<-read.csv("survey_results_public2.csv")
+
+# Barcelona
+barcelona_data <- read.csv("barcelona_dataset.csv")
+
+# Clean Barcelona
+barcelona_data <- rename(barcelona_data, age = db_bar.EDAT1899_1A7)
+barcelona_data <- subset(barcelona_data, select = -X)
+tabyl(barcelona_data$sex)
+barcelona_data$sex <- ifelse(barcelona_data$sex == 
+                            "DONA", 
+                          "Female", barcelona_data$sex)
+barcelona_data$sex <- ifelse(barcelona_data$sex == 
+                            "HOME", 
+                          "Male", barcelona_data$sex)
+
+tabyl(barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 1.001 A 1.500 EUROS", 
+                          (1001+1500)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 2.001 A 2.500 EUROS", 
+                          (2001+2500)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 2.501 A 3.000 EUROS", 
+                          (2501+3000)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 3.001 A 5.000 EUROS", 
+                          (3001+5000)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 5.001 A 7.000 EUROS", 
+                          (5001+7000)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 500 A 1.000", 
+                          (500+1000)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 7.001 A 9.000 EUROS", 
+                          (7001+9000)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "MENYS DE 500 EUROS", 
+                          (500)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 1.501 A 2.000 EUROS", 
+                          (1.501+2000)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "MÉS DE 9.000 EUROS", 
+                          (10000), barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 500 A 1.000 EUROS", 
+                          (500+1000)/2, barcelona_data$monthly_income)
+
+barcelona_data <- barcelona_data %>% filter(monthly_income != "NO CONTESTA")
+barcelona_data <- barcelona_data %>% filter(monthly_income != "NO HO SAP")
+
+barcelona_data$monthly_income <- as.numeric(barcelona_data$monthly_income)
+
+```
+
+## {.codefont}
+### UK Comparation
+```{r, echo = FALSE}
+ggplot(london_data%>%filter(JobSatisfaction == "Extremely satisfied"), aes(x= CompanySize, fill = JobSatisfaction))+ geom_bar()+
+  theme( axis.text.x  = element_text(angle=45, hjust=1, vjust=0.9))+ scale_x_discrete(limits = c("Fewer than 10 employees","10 to 19 employees","20 to 99 employees", "100 to 499 employees","500 to 999 employees", "1,000 to 4,999 employees", "5,000 to 9,999 employees", "10,000 or more employees"))
+```
+
+
+As we can see from this graph in the Uk if people work in a company which is small the satisfaction of the employee tends to increase with respect to a big vompany
+
+
+## {.codefont}
+### Carrer satisfaction
+
+```{r, warning=FALSE, echo = FALSE}
+ggplot(london_data, aes(x= CompanySize , fill = CareerSatisfaction))+ geom_bar()+
+  theme( axis.text.x  = element_text(angle=45, hjust=1, vjust=0.9))+ scale_x_discrete(limits = c("Fewer than 10 employees","10 to 19 employees","20 to 99 employees", "100 to 499 employees","500 to 999 employees", "1,000 to 4,999 employees", "5,000 to 9,999 employees", "10,000 or more employees"))
+```
+
+## {.codefont}
+### Barcelona Comparation
+
+#### Introduction Analysis
+```{r}
+summary(barcelona_data)
+tabyl(barcelona_data$sex)
+
+```
+From this data we can see how the general mean of the monthly_income is €2686. 
+Moreover, we can see how well this dataset is distributed between Male and Female. 
+
+## {.codefont}
+With the cleaned new dataset, we can make some analysis in order to have a general overview and can do a comparison between the starting datset solution and the new one.  
+```{r, echo = FALSE}
+barcelona_data %>% 
+  select(sex, monthly_income) %>%
+  group_by(sex) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = sex, y = avg_income)) +
+  geom_col(aes(fill = sex), width = 0.3, show.legend = FALSE) +
+  geom_text(
+    aes(
+      x = sex,
+      y = 0.01,
+      label = dollar(avg_income, prefix = "EUR  ")
+    ),
+    hjust = -0.2,
+    size = 4,
+    colour = "white",
+    fontface = "bold"
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender",
+       x = NULL,
+       y = NULL)
+```
+In this case, we can see how in Barcelona Male has generally an higher salary compared to women.
+
+## {.codefont}
+```{r, echo = FALSE}
+barcelona_data %>% 
+  select(age, monthly_income) %>%
+  group_by(age) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = age, y = avg_income)) +
+  geom_col(aes(fill = age), width = 0.3, show.legend = FALSE) +
+  geom_text(
+    aes(
+      x = age,
+      y = 0.01,
+      label = dollar(avg_income, prefix = "EUR  ")
+    ),
+    hjust = -0.2,
+    size = 4,
+    colour = "white",
+    fontface = "bold"
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender",
+       x = NULL,
+       y = NULL)
+```
+To conclude, we can understand here how the people between 65 and 74 years old have higher monthly_income.
+
+
+# Conclusions
+## {.codefont}
+In the analysis, we reach some conclusions let's take a look at what we reach.
+
+We started by analyzing the frequency of the different roles that we have in the dataset, we obtained that looking at the whole data set without differentiating by city the most frequent role are:
+
+- Sales Executive
+- Research Scientist
+- Laboratory technician
+
+The next step is related to see if this path is followed also in the two cities. The second graph shows us that the distribution of the role is the same in both cities.
+
+Proceeding forward, we shift on the gender analysis to understand if both companies reach the goal of gender equality.
+
+We first calculate some statistics indicator of the distribution of the monthly income, obtaining an average monthly income of 6510 euro.
+
+We plotted a graph that shows the general situation of the whole company, and there we can see that on average the monthly income of the female employee tends to be higher. The average monthly income for males is 6395.65 while for females is 6682.85 euros.
+
+The next step will be to analyze the same point but after a distinction between the two different cities. 
+
+In both the city the monthly income of the female is higher than the male, but the gap in Barcelona is more significant.
+
+Let's shift to the result that takes into consideration also the department to which the employee belongs.
+
+In general, the number of males per department is always higher concerning the female, and the majority of personnel work in the Research & Development.
+
+As before we will take a look also in the two different cities. The gap between the gender per department is very high in London, but in Barcelona, the HR department respect gender equality, so our CEO needs to work firstly on the department of Sales and Research & Development.
+
+Let's shift now to the job role, in all the roles we have more males than females. From the graph where we don't differentiate between the city, all the role has more male than girl except the Manufacturing director role where the number of male and female are almost the same. We can state the same conclusion also if we analyze only London. In the case of Barcelona, we have a slight difference, the female is higher in the three roles.
+
+- Manager
+- Research Director 
+- Manufacturing director
+
+## {.codefont}
+Now, we want to write done the result obtained once we put in relation the monthly income versus the years in the company differentiating by gender and then by the city also.
+
+The whole picture dhow us that in the initial stage the female tends to get more money than the male, then in the middle stage from 8 years till 20 the income is almost the same, but in the final stage so after 20 years of seniority the gap between the female and male increase in the favor of the male.
+
+Looking at the two cities, we can state the same things only the duration of the middle stage change, because now the male start earns more money 15 years of seniority. In Barcelona the picture is different, female employees tend to earn more almost always.
+
+Let's consider the monthly income of the different departments and differentiate also by gender. 
+
+In the graph where we consider at the same time both the city, we can see that the differences in income are present in the education field of technical degree and Human resource causes the mean of female income for the male is bigger. Considering the two cities the problem is still present but in Barcelona is bigger.
+
+We carried out the same type of analysis but now focus on the job role instead of the education field. We obtained that in general the income as the same path for both male and female, but in two roles which are Research Director and Manager the male tend to earn more than the female. In Barcelona, the discrepancy is present for both causes in some roles males earn on average more than females and also the contrary happens. While in London only the research director shows a big gap in favor of the male.
+
+## {.codefont}
+For what concerns the variable _Attrition_ we assumed at first it depends on many factors, in particular _gender_ , _city_ that are not relevant. Other factors, were found out to be relevant like _marital_status_  but we cannot modify them in any way as they depend on the personal life of the workers.
+Most important we recognize the significance of some variables like _business_travel_ , _department_ , that could be improved by paying more attention at some key point : 
+
+- _business_travel_ <- let workers enter the travel logic to ensure that this does not become a negative impact factor on them.
+- _department_ <- pay more attention in the critical department in which we have higher values of people that want to leave the company, like in this case R&D.
+
+On the other side looking at the Satisfaction ( _job_satisfaction_ , _environment_satisfaction_ ) into our company we noticed some important differences for the city of Barcelona per genre, as there was an important slack between males and females perceptions.
+Through the linear model, we have seen that in general, they are not significant to explain the phenomenon in itself.
+However, to improve the issue found about Barcelona's worker's satisfaction could be relevant analyze and eventually make wider the growth prospects for the employees in the company to entice them to make appreciate more their work and keep united the workplace to pursue company's objectives.
+
+## {.codefont}
+To understand if our analysis is made on reliable data we take into consideration 2 new dataset one relates to Barcelona and the other relate to the UK.
+
+In the UK dataset, we compare how the size of the company can influence the high level of job satisfaction. In particular, we saw that the level of job satisfaction increases a lot when the company has a medium size,(20 to 90 employees).
+
+We carried out the same analysis but now consider the career satisfaction, and the result that we obtain follows the one that we enunciate before. The career satisfaction for the employee is higher in a company of medium size.
+
+We mainly decide to carry out this type of analysis cause we saw that in the dataset we have a predominance of observations related to London, which can be explicated in this way, the dimension of the company in London is bigger than the dimension in Barcelona.
+
+We decide to take into consideration the Barcelona dataset to enlighten the result that we obtained from the gender analysis, to see if they reflect the situation of Barcelona in general or it is only related to the company that we are analyzing.
+We mainly see that in Barcelona the average monthly income is almost the same between males and females. So the CEO should take into consideration to run further analysis to understand why we have so much difference between the male and female monthly income.
+
+
+
+
+
 
 # References 
 ## {.emphasized}
