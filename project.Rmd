@@ -1101,7 +1101,6 @@ We can
 ```{r}
 # UK
 london_data<-read.csv("survey_results_public2.csv")
-glimpse(london_data)
 
 # Barcelona
 barcelona_data <- read.csv("barcelona_dataset.csv")
@@ -1297,6 +1296,8 @@ Let's consider the monthly income in relation to the different department and di
 In the graph where we consider at the same time both the city we can see that the differences in income are present in the education field of technical degree and Human resource cause the mean of female income with respect to trhe male is more bigger. Considering the two city the problem are still present but in Barcelona is more bigger.
 
 We carried out the same type of analysis but now focusing on the job role instead of education field. We obtained that in general the income as the same path for both male and female, but in two role which are Research Director and Manager the male tend to earn more than the female. In barcelona the discrepancy is present for both cause in some role male earn in average more than female and also the contrary happen. While in London only the research director show a big gap in favor of the male.
+
+
 
 # Referemces
 1. _M., L. (2004). Moneyball: The art of winning an unfair game. New york: John Wiley and sons._
