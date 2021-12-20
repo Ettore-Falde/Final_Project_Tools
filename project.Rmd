@@ -1099,9 +1099,13 @@ We can
 # Adding dataset
 
 ```{r}
-london_data<- read.csv("survey_results_public.csv")
-london_data<- london_data%>%filter(Country == "United Kingdom")
+#london_data<- read.csv("survey_results_public.csv") command used to modify the original dataset
 
+#london_data<- london_data%>%filter(Country == "United Kingdom")
+
+#write.csv(london_data, "survey_results_public2.csv")
+
+london_data<-read.csv("survey_results_public2.csv")
 ggplot(london_data%>%filter(JobSatisfaction == "Extremely satisfied"), aes(x= CompanySize, fill = JobSatisfaction))+ geom_bar()+
   theme( axis.text.x  = element_text(angle=45, hjust=1, vjust=0.9))+ scale_x_discrete(limits = c("Fewer than 10 employees","10 to 19 employees","20 to 99 employees", "100 to 499 employees","500 to 999 employees", "1,000 to 4,999 employees", "5,000 to 9,999 employees", "10,000 or more employees"))
   
