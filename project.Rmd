@@ -268,10 +268,128 @@ Our analysis consists in different parts.
 5. To conclude, there is also the good practice to import in our project new datasets that could improve the decions that we can take. 
 
 
-## scatter plot monthly income with respect to age of wich you work in the company differentiate by gender
+## Gender Analysis
+First of all, we want to understand the salary that sex has. This would give us a better overview on how the salary is distributed inside the company. Moreover, we will also take into account the possibile differences that we have in the Barcelona and London headwarters. 
 
-###Taking in consideration both company location
+_Introduction_
+```{r}
+summary(mydb$monthly_income)
+```
+
+```{r}
+mydb %>% select(monthly_income, gender) %>%
+  ggplot(aes(monthly_income)) +
+  geom_histogram(
+    aes(monthly_income, color = gender, fill = gender),
+    alpha = 0.4,
+    position = "identity",
+    bins = 50,
+  ) +
+  geom_freqpoly(aes(linetype = gender), bins = 30) +
+  geom_rug(aes(color = gender)) +
+  scale_x_continuous(labels = label_dollar()) +
+  geom_vline(aes(xintercept = mean(monthly_income)), color = "#E67AEC", size = 1) +
+  geom_vline(aes(xintercept = median(monthly_income)), color = "#6899F1", size = 1) +
+  guides(color = "none") +
+  labs(title = "Distridution of Monthly Income by Gender",
+       caption = "BLUE = median; PINK = mean",
+       x = "Monthly Income",
+       y = NULL,
+       fill = NULL,
+       linetype = NULL) 
+```
+
+Hence, from this graph we can see that most of the employee have a salary lower than the average. In ddition, we can also see that generally we have the dotted male line almost always above the female line, but this can be considered acceptable, due to the fact that in our dataset we have more men and women.
+To conclude, we can also see that the major discrepancies are given from the lower range of salary, while the higher is the salary, the lower are the differences between the female and male monthly income. 
+
+
+Now, we will take a closer look to the monthly income between male an female . So, we can observe that the male have a worse restults. While, the female has in medium an higher salray than man. 
+```{r}
+mydb %>% 
+  select(gender, monthly_income) %>%
+  group_by(gender) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = gender, y = avg_income)) +
+  geom_col(aes(fill = gender), width = 0.3, show.legend = FALSE) +
+  geom_text(
+    aes(
+      x = gender,
+      y = 0.01,
+      label = dollar(avg_income, prefix = "USD  ")
+    ),
+    hjust = -0.2,
+    size = 4,
+    colour = "white",
+    fontface = "bold"
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender",
+       x = NULL,
+       y = NULL)
+
+```
+
+
+
+```{r}
+mydb %>%
+  group_by(department, gender) %>% 
+  summarise(amount = n(), .groups = "drop") %>%
+  ggplot(aes(
+    x = fct_reorder(department, amount),
+    y = amount,
+    fill = gender
+  )) + 
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "Number of Employees by Department and Gender",
+x = NULL,
+y = NULL,
+fill = NULL)
+```
+
+
+```{r}
+mydb %>%
+  group_by(job_role, gender) %>% 
+  summarise(amount = n(), .groups = "drop") %>%
+  ggplot(aes(
+    x = fct_reorder(job_role, amount),
+    y = amount,
+    fill = gender
+  )) + 
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "Number of Employees by Department and Gender",
+x = NULL,
+y = NULL,
+fill = NULL)
+```
+
+
+
+```{r}
+# sex <- factor(mydb$sex, 
+#                  levels=c(0,1), 
+#                  labels=c("Female","Male"))
+# 
+# mydb <- mutate(mydb, sex = sex)
+# modLog1 <- glm(gender ~ ., family=binomial, data = mydb)
+# summary(modLog1)$aic
+
+```
+
+
+
+_Taking in consideration both company location_
 In this graphs in order to show that up in a better way, we decided to remove the confidence interval and the points. 
+
 ```{r}
 ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+ 
   geom_smooth(method = 'loess', formula = y ~ x, se=F) + 
@@ -280,10 +398,10 @@ ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+
        y = "Monthly income") +
   theme_minimal()
 ```
+So, as we can see here, generally speaking the female gender has an higher salary compare to the male gender. This is true  till approximately the 20th year of seniority inside the company where the male gender will overcome the female monthly income in a dramatic way. 
 
 
-
-### Taking in consideration London
+_Taking in consideration London_
 ```{r}
 ggplot(mydb%>%filter(city=="London"), 
        aes(x=years_at_company, y=monthly_income, colour=gender)) + 
@@ -294,10 +412,10 @@ ggplot(mydb%>%filter(city=="London"),
     ) +
   theme_minimal()
 ```
+In the specific case of London we can stat that generally speaking the monthly income is well balanced between male and female work positions, but around the 15th year of seniority the male gender will have a boost in therm of monthly income. 
 
 
-
-### Taking in consideration Barcelona
+_Taking in consideration Barcelona_
 ```{r}
 ggplot(mydb%>%filter(city=="Barcelona"), 
        aes(x=years_at_company, y=monthly_income, colour=gender)) + 
@@ -305,14 +423,49 @@ ggplot(mydb%>%filter(city=="Barcelona"),
       title = "Income related to seniority: Barcelona",
        x = "Years in the company",
        y = "Monthly income"
-    ) +
+    ) + 
   theme_minimal()
 ```
+Now, in Barcelona we can see hat the resoult we obtained is pretty different than before. In fact, the female gender has generally an higher incoem compared to the male gender. 
 
 
 
 
-## satisfaction of male and female in each department considering the whole data set
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+_satisfaction of male and female in each department considering the whole data set_
 ```{r}
 ##Sales
 g1 <- ggplot(mydb%>%filter(department =="Sales"), 
@@ -561,21 +714,6 @@ plt_education_field_att <- bar_plot_proportions(education_field, attrition)
 ```
 
 
-```{r}
-monthly_income_dist <- mydb %>% select(monthly_income,) %>% 
-  ggplot(aes( x = monthly_income)) +
-  geom_histogram(color = "#16529A", fill = "#D3E8FB", bins = 40) +
-  geom_vline(aes(xintercept = mean(monthly_income)), color = "#FE8304", size = 1.5) +
-   geom_vline(aes(xintercept = median(monthly_income)), color = "#83470A", size = 1.5) +
-  labs(
-    title = "Monthly Income Distributions",
-    subtitle = "Histogram Plot",
-    caption = "Data Source: Kaggle IBM HR Employee Attrition",
-    x = NULL,
-    y = NULL
-  )
-monthly_income_dist
-```
 
 
 ```{r}
@@ -596,28 +734,6 @@ ggplot(mydb,
        caption = "Data Source: Kaggle IBM HR Employee Attrition",
        x = "Gender",
        y = "Monthly Income")
-```
-
-
-```{r}
-mydb %>% select(monthly_income, gender) %>%
-  ggplot(aes(monthly_income)) +
-  geom_histogram(
-    aes(monthly_income, color = gender, fill = gender),
-    alpha = 0.4,
-    position = "identity",
-    bins = 50,
-  ) +
-  geom_freqpoly(aes(linetype = gender), bins = 30) +
-  geom_rug(aes(color = gender)) +
-  scale_x_continuous(labels = label_dollar()) +
-  guides(color = "none") +
-  labs(title = "Distridution of Monthly Income by Gender",
-       x = "Monthly Income",
-       y = NULL,
-       fill = NULL,
-       linetype = NULL) 
-
 ```
 
 ## Environment Satisfaction per department
