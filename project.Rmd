@@ -1117,7 +1117,6 @@ A more deepen analysis on the behavior of the workers in this company, the appro
 ```{r, results='hide'}
 # UK
 london_data<-read.csv("survey_results_public2.csv")
-glimpse(london_data)
 
 # Barcelona
 barcelona_data <- read.csv("barcelona_dataset.csv")
@@ -1324,6 +1323,8 @@ We mainly decide to carry out this type of analysis cause we saw that in the dat
 
 We decide to take into consideration the Barcelona dataset to enlighten the result that we obtained from the gender analysis, to see if they reflect the situation of Barcelona in general or it is only related to the company that we are analyzing.
 We mainly see that in Barcelona the average monthly income is almost the same between males and females. So the CEO should take into consideration to run further analysis to understand why we have so much difference between the male and female monthly income.
+
+
 
 
 # Referemces
