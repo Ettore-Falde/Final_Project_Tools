@@ -271,6 +271,10 @@ Our analysis consists in different parts.
 ## Gender Analysis
 First of all, we want to understand the salary that sex has. This would give us a better overview on how the salary is distributed inside the company. Moreover, we will also take into account the possibile differences that we have in the Barcelona and London headwarters. 
 
+
+### Monthly Income 
+It is pretty clear that the monthly income could be one of the most important variable that will determine the differences inside a compnay taking into accout the gender analysis. 
+
 _Introduction_
 ```{r}
 summary(mydb$monthly_income)
@@ -303,7 +307,7 @@ Hence, from this graph we can see that most of the employee have a salary lower 
 To conclude, we can also see that the major discrepancies are given from the lower range of salary, while the higher is the salary, the lower are the differences between the female and male monthly income. 
 
 
-Now, we will take a closer look to the monthly income between male an female . So, we can observe that the male have a worse restults. While, the female has in medium an higher salray than man. 
+Now, we will take a closer look to the monthly income between male an female . So, we can observe that the male have a worse results. While, the female has in medium an higher salray than man. 
 ```{r}
 mydb %>% 
   select(gender, monthly_income) %>%
@@ -315,7 +319,7 @@ mydb %>%
     aes(
       x = gender,
       y = 0.01,
-      label = dollar(avg_income, prefix = "USD  ")
+      label = dollar(avg_income, prefix = "EUR  ")
     ),
     hjust = -0.2,
     size = 4,
@@ -330,9 +334,72 @@ mydb %>%
        y = NULL)
 
 ```
+Clearly, this difference is so minimal that we need to go further in detail to clearly understand if we can adopt any strategy to balance the gender inside a company or not. 
 
 
+So, due to we also need to understan where is located this difference, we will filter by country. 
+```{r}
 
+# Barcelona
+g1 <- mydb %>% filter(city == "Barcelona") %>% 
+  select(gender, monthly_income) %>%
+  group_by(gender) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = gender, y = avg_income)) +
+  geom_col(aes(fill = gender), width = 0.3, show.legend = FALSE) +
+  geom_text(
+    aes(
+      x = gender,
+      y = 0.01,
+      label = dollar(avg_income, prefix = "EUR  ")
+    ),
+    hjust = -0.2,
+    size = 4,
+    colour = "white",
+    fontface = "bold"
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender: Barcelona",
+       x = NULL,
+       y = NULL)
+
+
+# London
+g2 <- mydb %>% filter(city == "London") %>% 
+  select(gender, monthly_income) %>%
+  group_by(gender) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = gender, y = avg_income)) +
+  geom_col(aes(fill = gender), width = 0.3, show.legend = FALSE) +
+  geom_text(
+    aes(
+      x = gender,
+      y = 0.01,
+      label = dollar(avg_income, prefix = "EUR  ")
+    ),
+    hjust = -0.2,
+    size = 4,
+    colour = "white",
+    fontface = "bold"
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender: London",
+       x = NULL,
+       y = NULL)
+
+grid.arrange(g1, g2, nrow = 2)
+
+rm(g1, g2)
+```
+
+In this differentiation is definetely more clear how in Barcelona the monthly salary seems to privilege the female gender despite the male one. While, in London even if women has slightly higher average monthly salary, this is so small that can be omitted. In conclusion, we can focus to Barcelona and try to identify here the causes of this differences. 
+
+
+### Department
 ```{r}
 mydb %>%
   group_by(department, gender) %>% 
@@ -351,8 +418,56 @@ x = NULL,
 y = NULL,
 fill = NULL)
 ```
+Therefore, in this graph we can see how inside the company we have the majority of employees in the field of research and development. Moreover, also here we can see that in general the male sex has an higher frequency in each department compared to to female one. 
+
+Also here we found pretty important to stat that the differences between Barcelona and London to decide ultimately where to take decisions. 
+```{r}
+# Barcelona
+g1 <- mydb %>% filter(city == "Barcelona") %>%
+  group_by(department, gender) %>% 
+  summarise(amount = n(), .groups = "drop") %>%
+  ggplot(aes(
+    x = fct_reorder(department, amount),
+    y = amount,
+    fill = gender
+  )) + 
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "Barcelona",
+x = NULL,
+y = NULL,
+fill = NULL)
+  
+# London
+g2 <- mydb %>% filter(city == "London") %>%
+  group_by(department, gender) %>% 
+  summarise(amount = n(), .groups = "drop") %>%
+  ggplot(aes(
+    x = fct_reorder(department, amount),
+    y = amount,
+    fill = gender
+  )) + 
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "London",
+x = NULL,
+y = NULL,
+fill = NULL)
+  
+grid.arrange(g1, g2, nrow = 1)
+
+rm(g1, g2)
+```
+Now, we can start seeing that the major differences about the number of employees and their distribution is mainly in London, while in Barcelona for instance, In the HR department we have almost the same number of employee per gender. 
+This balance inside the company is a good sign of gender equality, even if there are some department, such as sales and R&D where the male sex is predominant In both London and Barcelona. 
 
 
+### Job Role
+The same analysis as above is represented below taking into account the _job_role_ variable.
 ```{r}
 mydb %>%
   group_by(job_role, gender) %>% 
@@ -366,30 +481,59 @@ mydb %>%
   theme(axis.text.x = element_text(angle = 90),
         plot.title = element_text(hjust = 0.5),
         legend.position = "top") + 
-  labs(title = "Number of Employees by Department and Gender",
+  labs(title = "Number of Employees by Job Role and Gender",
 x = NULL,
 y = NULL,
 fill = NULL)
 ```
 
-
-
 ```{r}
-# sex <- factor(mydb$sex, 
-#                  levels=c(0,1), 
-#                  labels=c("Female","Male"))
-# 
-# mydb <- mutate(mydb, sex = sex)
-# modLog1 <- glm(gender ~ ., family=binomial, data = mydb)
-# summary(modLog1)$aic
+# Barcelona
+g1 <- mydb %>% filter(city == "Barcelona") %>%
+  group_by(job_role, gender) %>% 
+  summarise(amount = n(), .groups = "drop") %>%
+  ggplot(aes(
+    x = fct_reorder(job_role, amount),
+    y = amount,
+    fill = gender
+  )) + 
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "Barcelona",
+x = NULL,
+y = NULL,
+fill = NULL)
 
+# London
+g2 <- mydb %>% filter(city == "London") %>%
+  group_by(job_role, gender) %>% 
+  summarise(amount = n(), .groups = "drop") %>%
+  ggplot(aes(
+    x = fct_reorder(job_role, amount),
+    y = amount,
+    fill = gender
+  )) + 
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90),
+        plot.title = element_text(hjust = 0.5),
+        legend.position = "top") + 
+  labs(title = "London",
+x = NULL,
+y = NULL,
+fill = NULL)
+
+grid.arrange(g1, g2, nrow = 1)
+
+rm(g1, g2)
 ```
+This two graphs seems to be relevant in some job roles. In fact, as we can see in Barcelona, women play an essential role in the two Director job roles. 
 
-
+### Seniority
 
 _Taking in consideration both company location_
 In this graphs in order to show that up in a better way, we decided to remove the confidence interval and the points. 
-
 ```{r}
 ggplot(mydb, aes(x=years_at_company, y=monthly_income, colour=gender))+ 
   geom_smooth(method = 'loess', formula = y ~ x, se=F) + 
@@ -428,6 +572,48 @@ ggplot(mydb%>%filter(city=="Barcelona"),
 ```
 Now, in Barcelona we can see hat the resoult we obtained is pretty different than before. In fact, the female gender has generally an higher incoem compared to the male gender. 
 
+### Education field
+Performance rating education field. 
+```{r}
+ggplot(mydb, aes(y= education_field, x = monthly_income, fill = gender))+ 
+  labs(y = "Eduction Field", x = "Monthly Income", title = "Income per gender and Education field") +
+  geom_boxplot()
+
+# Barcelona
+g1 <- ggplot(mydb%>%filter(city == "Barcelona"), aes(y= education_field, x = monthly_income, fill = gender))+ 
+  labs(y = "Eduction Field", x = "Monthly Income", title = "Barcelona") +
+  geom_boxplot()
+
+# London
+g2 <- ggplot(mydb%>%filter(city == "London"), aes(y= education_field, x = monthly_income, fill = gender))+ 
+  labs(y = "Eduction Field", x = "Monthly Income", title = "London") +
+  geom_boxplot()
+
+grid.arrange(g1, g2, nrow = 2)
+rm(g1, g2)
+```
+
+So, in the first graph we can see that there are some differences. Hence we decided to locate them and understood that the major problems are in Barcelona. In fact, in the HR sector, women have an higher salary than men, also for technical degree we can see how the female gender seems to have a clear advantage on that. 
+
+Clearly, per education field we can see also that in some cases also the male gender seems to have a slightly higer salary, but the main focus are those from which the discrepancy are very high, such as HR in Barcelona and Technical Degree, always in Barcelona. 
+
+
+### Regression
+To conclude, we wanted also to see if the gender is a relevan variable that affect _monthly_income_ or other variables relavant for our study. 
+```{r}
+mod1 <- lm(monthly_income ~ ., data = mydb)
+summary(mod1)
+
+mod2 <- lm(monthly_income ~ gender, data = mydb)
+summary(mod2)
+
+names(mydb)
+mod3 <- lm(monthly_income ~ age + gender + business_travel + education_field + education + distance_from_home + job_level + job_role + marital_status + total_working_years + performance_rating + years_at_company, data = mydb)
+summary(mod3)
+```
+
+Hence, after this tree linear regression models we finally understood that actually the gender variable isn't significative to determine the monthly income. 
+Anyway, this doesn't means that there are no discrepancy between gender, but simply that we need to develop an internal company analysis understand how in Barcelona for some kind of roles women and men have higher salaries compared to the opposite sex. 
 
 
 
@@ -791,15 +977,7 @@ ggplot(mydb%>%filter(city == "Barcelona", gender== "Female"), aes(x= department,
 ```
 We can
 
--performance rating education field
 
-```{r}
-ggplot(mydb, aes(y= education_field, x = monthly_income, fill = gender))+
-  geom_boxplot()
-
-ggplot(mydb, aes(y= education_field, x = monthly_income, fill = city))+
-  geom_boxplot()
-```
 -
 
 - total working year e age, years at company, relationship satisfaction, numb of companies worked, monthly income, job role, job level
@@ -828,7 +1006,7 @@ london_data<- london_data%>%filter(Geography == "London", Sex == c("Female", "Ma
 
 
 # Conclusions
-...
+- Gender equality seems to be well reached in London, while in Barcelona we can suggest to concentrate more in defining same salaries per 
 
 # Referemces
 1. _M., L. (2004). Moneyball: The art of winning an unfair game. New york: John Wiley and sons._
