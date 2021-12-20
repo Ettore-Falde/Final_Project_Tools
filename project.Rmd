@@ -11,7 +11,7 @@ header-includes:
    \pagestyle{fancy}
    \setlength\headheight{28pt}
    \fancyhead[L]{\includegraphics[width=5cm]{upc-positiu-p3005.png}}
-   \fancyfoot[LE,RO]{GPIM}
+   \fancyfoot[LE,RO]{UPC}
 output: 
   pdf_document:
     latex_engine: xelatex
@@ -1016,36 +1016,6 @@ rm(g1, g2, g3, g4, g5, g6, g7, g8, g9)
 ```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```{r}
-(plt_education_field /
-   plt_education_field_att) + 
-  plot_annotation(
-  title = "Proportions of Education field VS Attrition",
-  caption = "Data Source: Kaggle IBM HR Employee Attrition"
-) & 
-  theme(plot.caption = element_text(color = "#969696", size = 7))
-```
-
-
-
-
 ```{r}
 mean_mi <- round(mean(mydb$monthly_income),2)
 median_mi <- round(median(mydb$monthly_income),2)
@@ -1147,7 +1117,7 @@ A more deepen analysis on the behavior of the workers in this company, the appro
 
 # Adding dataset
 
-```{r}
+```{r, results='hide'}
 # UK
 london_data<-read.csv("survey_results_public2.csv")
 glimpse(london_data)
