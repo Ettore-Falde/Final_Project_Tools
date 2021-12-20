@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.12.18)  20 DEC 2021 19:00
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.12.18)  20 DEC 2021 19:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1490,16 +1490,16 @@ File: project_files/figure-latex/unnamed-chunk-41-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-41-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1780--1785
-[][]
+Overfull \hbox (183.99423pt too wide) in paragraph at lines 1779--1784
+ \TU/lmr/bx/n/10 5.4.2.1 Sales department , Gender[] []
  []
 
 File: project_files/figure-latex/unnamed-chunk-42-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-42-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1809--1814
-[][]
+Overfull \hbox (185.40297pt too wide) in paragraph at lines 1808--1813
+ \TU/lmr/bx/n/10 5.4.2.2 R&D department , Gender[] []
  []
 
 File: upc-positiu-p3005.png Graphic file (type bmp)
@@ -1517,8 +1517,8 @@ File: project_files/figure-latex/unnamed-chunk-43-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-43-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1839--1854
-[][]
+Overfull \hbox (176.64297pt too wide) in paragraph at lines 1838--1853
+ \TU/lmr/bx/n/10 5.4.2.3 HR department , Gender[] []
  []
 
 File: upc-positiu-p3005.png Graphic file (type bmp)
@@ -1550,7 +1550,7 @@ File: project_files/figure-latex/unnamed-chunk-46-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-46-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1896--1898
+Underfull \hbox (badness 10000) in paragraph at lines 1895--1897
 [][]
  []
 
@@ -1569,7 +1569,7 @@ File: project_files/figure-latex/unnamed-chunk-47-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-47-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1913--1918
+Underfull \hbox (badness 10000) in paragraph at lines 1912--1917
 [][]
  []
 
@@ -1588,8 +1588,8 @@ File: project_files/figure-latex/unnamed-chunk-48-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-48-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1929--1934
-[][]
+Overfull \hbox (123.68088pt too wide) in paragraph at lines 1928--1933
+ \TU/lmr/bx/n/10 5.4.2.5 London , Male[] []
  []
 
 File: upc-positiu-p3005.png Graphic file (type bmp)
@@ -1607,8 +1607,8 @@ File: project_files/figure-latex/unnamed-chunk-49-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-49-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1945--1950
-[][]
+Overfull \hbox (133.89088pt too wide) in paragraph at lines 1944--1949
+ \TU/lmr/bx/n/10 5.4.2.6 London , Female[] []
  []
 
 File: upc-positiu-p3005.png Graphic file (type bmp)
@@ -1626,8 +1626,8 @@ File: project_files/figure-latex/unnamed-chunk-50-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-50-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 1961--1969
-[][]
+Overfull \hbox (135.90088pt too wide) in paragraph at lines 1960--1968
+ \TU/lmr/bx/n/10 5.4.2.7 Barcelona , Male[] []
  []
 
 File: upc-positiu-p3005.png Graphic file (type bmp)
@@ -1644,6 +1644,11 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 File: project_files/figure-latex/unnamed-chunk-51-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-51-1.pdf>
+
+Overfull \hbox (149.30089pt too wide) in paragraph at lines 1979--1980
+ \TU/lmr/bx/n/10 5.4.2.8 Barcellona , Female[] [] 
+ []
+
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -1655,6 +1660,11 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
 [55]
+Underfull \hbox (badness 3838) in paragraph at lines 1992--1994
+ \TU/lmr/bx/n/10 5.4.2.9 Regression[] \TU/lmr/m/n/10 We firstly try to interpre
+tate the variable “job_satisfaction” and “envi-
+ []
+
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -1753,7 +1763,7 @@ File: project_files/figure-latex/unnamed-chunk-57-1.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-57-1.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 2384--2387
+Underfull \hbox (badness 10000) in paragraph at lines 2383--2386
 [][]
  []
 
@@ -1786,7 +1796,7 @@ File: project_files/figure-latex/unnamed-chunk-58-2.pdf Graphic file (type pdf)
 
 <use project_files/figure-latex/unnamed-chunk-58-2.pdf>
 
-Underfull \hbox (badness 10000) in paragraph at lines 2431--2434
+Underfull \hbox (badness 10000) in paragraph at lines 2430--2433
 [][]
  []
 
@@ -1824,12 +1834,12 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 
 [68] (./project.aux)
 Package rerunfilecheck Info: File `project.out' has not changed.
-(rerunfilecheck)             Checksum: 56246D215C027B75467831190764DB0E;6688.
+(rerunfilecheck)             Checksum: 850DE21DD977CBE085D498083D7BBAC0;4921.
  ) 
 Here is how much of TeX's memory you used:
  17511 strings out of 478256
  335743 string characters out of 5854791
- 783328 words of memory out of 5000000
+ 783322 words of memory out of 5000000
  37772 multiletter control sequences out of 15000+600000
  409881 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
