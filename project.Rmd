@@ -267,6 +267,30 @@ Our analysis consists in different parts.
 
 5. To conclude, there is also the good practice to import in our project new datasets that could improve the decions that we can take. 
 
+## Introduction Analysis
+
+### Plot job role frequency 
+```{r, fig.align='left'}
+# This would help to analyse the number of types of jobs and compare with types
+k <- mydb %>% tabyl(job_role)
+
+ggplot(k, aes(x = reorder(job_role, -n), y = n)) + 
+  geom_bar(stat = "identity", fill = "#4271AE", colour = "#1F3552") + 
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) + 
+  geom_text(aes(label = n), vjust = 0, colour = "#1F3552")+
+  labs(y= "# of values", x = "job role") + 
+  ggtitle("Job Role Frequency")
+
+rm("k")
+```
+
+```{r}
+ggplot(mydb, aes(x = job_role, color = city, fill = city)) + 
+  geom_bar(stat = "count") + 
+  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) + 
+  ggtitle("Job Role Frequency Barcelona & London")
+```
+
 
 ## Gender Analysis
 First of all, we want to understand the salary that sex has. This would give us a better overview on how the salary is distributed inside the company. Moreover, we will also take into account the possibile differences that we have in the Barcelona and London headwarters. 
@@ -610,26 +634,181 @@ summary(mod2)
 names(mydb)
 mod3 <- lm(monthly_income ~ age + gender + business_travel + education_field + education + distance_from_home + job_level + job_role + marital_status + total_working_years + performance_rating + years_at_company, data = mydb)
 summary(mod3)
+
+rm(mod1, mod2, mod3)
 ```
 
 Hence, after this tree linear regression models we finally understood that actually the gender variable isn't significative to determine the monthly income. 
 Anyway, this doesn't means that there are no discrepancy between gender, but simply that we need to develop an internal company analysis understand how in Barcelona for some kind of roles women and men have higher salaries compared to the opposite sex. 
 
 
+## Attrition Analysis
+
+First of all, we want to understand how the percentage of attrition is distributed inside the company. 
+Then, we will differenciate per country. 
+```{r}
+# Create a temporary dataset to get the percentage of employees that would leave the company 
+temp <- mydb %>% 
+  group_by(attrition) %>%
+  summarize(counts = n()) %>%
+  mutate(percent = percentage_func(counts)) %>%
+  arrange(desc(percent))
+
+# Create a pie chart to see the percentage of people that will leave the company
+pie_chart_func(dataset = temp, 
+               counts_var = temp$counts, 
+               var_interest = temp$attrition, 
+               title = "Are the Attrition var Balanced?", 
+               subtitle = "Pie Plot,percentortion of YES to NO in Attrition Var", 
+               caption = "UPC")
+
+# Removing the un-used variables
+rm("temp")
+```
+
+```{r}
+# Barcelona
+# Create a temporary dataset to get the percentage of employees that would leave the company 
+t1 <- mydb %>% filter(city == "Barcelona") %>%
+  group_by(attrition) %>%
+  summarize(counts = n()) %>%
+  mutate(percent = percentage_func(counts)) %>%
+  arrange(desc(percent))
+
+g1 <- pie_chart_func(dataset = t1, 
+               counts_var = t1$counts, 
+               var_interest = t1$attrition, 
+               title = "Barcelona", 
+               subtitle = "Pie Plot,percentortion of YES to NO in Attrition Var",
+               caption = "")
+
+# London
+t2 <- mydb %>% filter(city == "London") %>%
+  group_by(attrition) %>%
+  summarize(counts = n()) %>%
+  mutate(percent = percentage_func(counts)) %>%
+  arrange(desc(percent))
+
+# Create a pie chart to see the percentage of people that will leave the company
+g2 <- pie_chart_func(dataset = t2, 
+               counts_var = t2$counts, 
+               var_interest = t2$attrition, 
+               title = "London", 
+               subtitle = "Pie Plot,percentortion of YES to NO in Attrition Var",
+               caption = "")
+
+
+grid.arrange(g1, g2, nrow = 1)
+# Removing the un-used variables
+rm(g1, g2, t1, t2)
+```
+Fortunately, as we can see the percentage of attrition between Barcleona and London is almost the same, so we can proceed with a generalized analysis. 
+
+
+```{r, message=FALSE, warning=FALSE}
+
+mydb %>% select(starts_with("years"), attrition) %>% 
+
+ggpairs(
+  aes(color = attrition),
+  lower = list(continuous = wrap(
+    "smooth",
+    alpha = 0.2,
+    size = 0.5,
+    color = "#DE945E"
+  )),
+  diag = list(continuous = "barDiag"),
+  upper = list(continuous = wrap("cor", size = 4))
+) +
+  theme(
+    axis.text = element_text(size = 8),
+    panel.background = element_rect(fill = "white"),
+    strip.background = element_rect(fill = "white"),
+    strip.background.x = element_rect(colour = "black"),
+    strip.background.y = element_rect(colour = "black"),
+    strip.text = element_text(color = "black", face = "bold", size = 8)
+  ) +
+  labs(
+    title = "Pair plot by attrition Var",
+    subtitle = "Pair Plot, scatter plot, Histogram and Correlation coefficient",
+    caption = "",
+    x = NULL,
+    y = NULL
+  )
+```
 
 
 
+### Gender vs Attrition
+```{r}
+bar_plot_proportions(gender, attrition)
+```
+So, as we can see male tend to leave the comapny more the women does, but we also have to take into account the fact that there are more men in the company. Hence, the relation seems to be pretty balanced. 
+
+### Marital status vs Attrition
+```{r}
+bar_plot_proportions(marital_status, attrition) 
+```
+Here, we can see how single people tend to leave the company more, compared to married and divorced. 
+
+The _business_travel_ variable could be a very important variable that will tell us if the travels affect the attrition variable. 
+```{r}
+bar_plot_proportions(business_travel, attrition)
+```
+At the end, we have that the main obs that affect the attrition is the *_travel_rarely_*, which could that the non routine and the change of plans for the single employee could cause an higher attrition. Hence, we suggest to clarify with higher advance if that employee have to travel or not, and finally take the new results and compute a further analysis. 
 
 
+The _department_ variable could be a very important variable that will tell us if the department affect the attrition variable. 
+```{r}
+bar_plot_proportions(department, attrition) 
+```
+
+Here instead, we can see how the R&D department seems the one with higher attrition. Anyway, we have also have to take into consideration that the majority of the people inside the company work in this department. 
 
 
+Now, we want to study also the 
+```{r}
+plt_job_role <- bar_plot_proportions(job_role)
+plt_job_role_att <- bar_plot_proportions(job_role, attrition) 
+(plt_job_role /
+   plt_job_role_att) + 
+  plot_annotation(
+  title = "Proportions of Job role VS Attrition",
+  caption = ""
+) & 
+  theme(plot.caption = element_text(color = "#969696", size = 7))
+```
 
 
+```{r}
+plt_education_field <- bar_plot_proportions(education_field)
+plt_education_field_att <- bar_plot_proportions(education_field, attrition) 
 
+(plt_education_field /
+   plt_education_field_att) + 
+  plot_annotation(
+  title = "Proportions of Education field VS Attrition",
+  caption = "Data Source: Kaggle IBM HR Employee Attrition"
+) & 
+  theme(plot.caption = element_text(color = "#969696", size = 7))
+```
 
+### Regression
+```{r}
 
+mydb$attrition <-ifelse(mydb$attrition=="Yes",1,0)
+mod1 <- glm(attrition ~ ., data = mydb)
+summary(mod1)
 
+# mod2 <- lm(monthly_income ~ gender, data = mydb)
+# summary(mod2)
+# 
+# names(mydb)
+# mod3 <- lm(monthly_income ~ age + gender + business_travel + education_field + education + distance_from_home + job_level + job_role + marital_status + total_working_years + performance_rating + years_at_company, data = mydb)
+# summary(mod3)
 
+rm(mod1, mod2, mod3)
+```
 
 
 
@@ -744,159 +923,25 @@ rm(g1, g2, g3, g4, g5, g6, g7, g8, g9)
 ```
 
 
-## Plot job role frequency 
-
-```{r, fig.align='left'}
-# This would help to analyse the number of types of jobs and compare with types
-k <- mydb %>% tabyl(job_role)
-
-ggplot(k, aes(x = reorder(job_role, -n), y = n)) + 
-  geom_bar(stat = "identity", fill = "#4271AE", colour = "#1F3552") + 
-  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) + 
-  geom_text(aes(label = n), vjust = 0, colour = "#1F3552")+
-  labs(y= "# of values", x = "job role") + 
-  ggtitle("Job Role Frequency")
-
-rm("k")
-```
 
 
-```{r}
-ggplot(mydb, aes(x = job_role, color = city, fill = city)) + 
-  geom_bar(stat = "count") + 
-  theme(axis.text.x=element_text(angle=90,hjust=1,vjust=0.5)) + 
-  ggtitle("Job Role Frequency Barcelona & London")
-```
-```{r}
-# Create a temporary dataset to get the percentage of employees that would leave the company 
-temp <- mydb %>% 
-  group_by(attrition) %>%
-  summarize(counts = n()) %>%
-  mutate(percent = percentage_func(counts)) %>%
-  arrange(desc(percent))
-
-# Create a pie chart to see the percentage of people that will leave the company
-pie_chart_func(dataset = temp, 
-               counts_var = temp$counts, 
-               var_interest = temp$attrition, 
-               title = "Are the Attrition var Balanced?", 
-               subtitle = "Pie Plot,percentortion of YES to NO in Attrition Var", 
-               caption = "UPC")
-
-# Removing the un-used variables
-rm("temp")
-```
 
 
-```{r, message=FALSE, warning=FALSE}
 
-mydb %>% select(starts_with("years"), attrition) %>% 
 
-ggpairs(
-  aes(color = attrition),
-  lower = list(continuous = wrap(
-    "smooth",
-    alpha = 0.2,
-    size = 0.5,
-    color = "#DE945E"
-  )),
-  diag = list(continuous = "barDiag"),
-  upper = list(continuous = wrap("cor", size = 4))
-) +
-  theme(
-    axis.text = element_text(size = 8),
-    panel.background = element_rect(fill = "white"),
-    strip.background = element_rect(fill = "white"),
-    strip.background.x = element_rect(colour = "black"),
-    strip.background.y = element_rect(colour = "black"),
-    strip.text = element_text(color = "black", face = "bold", size = 8)
-  ) +
-  labs(
-    title = "Pair plot by attrition Var",
-    subtitle = "Pair Plot, scatter plot, Histogram and Correlation coefficient",
-    caption = "Data Source: Kaggle IBM HR Employee Attrition",
-    x = NULL,
-    y = NULL
-  )
-```
+
+
+
+
+
+
+
+
+
 
 
 ```{r}
-plt_gender <- bar_plot_proportions(gender)
-plt_gender_att <- bar_plot_proportions(gender, attrition)
-plt_marital_status <- bar_plot_proportions(marital_status)
-plt_marital_status_att <- bar_plot_proportions(marital_status, attrition) 
 
-
-(plt_gender +
-   plt_gender_att)+ 
-  plot_annotation(
-  title = "Proportions of Gender VS Attrition",
-  caption = "Data Source: Kaggle IBM HR Employee Attrition"
-) & 
-  theme(plot.caption = element_text(color = "#969696", size = 7))
-```
-
-
-```{r}
-  (plt_marital_status +
-   plt_marital_status_att ) + 
-  plot_annotation(
-  title = "Proportions of Marital Status VS Attrition",
-  caption = "Data Source: Kaggle IBM HR Employee Attrition"
-) & 
-  theme(plot.caption = element_text(color = "#969696", size = 7))
-```
-
-```{r}
-plt_business_travel <- bar_plot_proportions(business_travel)
-plt_business_travel_att <- bar_plot_proportions(business_travel, attrition)
-plt_department <- bar_plot_proportions(department)
-plt_department_att <- bar_plot_proportions(department, attrition) 
-
-
-(plt_business_travel + 
-   plt_business_travel_att ) + 
-  plot_annotation(
-  title = "Proportions of Business travel VS Attrition",
-  caption = "Data Source: Kaggle IBM HR Employee Attrition"
-) & 
-  theme(plot.caption = element_text(color = "#969696", size = 7))
-```
-
-```{r}
- (plt_department + 
-   plt_department_att) + 
-  plot_annotation(
-  title = "Proportions of Departments VS Attrition",
-  caption = "Data Source: Kaggle IBM HR Employee Attrition"
-) & 
-  theme(plot.caption = element_text(color = "#969696", size = 7))
-```
-```{r}
-plt_job_role <- bar_plot_proportions(job_role)
-plt_job_role_att <- bar_plot_proportions(job_role, attrition) 
-plt_education_field <- bar_plot_proportions(education_field)
-plt_education_field_att <- bar_plot_proportions(education_field, attrition) 
-
-(plt_job_role /
-   plt_job_role_att) + 
-  plot_annotation(
-  title = "Proportions of Job role VS Attrition",
-  caption = "Data Source: Kaggle IBM HR Employee Attrition"
-) & 
-  theme(plot.caption = element_text(color = "#969696", size = 7))
-```
-
-
-```{r}
-(plt_education_field /
-   plt_education_field_att) + 
-  plot_annotation(
-  title = "Proportions of Education field VS Attrition",
-  caption = "Data Source: Kaggle IBM HR Employee Attrition"
-) & 
-  theme(plot.caption = element_text(color = "#969696", size = 7))
 ```
 
 

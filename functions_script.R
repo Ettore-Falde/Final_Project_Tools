@@ -75,7 +75,7 @@ bar_plot_proportions <- function(feature, target){
       scale_color_manual(values = c("black", "white")) +
       theme(
         legend.position = "right",
-        plot.background = element_rect(colour = "gray"),
+        plot.background = element_rect(colour = "white"),
         plot.title.position = "panel",
         plot.title = element_text(size = 10, hjust = 0.5),
         plot.subtitle = element_text(size = 8),
@@ -129,7 +129,7 @@ bar_plot_proportions <- function(feature, target){
       scale_color_manual(values = c("black", "white")) +
       theme(
         legend.position = "right",
-        strip.background = element_rect(fill = "#CD3B16"),
+        strip.background = element_rect(fill = "#1664CD"),
         strip.text = element_text(color = "white", face = "bold", size = 8),
         plot.background = element_rect(colour = "gray"),
         plot.title.position = "panel",
