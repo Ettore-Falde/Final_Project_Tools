@@ -1,0 +1,43 @@
+/* Used for edit the font dimension of the Reference part */
+.emphasized {
+   font-size: 0.5em;
+}
+
+/* Used for edit the Title style */
+.title-slide hgroup h1 {
+  font-size: 50px;
+  letter-spacing: 0;
+  color: #007bc0;
+  font-family: "Helvetica""
+}
+
+h3 { 
+ color: #007bc0;		
+}
+
+/* Will modify the color of the background of the # slides */
+slides > slide.dark {
+    background: #007bc0 !important;
+}
+
+/* Will increase the dimension of the graphs on mouse hover */
+.grow:hover
+{
+        -webkit-transform: scale(1.3);
+        -ms-transform: scale(1.3);
+        transform: scale(1.3);
+}
+
+/* This is used fot reduce only the code text dimension */
+.codefont pre {
+    font-size: 12px;
+}
+
+/* Used for changge the font dimensin of the general text */
+p {
+  font-size: 20px;
+}
+
+p:not(#section-5){
+    font-size: 0.7em;
+}

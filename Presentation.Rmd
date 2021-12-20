@@ -1,0 +1,178 @@
+---
+title: "Final Project"
+subtitle: "HR Analysis"
+author: "Ettore Falde, Samoussa Fofana, Federico Basaglia"
+date: "12/20/2021"
+output: ioslides_presentation
+widescreen: false
+transition: 0.5
+logo: logoupc.png
+css: styles.css
+
+---
+
+```{r, echo=FALSE}
+# The following code is used to find the location of the design docuements we need
+logo<-"/Users/ettorefalde/Desktop/Presentation/logoupc.png"
+
+css <- "/Users/ettorefalde/Desktop/Presentation/styles.css"
+```
+
+# Introduction
+
+## What to do
+# Analysis
+Our analysis consists in different parts. 
+
+1. First of all, we want to describe the gender equality inside the company and understand if there are discrepancies and how we can solve those problems. 
+
+2. Secondly, we want to understand the attrition factor and have a clear comprehension of what is the structure of the officies between Barcelona and London. This would be very helpful in otder to decrease the percentace of people who want to leave and how the company can improve the level of comfort of its employees.
+
+3. Thirdly, we think is very important to describe the attitude of our employees and what it their satisfaction level. So, combining this solution with the previous question we can improve our decision and suggest to the company where it can adopt new HR methodologies. 
+
+4. Fourthly, we want to understand how the company can find its successor and what could be the best solution. 
+
+5. To conclude, there is also the good practice to import in our project new datasets that could improve the decions that we can take. 
+
+## Description
+The new CEO is concerned about several issues. She truly believes in gender equality in organizations as it implies a signal to society. On the other hand, she is concerned that the offices in Barcelona do not follow a similar structure to the one in London. **In her opinion, the structure of the Barcelona offices should tend towards the London structure.** In her meeting with us, she also told us that she would like to know the attitudes (e.g., satisfaction) of the employees across the different departments and if anything could be done to improve them. Finally, she commented that she is very concerned about the company's succession strategy and in particular some positions in certain departments.
+
+
+## Considerations
+
+We need to use:
+
+* A picture related to the activity
+* Boxplot
+* Scatterplot
+* Circular barplot
+* Thank you for your attention (in the final slide)
+
+## Setup the software {.codefont}
+
+The software used for the development of the study and the writing of the report is R[1]. The first step is to define the work directory and to load the libraries:
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Directory
+setwd("/Users/ettorefalde/Documents/Ettore\ Falde/UNI/UPC/Tools\ for\ Decision\ Making\ /R/2-ClassAssignment/Presentation")
+```
+
+```{r, message=FALSE, warning=FALSE, echo=TRUE}
+# Libraries
+library(yarrr)
+library(dplyr)
+library(tidyverse)
+library(janitor)
+library(tidymodels)
+library(readr)
+library(readxl)
+library(haven)
+library(lubridate)
+library(ggplot2)
+library(gridExtra)
+library(reshape2)
+```
+
+
+## Importing Dataset Bank {.emphasized}
+### A know dataset
+
+We got the dataset from the website of Atenea.
+The variables selected for this dataset  are:
+
+1. **age**: The age of the person
+2. **job**: The job of the person
+3. **marital**: The marital status
+4. **education**: The educatoin 
+5. **default**: The default dummy variable
+6. **balance**: The balance 
+7. **housing**: The dummy var housing
+8. **loan**: The dummy var has a loan? 
+9. **contact**: The type of contact
+10. **day**: The day number
+11. **month**: The month
+12. **duration**: The duration
+14. **pdays**: The number of paydays
+15. **previous**
+16. **poutcome**: The outcome of the pay
+17. **y**
+
+## {.codefont}
+The first step is to load the dataset in the system, and check the names of the variables. 
+
+```{r}
+mydb <- read.csv2("dataset.csv")
+names (mydb)
+```
+
+## {data-background=bankspain.jpeg}
+
+
+# Cleaning Data
+
+## {.codefont}
+Knowing this dataset, we can surely state that there is nothing to clean in this dataset. 
+
+# Analysis
+
+## Boxplot between the variables duration and marital status {.codefont}
+```{r}
+ggplot(mydb, aes(x = duration, y = marital)) + geom_boxplot(fill = "#4271AE", colour = "#1F3552")
+```
+
+## Scatterplot {.codefont}
+```{r, warning=FALSE}
+m <- mydb[c(1:100),c(0,1:17)]
+
+ggplot(m, aes(x = m$age, y = m$balance, color=marital, size=campaign, shape=contact)) + geom_point()
+```
+
+## Circular barplot {.codefont}
+```{r}
+g1 <- ggplot(mydb, aes(x = marital == "married")) + geom_bar() + coord_polar()
+g2 <- ggplot(mydb, aes(x = marital == "divorced")) + geom_bar() + coord_polar()
+g3 <- ggplot(mydb, aes(x = marital == "single")) + geom_bar() + coord_polar()
+
+grid.arrange(g1, g2, g3, ncol = 3)
+```
+
+# References 
+## {.emphasized}
+
+
+[1] R Core Team (2016). R: A language and environment for statistical computing.
+  R Foundation for Statistical Computing, Vienna, Austria. URL   https://www.R-project.org/.
+
+[2] Nathaniel Phillips (2017). yarrr: A Companion to the e-Book "YaRrr!: The Pirate's Guide to R". R package version 0.1.5.   https://CRAN.R-project.org/package=yarrr
+
+[3] Hadley Wickham, Romain François, Lionel Henry and Kirill Müller (2018). dplyr: A Grammar of Data Manipulation. R package version 0.7.5. https://CRAN.R-project.org/package=dplyr
+
+[4] Hadley Wickham, RStudio (2021). tidyverse: A set of packages that work in harmony because they share common data representations and 'API' design. R package version 	1.3.1. https://CRAN.R-project.org/package=tidyverse
+
+[5] Sam Firke, Bill Denney, Chris Haid, Ryan Knight, Malte Grosser, Jonathan Zadra (2021). janitor: Can perfectly format data.frame column names; provide quick counts of variable combinations (i.e., frequency tables and crosstabs); and isolate duplicate records. Other janitor functions nicely format the tabulation results. These tabulate-and-report functions approximate popular features of SPSS and Microsoft Excel. This package follows the principles of the "tidyverse" and works well with the pipe function %>%. janitor was built with beginning-to-intermediate R users in mind and is optimized for user-friendliness. Advanced R users can already do everything covered here, but with janitor they can do it faster and save their thinking for the fun stuff. R package version 	2.1.0. https://CRAN.R-project.org/package=janitor
+
+[6] Max Kuhn, Hadley Wickham, RStudio (2021). tidymodels: The tidy modeling "verse" is a collection of packages for modeling and statistical analysis that share the underlying design philosophy, grammar, and data structures of the tidyverse. R package version 	0.1.4. https://CRAN.R-project.org/package=tidymodels
+
+[7] Hadley Wickham, Jim Hester, Romain Francois, RStudio,Jukka Jylänki, Mikkel Jørgensen (2021). readr: The goal of 'readr' is to provide a fast and friendly way to read rectangular data (like 'csv', 'tsv', and 'fwf'). It is designed to flexibly parse many types of data found in the wild, while still cleanly failing when data unexpectedly changes. R package version 	2.0.2. https://CRAN.R-project.org/package=readr 
+
+[8] Hadley Wickham, Jennifer Bryan, RStudio, Marcin Kalicinski, Komarov Valery, Christophe Leitienne, Bob Colbert, David Hoerl, Evan Miller (2019). readxl: Import excel files into R. Supports '.xls' via the embedded 'libxls' C library <https://github.com/libxls/libxls> and '.xlsx' via the embedded 'RapidXML' C++ library <http://rapidxml.sourceforge.net>. R package version 	1.3.1. https://CRAN.R-project.org/package=readxl
+
+[9] Hadley Wickhame, Evan Miller, RStudio (2021). haven: Import foreign statistical formats into R via the embedded 'ReadStat' C library, <https://github.com/WizardMac/ReadStat>. R package version 2.4.3. https://CRAN.R-project.org/package=haven
+
+[10] Vitalie Spinu , Garrett Grolemund,Hadley Wickham , Davis Vaughan, Ian Lyttle , Imanuel Costigan , Jason Law , Doug Mitarotonda, Joseph Larmarange , Jonathan Boiser , Chel Hee Lee , Google Inc.(2010).
+lubridate :functions to work with date-times and time-spans: fast and user friendly parsing of date-time data, extraction and updating of components of a date-time (years, months, days, hours, minutes, and seconds), algebraic manipulation on date-time and time-span objects. The 'lubridate' package has a consistent and memorable syntax that makes working with dates easy and fun. Parts of the 'CCTZ' source code, released under the Apache 2.0 License, are included in this package. See <https://github.com/google/cctz> for more details. R package version   1.8.0.
+ https://CRAN.R-project.org/package=lubridate
+
+[11] Hadley Wickham, Winston Chang, Lionel Henry, Thomas Lin Pedersen, Kohske Takahashi, Claus Wilke , Kara Woo, Hiroaki Yutani, Dewey Dunnington, RStudio (2021). ggplot2: A system for 'declaratively' creating graphics, based on "The Grammar of Graphics". You provide the data, tell 'ggplot2' how to map variables to aesthetics, what graphical primitives to use, and it takes care of the details. R package version 	3.3.5. https://CRAN.R-project.org/package=ggplot2
+
+[12] Baptiste Auguie , Anton Antonov (2017). gridExtra :provides a number of user-level functions to work with "grid" graphics, notably to arrange multiple grid-based plots on a page, and draw tables.
+R package version 2.3. https://CRAN.R-project.org/package=gridExtra
+
+[13] Hadley Wickham (2020). reshape2: Flexibly restructure and aggregate data using just two functions: melt and 'dcast' (or 'acast'). R package version 1.4.4. https://CRAN.R-project.org/package=reshape2
+
+----
+
+<center>
+  [<img src="https://www.observatoriorh.com/wp-content/uploads/2017/05/Thank-you-ok.jpg">](https://www.youtube.com/watch?v=1TO48Cnl66w)
+</center>
+
