@@ -1088,10 +1088,43 @@ We can observe that both "gender" and "city" are not relevant to explain the two
 Anyway is it clear from the previous part that there is a more pronounced dissatisfaction among Spanish male workers and so in this sense would be useful to understand the motivations of this general mood and also the difference between them and London workers in their workplace.
 A more deepen analysis on the behavior of the workers in this company, the approach between males and females and , more than all , their growth prospects within the company  : in our opinion this  could be the key in order to solve this problem.
 
+# Succesion strategy
+
+```{r}
+
+mean.envi<-mydb%>%group_by(department)%>%summarise(mean.env.sat= mean(environment_satisfaction))
+mean.envi$mean.env.sat
+ggplot(mean.envi, aes(x = department, y= mean.env.sat, fill = department))+ geom_col()
+```
+
+
+```{r}
+mean.years.cur.Man<-mydb%>%filter(attrition == "0")%>%group_by(department)%>%summarise(currman= mean(years_with_curr_manager))
+
+ggplot(mean.years.cur.Man, aes(x = department, y= currman, fill = department))+ geom_col()
+
+```
+
+
+```{r}
+perf.rating.dep<-mydb%>%filter(attrition == "0")%>%group_by(department)%>%summarise(perf.mean= mean(performance_rating))
+
+ggplot(perf.rating.dep, aes(x = department, y= perf.mean, fill = department))+ geom_col()
+
+```
+
+As succession strategy we decide to take in consideration 3 indicator to observe, the first one will analyse 2 different indicator that will help us in understand which department need to change the leader. The indicator are :
+
+-  the mean of environment satisfaction
+-  the mean of the performance rating
+-  average of years with current manager
+
+Based on that we will try first to change leader in the department with lower performance rating or environment satisfaction. Then once we choose the department on which we want to have change we will try to evaluate all the attitude, and job performance information that we can have relate to a worker and see if he can cover the role designed for him.
+ In particular the list of variable that we will analyse are, total working year, years at company, relationship satisfaction, number of companies worked, job role and job level. The job level will be the most important cause the one with already an high level of job level will be the one that we will privilege. 
 
 
 
-## Adding dataset
+# Adding dataset
 
 ```{r, results='hide'}
 # UK
@@ -1237,39 +1270,6 @@ barcelona_data %>%
 ```
 To conclude, we can understand here how the people between 65 and 74 years old have higher monthly_income.
 
-# Succesion strategy
-
-```{r}
-
-mean.envi<-mydb%>%group_by(department)%>%summarise(mean.env.sat= mean(environment_satisfaction))
-mean.envi$mean.env.sat
-ggplot(mean.envi, aes(x = department, y= mean.env.sat, fill = department))+ geom_col()
-```
-
-
-```{r}
-mean.years.cur.Man<-mydb%>%filter(attrition == "0")%>%group_by(department)%>%summarise(currman= mean(years_with_curr_manager))
-
-ggplot(mean.years.cur.Man, aes(x = department, y= currman, fill = department))+ geom_col()
-
-```
-
-
-```{r}
-perf.rating.dep<-mydb%>%filter(attrition == "0")%>%group_by(department)%>%summarise(perf.mean= mean(performance_rating))
-
-ggplot(perf.rating.dep, aes(x = department, y= perf.mean, fill = department))+ geom_col()
-
-```
-
-As succession strategy we decide to take in consideration 3 indicator to observe, the first one will analyse 2 different indicator that will help us in understand which department need to change the leader. The indicator are :
-
--  the mean of environment satisfaction
--  the mean of the performance rating
--  average of years with current manager
-
-Based on that we will try first to change leader in the department with lower performance rating or environment satisfaction. Then once we choose the department on which we want to have change we will try to evaluate all the attitude, and job performance information that we can have relate to a worker and see if he can cover the role designed for him.
- In particular the list of variable that we will analyse are, total working year, years at company, relationship satisfaction, number of companies worked, job role and job level. The job level will be the most important cause the one with already an high level of job level will be the one that we will privilege. 
 
 \newpage
 # Conclusions
