@@ -1101,15 +1101,70 @@ We can
 ```{r}
 # UK
 london_data<-read.csv("survey_results_public2.csv")
-ggplot(london_data%>%filter(JobSatisfaction == "Extremely satisfied"), aes(x= CompanySize, fill = JobSatisfaction))+ geom_bar()+
-  theme( axis.text.x  = element_text(angle=45, hjust=1, vjust=0.9))+ scale_x_discrete(limits = c("Fewer than 10 employees","10 to 19 employees","20 to 99 employees", "100 to 499 employees","500 to 999 employees", "1,000 to 4,999 employees", "5,000 to 9,999 employees", "10,000 or more employees"))
-  
-
 glimpse(london_data)
 
 # Barcelona
 barcelona_data <- read.csv("barcelona_dataset.csv")
+
+# Clean Barcelona
+barcelona_data <- rename(barcelona_data, age = db_bar.EDAT1899_1A7)
+barcelona_data <- subset(barcelona_data, select = -X)
+tabyl(barcelona_data$sex)
+barcelona_data$sex <- ifelse(barcelona_data$sex == 
+                            "DONA", 
+                          "Female", barcelona_data$sex)
+barcelona_data$sex <- ifelse(barcelona_data$sex == 
+                            "HOME", 
+                          "Male", barcelona_data$sex)
+
+tabyl(barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 1.001 A 1.500 EUROS", 
+                          (1001+1500)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 2.001 A 2.500 EUROS", 
+                          (2001+2500)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 2.501 A 3.000 EUROS", 
+                          (2501+3000)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 3.001 A 5.000 EUROS", 
+                          (3001+5000)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 5.001 A 7.000 EUROS", 
+                          (5001+7000)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 500 A 1.000", 
+                          (500+1000)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 7.001 A 9.000 EUROS", 
+                          (7001+9000)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "MENYS DE 500 EUROS", 
+                          (500)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 1.501 A 2.000 EUROS", 
+                          (1.501+2000)/2, barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "MÉS DE 9.000 EUROS", 
+                          (10000), barcelona_data$monthly_income)
+barcelona_data$monthly_income <- ifelse(barcelona_data$monthly_income == 
+                            "DE 500 A 1.000 EUROS", 
+                          (500+1000)/2, barcelona_data$monthly_income)
+
+barcelona_data <- barcelona_data %>% filter(monthly_income != "NO CONTESTA")
+barcelona_data <- barcelona_data %>% filter(monthly_income != "NO HO SAP")
+
+barcelona_data$monthly_income <- as.numeric(barcelona_data$monthly_income)
+
 ```
+
+## UK Comparation
+```{r}
+ggplot(london_data%>%filter(JobSatisfaction == "Extremely satisfied"), aes(x= CompanySize, fill = JobSatisfaction))+ geom_bar()+
+  theme( axis.text.x  = element_text(angle=45, hjust=1, vjust=0.9))+ scale_x_discrete(limits = c("Fewer than 10 employees","10 to 19 employees","20 to 99 employees", "100 to 499 employees","500 to 999 employees", "1,000 to 4,999 employees", "5,000 to 9,999 employees", "10,000 or more employees"))
+```
+
 
 As we can see from this graph in the Uk if people work in a company which is small the satisfaction of the employee tends to increase with respect to a big vompany
 
@@ -1120,8 +1175,82 @@ ggplot(london_data, aes(x= CompanySize , fill = CareerSatisfaction))+ geom_bar()
   theme( axis.text.x  = element_text(angle=45, hjust=1, vjust=0.9))+ scale_x_discrete(limits = c("Fewer than 10 employees","10 to 19 employees","20 to 99 employees", "100 to 499 employees","500 to 999 employees", "1,000 to 4,999 employees", "5,000 to 9,999 employees", "10,000 or more employees"))
 ```
 
+## Barcelona Comparation
+
+### Introduction Analysis
+```{r}
+summary(barcelona_data)
+tabyl(barcelona_data$sex)
+
+```
+From this data we can see how the general mean of the monthly_income is €2686. 
+Moreover, we can see how well this dataset is distributed between Male and Female. 
+
+With the cleaned new dataset, we can make some analysis in order to have a general overview and can do a comparison between the starting datset solution and the new one.  
+```{r}
+barcelona_data %>% 
+  select(sex, monthly_income) %>%
+  group_by(sex) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = sex, y = avg_income)) +
+  geom_col(aes(fill = sex), width = 0.3, show.legend = FALSE) +
+  geom_text(
+    aes(
+      x = sex,
+      y = 0.01,
+      label = dollar(avg_income, prefix = "EUR  ")
+    ),
+    hjust = -0.2,
+    size = 4,
+    colour = "white",
+    fontface = "bold"
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender",
+       x = NULL,
+       y = NULL)
+```
+In this case, we can see how in Barcelona Male has generally an higher salary compared to women.
 
 
+```{r}
+barcelona_data %>% ggplot(aes(x = age, y = monthly_income)) +
+  geom_col(aes(fill = age), width = 0.3, show.legend = FALSE) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender",
+       x = NULL,
+       y = NULL)
+
+
+barcelona_data %>% 
+  select(age, monthly_income) %>%
+  group_by(age) %>%
+  summarise(avg_income = round(mean(monthly_income), 2), .groups = "drop") %>%
+  ggplot(aes(x = age, y = avg_income)) +
+  geom_col(aes(fill = age), width = 0.3, show.legend = FALSE) +
+  geom_text(
+    aes(
+      x = age,
+      y = 0.01,
+      label = dollar(avg_income, prefix = "EUR  ")
+    ),
+    hjust = -0.2,
+    size = 4,
+    colour = "white",
+    fontface = "bold"
+  ) +
+  coord_flip() +
+  scale_y_continuous(labels = label_dollar()) +
+  theme(plot.title = element_text(size = 14, hjust = 0.5)) +
+  labs(title = "Average Monthly Income by Gender",
+       x = NULL,
+       y = NULL)
+```
+To conclude, we can understand here how the people between 65 and 74 years old have higher monthly_income.
 
 
 # Conclusions
