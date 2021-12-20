@@ -1307,6 +1307,26 @@ In the graph where we consider at the same time both the city we can see that th
 
 We carried out the same type of analysis but now focusing on the job role instead of education field. We obtained that in general the income as the same path for both male and female, but in two role which are Research Director and Manager the male tend to earn more than the female. In barcelona the discrepancy is present for both cause in some role male earn in average more than female and also the contrary happen. While in London only the research director show a big gap in favor of the male.
 
+For what concerns the variable _Attrition_ we assumed at first its depends from many factors, in particular _gender_ , _city_ that are not relevant. Others factor , were found out to be relevant like _marital_status_  but we cannot modify in any way as they depend on the personal life of the workers.
+Most important we recognize the significance of some variables like _business_travel_ , _department_ , that could be improved paying more attention at some key point : 
+
+- _business_travel_ <- let workers enter the travel logic to ensure that this does not become a negative impact factor on them.
+- _department_ <- pay more attention in the critical department in which we have higher values of people that want to leave the company , like in this case R&D.
+
+On the other side looking at the Satisfaction ( _job_satisfaction_ , _environment_satisfaction_ ) into our company we noticed some important differences for the city of Barcelona per genre, as there was an important slack between males and females perceptions.
+Through the linear model we have seen that in general they are not significant to explain the phenomenon in intself.
+However to improve the issue found about Barcelona's workers satisfaction could be relevant analyze and eventually make wider the growth prospects for the employees in the company to entice them to make appreciate more their work and keep united the workplace to pursue company's objectives.
+
+In order to understand if our analysis is made on relyable data we take in consideration 2 new dataset one relate to Barcelona and the other relate to the UK.
+
+In the UK dataset we compare how the size of the company can influence the high level of job satisfaction. In particular we saw that the level of job satisfaction increasee a lot when the company has a medium size,(20 to 90 employees).
+
+We carried out the same analysis but now considering the carreer satisfaction, and the result that we obtain follow the one that we enunciate before. The carrer satisfaction  for employee is higher in the company of medium size.
+
+We mainly decide to carryout this type of analysis cause we saw that in the dataset we have a predonminance of observations relate to London, that can be explicate in this way, the dimension of the company in London is bigger than the dimension in Barcelona.
+
+We decide to take in consideration the Barcelona dataset to enlight the result that we obtained from the gender analysis, to see if they reflect the situation of Barcelona in general or it is only relate to the company that we are analysing.
+We mainly see that in Barcelona the avergae monthly income is almost the same between male and female. So the CEO should take in consideration to run further analysis to understand why we have so much difference between the male and female monthly income.
 # Referemces
 1. _M., L. (2004). Moneyball: The art of winning an unfair game. New york: John Wiley and sons._
 2. Wickham et al., (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686, https://doi.org/10.21105/joss.01686
