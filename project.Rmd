@@ -1254,7 +1254,49 @@ To conclude, we can understand here how the people between 65 and 74 years old h
 
 
 # Conclusions
-- Gender equality seems to be well reached in London, while in Barcelona we can suggest to concentrate more in defining same salaries per 
+In the analysis we reach some conclusion let's take a look on what we reach.
+
+We started by analyzing the frequency of the different role that we have in the dataset, we obtained that looking at the whole data set without differentiating by city the most frequent role are:
+
+- Sales Executive
+- Research Scientist
+- Laboratory technician
+
+The next step is relate to see if this path is followed also in the two city. The second graph show us that the distribution of the role is the same in both city.
+
+Proceeding forward, we shift on the gender analysis to understand if both company reach the goal of the gender equality.
+
+We fisrst calculate some statistcs indicator of the distribution of the monthly income, obtaining an average monthly income of 6510 euro.
+
+We plotted a graph that show the genral situation of the whole company, and there we can see that on average the monthly income of the female employee tend to be higher. In fact, the average monthly income for male is 6395.65 while for the female is 6682.85 euro.
+
+The next step will be to analyze the same point but after a distinction between the two different city. 
+
+In both the city the monthly income of the female is higher than the male, but the gap in Barcelona is more significant.
+
+Let's shift to the result that take in consideration also the department to which the employee belong.
+
+In general the number of male per department is always higher with respect to the female, and the majority of personnel work in the Research & Development.
+
+As before we will take a look also in the two different city. The gap between the gender per department is very high in London, but in Barcelona the HR department respect the gender eqaulity, so our CEO need to work firstly on the department of Sales and Research & Development.
+
+Let's shift now on the job role, in all the role we have more male than female. From the graph where we don't differentiate between the city, all the role has more male than girl except the Manufacturing director role where the number of male and female are almost the same. We can state the same conclusion also if we analyze only London. In the case of Barcelona we have a slight difference, the female are higher in three role.
+
+- Manager
+- Research Director 
+- Manufacturing director
+
+Now, we want to write done the result obtained once we put in relation the monthly income versus the years in the company differentiating by gender and then by city also.
+
+The whole picture dhow us that  in the initial stage the female tend to get more money with respect to the male, then in the middle stage from 8 years till 20 the income is almost the same, but in the final stage so after 20 years of seniority the gap between female and male increase in the favor of the male.
+
+Looking to the two city, we can state the same things only the duration of the middle stage change, because now the male start earn more money 15 years of seniority. In barcelona the picture is totally different, female employee tend to earn more almost always.
+
+Let's consider the monthly income in relation to the different department and differentiate also by gender. 
+
+In the graph where we consider at the same time both the city we can see that the differences in income are present in the education field of technical degree and Human resource cause the mean of female income with respect to trhe male is more bigger. Considering the two city the problem are still present but in Barcelona is more bigger.
+
+We carried out the same type of analysis but now focusing on the job role instead of education field. We obtained that in general the income as the same path for both male and female, but in two role which are Research Director and Manager the male tend to earn more than the female. In barcelona the discrepancy is present for both cause in some role male earn in average more than female and also the contrary happen. While in London only the research director show a big gap in favor of the male.
 
 # Referemces
 1. _M., L. (2004). Moneyball: The art of winning an unfair game. New york: John Wiley and sons._
