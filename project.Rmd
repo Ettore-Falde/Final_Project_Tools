@@ -41,6 +41,7 @@ Note: It is highly recommended to seek external sources of information (either i
 
 Based on this information, we will to carry out an exploratory data analysis and prepare a technical report (with Rmarkdown) and a technical presentation (5-10 minutes).
 
+\newpage
 # Setup the software
 
 The software used for the development of the study and the writing of the report is R[1]. The first step is to define the work directory and to load the libraries needed:  
@@ -70,6 +71,7 @@ library(skimr)
 library(RColorBrewer)
 ```
 
+\newpage
 # Importing Data
 
 The first step is to load the dataset in the system, and check the names of the variables. 
@@ -127,7 +129,7 @@ The variables selected for this dataset  are:
 35. **YearsWithCurrManager**: How many years the employee is with the actual manager
 36. **City**: where the employee works (London, Barcelona)
 
-
+\newpage
 # Cleaning Data
 
 ## Names
@@ -250,7 +252,7 @@ From know on we can easiliy proceed with our analysis.
 
 
 
-
+\newpage
 # Analysis
 Our analysis consists in different parts. 
 
@@ -1112,7 +1114,7 @@ A more deepen analysis on the behavior of the workers in this company, the appro
 
 
 
-# Adding dataset
+## Adding dataset
 
 ```{r, results='hide'}
 # UK
@@ -1258,7 +1260,7 @@ barcelona_data %>%
 ```
 To conclude, we can understand here how the people between 65 and 74 years old have higher monthly_income.
 
-
+\newpage
 # Conclusions
 In the analysis, we reach some conclusions let's take a look at what we reach.
 

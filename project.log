@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.12.18)  20 DEC 2021 19:21
+This is XeTeX, Version 3.141592653-2.6-0.999993 (TeX Live 2021) (preloaded format=xelatex 2021.12.18)  20 DEC 2021 19:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -828,10 +828,6 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 6.99925pt on input line 4.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 (Font)              scaled to size 4.99947pt on input line 4.
-)
-\tf@toc=\write5
-\openout5 = `project.toc'.
-
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -842,7 +838,10 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 
 (fancyhdr)                \addtolength{\topmargin}{-18.25409pt}.
 
-[2]
+[2])
+\tf@toc=\write5
+\openout5 = `project.toc'.
+
 File: upc-positiu-p3005.png Graphic file (type bmp)
 <upc-positiu-p3005.png>
 
@@ -1832,13 +1831,13 @@ Package fancyhdr Warning: \headheight is too small (28.0pt):
 
 [68] (./project.aux)
 Package rerunfilecheck Info: File `project.out' has not changed.
-(rerunfilecheck)             Checksum: D95464A032D7D359F16C1BA2278AE248;4827.
+(rerunfilecheck)             Checksum: 850DE21DD977CBE085D498083D7BBAC0;4921.
  ) 
 Here is how much of TeX's memory you used:
- 17502 strings out of 478256
- 335315 string characters out of 5854791
- 783288 words of memory out of 5000000
- 37764 multiletter control sequences out of 15000+600000
+ 17503 strings out of 478256
+ 335327 string characters out of 5854791
+ 783322 words of memory out of 5000000
+ 37765 multiletter control sequences out of 15000+600000
  409881 words of font info for 80 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  86i,13n,121p,826b,474s stack positions out of 5000i,500n,10000p,200000b,80000s
